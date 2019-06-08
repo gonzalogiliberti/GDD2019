@@ -1,1 +1,2 @@
 \\VBOXSVR\FrbaBus_1°C_2019\src\FrbaCrucero\bin\Debug\FrbaCrucero.exe.config
+C:\Users\Gonza\Documents\GDD2019\bin\Debug\FrbaCrucero.exe.config
