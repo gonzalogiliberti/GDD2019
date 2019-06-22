@@ -32,11 +32,11 @@ namespace FrbaCrucero.Login
             param2.Value = pass;
         }
 
-        static string sha256(string paasword)
+        static string sha256(string pasword)
         {
             var crypt = new System.Security.Cryptography.SHA256Managed();
             var hash = new System.Text.StringBuilder();
-            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(paasword));
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(pasword));
             foreach (byte theByte in crypto)
             {
                 hash.Append(theByte.ToString("x2"));
