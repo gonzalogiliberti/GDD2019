@@ -42,9 +42,9 @@
             this.dgvPuertos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idPuerto,
             this.Puerto});
-            this.dgvPuertos.Location = new System.Drawing.Point(32, 99);
+            this.dgvPuertos.Location = new System.Drawing.Point(68, 123);
             this.dgvPuertos.Name = "dgvPuertos";
-            this.dgvPuertos.Size = new System.Drawing.Size(240, 150);
+            this.dgvPuertos.Size = new System.Drawing.Size(143, 43);
             this.dgvPuertos.TabIndex = 0;
             this.dgvPuertos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPuertos_CellContentClick);
             // 

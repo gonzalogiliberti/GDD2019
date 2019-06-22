@@ -1,2 +1,13 @@
 \\VBOXSVR\FrbaBus_1°C_2019\src\FrbaCrucero\bin\Debug\FrbaCrucero.exe.config
 C:\Users\Gonza\Documents\GDD2019\bin\Debug\FrbaCrucero.exe.config
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.csprojResolveAssemblyReference.cache
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.AbmPuerto.AltaModificacionPuerto.resources
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.AbmPuerto.Puertos.resources
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.Login.Login.resources
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.Login.LoginAdministrador.resources
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.Properties.Resources.resources
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.csproj.GenerateResource.Cache
+C:\Users\Gonza\Documents\GDD2019\bin\Debug\FrbaCrucero.exe
+C:\Users\Gonza\Documents\GDD2019\bin\Debug\FrbaCrucero.pdb
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.exe
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.pdb

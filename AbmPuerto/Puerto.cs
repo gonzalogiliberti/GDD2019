@@ -30,7 +30,12 @@ namespace FrbaCrucero.AbmPuerto
             this.idPuerto = unPuerto.idPuerto;
             this.puerto = unPuerto.puerto;
         }
-        
+
+        public Puerto(String nombre)
+        {
+            this.puerto = nombre;
+        }
+
         public override string ToString()
         {
             return this.puerto;

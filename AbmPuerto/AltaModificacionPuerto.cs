@@ -34,37 +34,92 @@ namespace FrbaCrucero.AbmPuerto
 
         private void save_Click(object sender, EventArgs e)
         {
-            if (checkEmptyFileds())
+            if (newPort)
             {
-                if (newPort)
-                {
-                    createPort();   
-                }
-                else
-                {
-                    updatePort();
-                }
+                createPort();   
+            }
+            else
+            {
+                updatePort();
             }
         }
 
-        private bool checkEmptyFileds()
+        private void CheckEmptyFields()
         {
             List<TextBox> inputs = new List<TextBox> {this.nombrePuerto};
             if (inputs.Any((t) => t.Text == ""))
             {
                 MessageBox.Show("Complete todos los campos");
-                return false;
             }
-            return true;
         }
 
         private void createPort()
-        { 
-            
+        {
+            try
+            {
+                CheckEmptyFields();
+                Puerto port = getFormData();
+                if (this.dao.verifyPortExisted(port) != 0)
+                {
+                    throw new Exception("El Puerto Ingresado ya existe");
+                }
+                this.dao.createPort(port);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
 
         private void updatePort()
         {
+            try
+            {
+                CheckEmptyFields();
+                Puerto port = getFormData();
+                if (port.getPuerto() != this.unPuerto.Cells["Puerto"].Value.ToString())
+                {
+                    if (this.dao.verifyPortExisted(port) != 0)
+                    {
+                        throw new Exception("El Puerto Ingresado ya existe");
+                    }
+                }
+                this.dao.updatePort(port);
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
+
+        private Puerto getFormData()
+        {
+            return new Puerto(this.nombrePuerto.Text);
+        }
+
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void delete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CheckEmptyFields();
+                DialogResult resul = MessageBox.Show("Seguro que quiere eliminar el Auto?", "Eliminar Registro", MessageBoxButtons.YesNo);
+                if (resul == DialogResult.Yes)
+                {
+                    dao.deletePort(unPuerto);
+                    MessageBox.Show("El auto fue eliminado exitosamente");
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
 
     }

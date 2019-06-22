@@ -63,12 +63,13 @@
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(97, 102);
+            this.cancel.Location = new System.Drawing.Point(105, 102);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(77, 25);
             this.cancel.TabIndex = 3;
             this.cancel.Text = "Cancelar";
             this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
             // delete
             // 
@@ -78,6 +79,7 @@
             this.delete.TabIndex = 4;
             this.delete.Text = "Eliminar";
             this.delete.UseVisualStyleBackColor = true;
+            this.delete.Click += new System.EventHandler(this.delete_Click);
             // 
             // AltaModificacionPuerto
             // 

@@ -24,7 +24,7 @@ namespace FrbaCrucero.Login
             string user = textBox1.Text;
             string pass = sha256(textBox2.Text);
             DatabaseController controller = DatabaseController.getInstance();
-            SqlConnection conn = controller.getConnection();
+            SqlConnection conn = controller.getConnectionString();
             SqlCommand query = new SqlCommand("Select login_admin(@user, @pass)", conn);
             SqlParameter param1 = new SqlParameter("@user", SqlDbType.NVarChar);
             param1.Value = user;

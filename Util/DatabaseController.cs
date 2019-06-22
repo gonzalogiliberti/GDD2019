@@ -36,7 +36,7 @@ namespace FrbaCrucero.Util
             return instance;
         }
 
-        private SqlConnection getConnectionString()
+        public SqlConnection getConnectionString()
         {
             return this.connectionString;
         }

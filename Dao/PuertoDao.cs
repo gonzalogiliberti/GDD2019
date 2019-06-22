@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FrbaCrucero.Util;
 using System.Data;
+using System.Windows.Forms;
 using FrbaCrucero.AbmPuerto;
 
 namespace FrbaCrucero.Dao
@@ -34,6 +35,44 @@ namespace FrbaCrucero.Dao
             }
 
             return puertos;
+        }
+
+        public int verifyPortExisted(Puerto port)
+        {
+            DataTable dt = db.select_query("Select PUERTOS.idPuerto from dbo.Puerto PUERTOS where PUERTOS.Nombre = '" + port.getPuerto() + "';");
+            if (dt.Rows.Count != 0)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        public void createPort(Puerto port)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@Nombre", port.getPuerto());
+
+            db.executeProcedureWithParameters("cbo.sp_crear_puerto",dic);
+        }
+
+        public void updatePort(Puerto port)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@IdPuerto", port.getId());
+            dic.Add("@Nombre", port.getPuerto());
+
+            db.executeProcedureWithParameters("cbo.sp_modificar_puerto", dic);
+        }
+
+        public void deletePort(DataGridViewRow unPuerto)
+        {
+            Int32 idPuerto = (int)unPuerto.Cells["IdPuerto"].Value;
+            String nombrePuerto = unPuerto.Cells["Puerto"].Value.ToString();
+
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@IdPuerto", idPuerto);
+            dic.Add("@Nombre", nombrePuerto);
+            db.executeProcedureWithParameters("cbo.sp_borrar_puerto", dic);
         }
     }
 }
