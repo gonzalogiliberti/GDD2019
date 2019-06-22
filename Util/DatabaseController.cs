@@ -21,7 +21,7 @@ namespace FrbaCrucero.Util
 
         public void createConnection()
         {
-            string connection = "Server=GONZALO-PC\\SQLSERVER2012;DATABASE=GD1C2019;UID=sa;Password=gestiondedatos";
+            string connection = "Server=localhost\\SQLSERVER2012;DATABASE=GD1C2019;UID=sa;Password=gestiondedatos";
             connectionString = new SqlConnection(connection);
         }
 
