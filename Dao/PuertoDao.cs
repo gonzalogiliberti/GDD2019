@@ -21,7 +21,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllPuertos()
         {
-            return db.select_query("Select idPuerto, Nombre AS puerto from dbo.Puerto");
+            return db.select_query("Select idPuerto, Nombre AS Puerto from dbo.Puerto");
         }
 
         public List<Puerto> getPuertos()

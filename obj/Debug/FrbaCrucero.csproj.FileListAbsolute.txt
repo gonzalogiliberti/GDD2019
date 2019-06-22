@@ -11,3 +11,4 @@ C:\Users\Gonza\Documents\GDD2019\bin\Debug\FrbaCrucero.exe
 C:\Users\Gonza\Documents\GDD2019\bin\Debug\FrbaCrucero.pdb
 C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.exe
 C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.pdb
+C:\Users\Gonza\Documents\GDD2019\obj\Debug\FrbaCrucero.Form1.resources

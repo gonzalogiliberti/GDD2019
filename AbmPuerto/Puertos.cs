@@ -35,19 +35,28 @@ namespace FrbaCrucero.AbmPuerto
             this.comboPuerto.SelectedItem = null;
         }
 
-        private void dgvPuertos_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void comboPuerto_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void dgvPuertos_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            DataGridViewRow unPuerto = this.dgvPuertos.SelectedRows[0];
+            AltaModificacionPuerto modificacion = new AltaModificacionPuerto(unPuerto);
+            modificacion.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionPuertoCerrada);
+            modificacion.Show();
+        }
 
+        private void AltaModificacionPuertoCerrada(object sender, FormClosedEventArgs e)
+        {
+            this.setupGrid();
+        }
+
+        private void altaPuerto_Click(object sender, EventArgs e)
+        {
+            AltaModificacionPuerto alta = new AltaModificacionPuerto();
+            alta.Show();
         }
     }
 }

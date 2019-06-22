@@ -21,9 +21,8 @@ namespace FrbaCrucero.Util
 
         public void createConnection()
         {
-            string connection = "Data Source=local; Initial Catalog=GD1C2019; User ID=sa; Password= gestiondedatos";
+            string connection = "Server=GONZALO-PC\\SQLSERVER2012;DATABASE=GD1C2019;UID=sa;Password=gestiondedatos";
             connectionString = new SqlConnection(connection);
-            connectionString.Open();
         }
 
         public static DatabaseController getInstance()
