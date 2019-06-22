@@ -33,6 +33,7 @@
             this.Puerto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboPuerto = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.altaPuerto = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPuertos)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,7 +43,7 @@
             this.dgvPuertos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idPuerto,
             this.Puerto});
-            this.dgvPuertos.Location = new System.Drawing.Point(68, 123);
+            this.dgvPuertos.Location = new System.Drawing.Point(88, 96);
             this.dgvPuertos.Name = "dgvPuertos";
             this.dgvPuertos.Size = new System.Drawing.Size(143, 43);
             this.dgvPuertos.TabIndex = 0;
@@ -67,6 +68,7 @@
             this.comboPuerto.Size = new System.Drawing.Size(154, 21);
             this.comboPuerto.TabIndex = 1;
             this.comboPuerto.Text = "Seleccione Puerto";
+            this.comboPuerto.SelectedIndexChanged += new System.EventHandler(this.comboPuerto_SelectedIndexChanged);
             // 
             // label1
             // 
@@ -77,16 +79,27 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Puerto";
             // 
+            // altaPuerto
+            // 
+            this.altaPuerto.Location = new System.Drawing.Point(119, 193);
+            this.altaPuerto.Name = "altaPuerto";
+            this.altaPuerto.Size = new System.Drawing.Size(75, 23);
+            this.altaPuerto.TabIndex = 3;
+            this.altaPuerto.Text = "Alta";
+            this.altaPuerto.UseVisualStyleBackColor = true;
+            this.altaPuerto.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Puertos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(298, 283);
+            this.Controls.Add(this.altaPuerto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboPuerto);
             this.Controls.Add(this.dgvPuertos);
             this.Name = "Puertos";
-            this.Text = "Form1";
+            this.Text = "Puertos";
             ((System.ComponentModel.ISupportInitialize)(this.dgvPuertos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -100,6 +113,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Puerto;
         private System.Windows.Forms.ComboBox comboPuerto;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button altaPuerto;
 
     }
 }
