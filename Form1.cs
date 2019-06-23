@@ -23,5 +23,10 @@ namespace FrbaCrucero
             Puertos p = new Puertos();
             p.ShowDialog();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
