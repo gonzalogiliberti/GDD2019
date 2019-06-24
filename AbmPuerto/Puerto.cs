@@ -10,8 +10,8 @@ namespace FrbaCrucero.AbmPuerto
 {
     class Puerto
     {
-        private Int32 idPuerto;
-        private String puerto;
+        public Int32 idPuerto;
+        public String puerto;
 
         public Puerto(DataRow row)
         {
