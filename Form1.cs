@@ -24,5 +24,10 @@ namespace FrbaCrucero
             Cruceros p = new Cruceros();
             p.ShowDialog();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

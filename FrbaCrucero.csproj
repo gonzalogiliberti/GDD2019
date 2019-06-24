@@ -91,6 +91,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Dao\CruceroDao.cs" />
+    <Compile Include="Dao\LoginDao.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,12 +109,6 @@
     </Compile>
     <Compile Include="ListadoEstadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Login\LoginAdministrador.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Login\LoginAdministrador.Designer.cs">
-      <DependentUpon>LoginAdministrador.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
@@ -151,9 +146,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Login\LoginAdministrador.resx">
-      <DependentUpon>LoginAdministrador.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
