@@ -19,15 +19,21 @@ namespace FrbaCrucero
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Cruceros p = new Cruceros();
-            p.ShowDialog();
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void puertos_Click(object sender, EventArgs e)
+        {
+            Puertos p = new Puertos();
+            p.ShowDialog();
+        }
+
+        private void crucero_Click(object sender, EventArgs e)
+        {
+            Cruceros c = new Cruceros();
+            c.ShowDialog();
         }
     }
 }
