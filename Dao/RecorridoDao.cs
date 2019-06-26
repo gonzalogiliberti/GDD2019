@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FrbaCrucero.Util;
 using System.Data;
+using FrbaCrucero.AbmRecorrido;
 
 namespace FrbaCrucero.Dao
 {
@@ -103,6 +104,19 @@ namespace FrbaCrucero.Dao
             dic.Add("@idTramo", idTramo);
 
             db.executeProcedureWithParameters("cbo.sp_eliminar_tramo", dic);
+        }
+
+        public List<Recorrido> getRecorridos()
+        {
+            List<Recorrido> recorridos = new List<Recorrido>();
+            DataTable dt = db.select_query("SELECT R.idRecorrido AS IdRecorrido, R.codigo AS Codigo FROM dbo.Recorrido R");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                recorridos.Add(new Recorrido(row));
+            }
+
+            return recorridos;
         }
     }
 }

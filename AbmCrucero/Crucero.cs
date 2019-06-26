@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace FrbaCrucero.AbmCrucero
 {
@@ -27,6 +28,16 @@ namespace FrbaCrucero.AbmCrucero
             this.modelo = model;
             this.fechaAlta = fecha;
             this.cantidadCabinas = cantCab;
+        }
+
+        public Crucero(DataRow row)
+        {
+            this.idFabricante = Convert.ToInt32(row["idFabricante"]);
+            this.idCrucero = Convert.ToInt32(row["idCrucero"]);
+            this.modelo = Convert.ToString(row["Modelo"]);
+            this.identificador = Convert.ToString(row["Identificador"]);
+            this.cantidadCabinas = Convert.ToInt32(row["CantidadCabinas"]);
+            this.fechaAlta = Convert.ToDateTime(row["FechaAlta"]);
         }
 
         public Int32 getIdCrucero()
