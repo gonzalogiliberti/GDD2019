@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaCrucero.AbmPuerto;
 using FrbaCrucero.AbmCrucero;
+using FrbaCrucero.AbmRecorrido;
 
 namespace FrbaCrucero
 {
@@ -34,6 +35,12 @@ namespace FrbaCrucero
         {
             Cruceros c = new Cruceros();
             c.ShowDialog();
+        }
+
+        private void recorrido_Click(object sender, EventArgs e)
+        {
+            Recorridos r = new Recorridos();
+            r.ShowDialog();
         }
     }
 }
