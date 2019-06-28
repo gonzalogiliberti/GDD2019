@@ -72,12 +72,25 @@
     <Compile Include="AbmPuerto\Puertos.Designer.cs">
       <DependentUpon>Puertos.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbmRecorrido\Form1.cs">
+    <Compile Include="AbmRecorrido\AltaModificacionRecorrido.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmRecorrido\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmRecorrido\AltaModificacionRecorrido.Designer.cs">
+      <DependentUpon>AltaModificacionRecorrido.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRecorrido\AltaModificacionTramo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRecorrido\AltaModificacionTramo.Designer.cs">
+      <DependentUpon>AltaModificacionTramo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRecorrido\Recorridos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRecorrido\Recorridos.Designer.cs">
+      <DependentUpon>Recorridos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRecorrido\Tramo.cs" />
     <Compile Include="AbmRol\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +105,7 @@
     </Compile>
     <Compile Include="Dao\CruceroDao.cs" />
     <Compile Include="Dao\LoginDao.cs" />
+    <Compile Include="Dao\RecorridoDao.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +155,15 @@
     <EmbeddedResource Include="AbmPuerto\Puertos.resx">
       <DependentUpon>Puertos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRecorrido\AltaModificacionRecorrido.resx">
+      <DependentUpon>AltaModificacionRecorrido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRecorrido\AltaModificacionTramo.resx">
+      <DependentUpon>AltaModificacionTramo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRecorrido\Recorridos.resx">
+      <DependentUpon>Recorridos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,6 +193,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -49,6 +49,19 @@ namespace FrbaCrucero.Dao
             return modelos;
         }
 
+        public List<Crucero> getCruceros()
+        {
+            List<Crucero> cruceros = new List<Crucero>();
+            DataTable dt = getAllCruises();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                cruceros.Add(new Crucero(row));
+            }
+
+            return cruceros;
+        }
+
         public int verifyCruiseExisted(Crucero cruise)
         {
             DataTable dt = db.select_query("Select CRU.intCrucero from dbo.Crucero CRU where CRU.Identificador = '" + cruise.getIdentificador() + "';");
