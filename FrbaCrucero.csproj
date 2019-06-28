@@ -44,12 +44,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbmCrucero\Form1.cs">
+    <Compile Include="AbmCrucero\AltaModificacionCrucero.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmCrucero\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmCrucero\AltaModificacionCrucero.Designer.cs">
+      <DependentUpon>AltaModificacionCrucero.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCrucero\Crucero.cs" />
+    <Compile Include="AbmCrucero\Cruceros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\Cruceros.Designer.cs">
+      <DependentUpon>Cruceros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\Fabricante.cs" />
+    <Compile Include="AbmCrucero\Modelo.cs" />
     <Compile Include="AbmPuerto\AltaModificacionPuerto.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +90,7 @@
     <Compile Include="CompraReservaPasaje\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dao\CruceroDao.cs" />
     <Compile Include="Dao\LoginDao.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -119,6 +129,12 @@
     <Compile Include="Dao\PuertoDao.cs" />
     <Compile Include="Util\DatabaseController.cs" />
     <Compile Include="Util\SqlExceptionManager.cs" />
+    <EmbeddedResource Include="AbmCrucero\AltaModificacionCrucero.resx">
+      <DependentUpon>AltaModificacionCrucero.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\Cruceros.resx">
+      <DependentUpon>Cruceros.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmPuerto\AltaModificacionPuerto.resx">
       <DependentUpon>AltaModificacionPuerto.cs</DependentUpon>
     </EmbeddedResource>

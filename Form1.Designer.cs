@@ -28,24 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.puertos = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.crucero = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // puertos
             // 
-            this.button1.Location = new System.Drawing.Point(118, 29);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Puertos";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.puertos.Location = new System.Drawing.Point(118, 29);
+            this.puertos.Name = "puertos";
+            this.puertos.Size = new System.Drawing.Size(75, 23);
+            this.puertos.TabIndex = 0;
+            this.puertos.Text = "Puertos";
+            this.puertos.UseVisualStyleBackColor = true;
+            this.puertos.Click += new System.EventHandler(this.puertos_Click);
             // 
             // button2
             // 
@@ -66,14 +66,15 @@
             this.button3.Text = "Recorridos";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // crucero
             // 
-            this.button4.Location = new System.Drawing.Point(315, 29);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Crucero";
-            this.button4.UseVisualStyleBackColor = true;
+            this.crucero.Location = new System.Drawing.Point(315, 29);
+            this.crucero.Name = "crucero";
+            this.crucero.Size = new System.Drawing.Size(75, 23);
+            this.crucero.TabIndex = 3;
+            this.crucero.Text = "Crucero";
+            this.crucero.UseVisualStyleBackColor = true;
+            this.crucero.Click += new System.EventHandler(this.crucero_Click);
             // 
             // button5
             // 
@@ -110,10 +111,10 @@
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.crucero);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.puertos);
             this.Name = "Form1";
             this.Text = "FrbaCrucero";
             this.ResumeLayout(false);
@@ -122,13 +123,13 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button puertos;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button crucero;
     }
 }
 

@@ -58,5 +58,10 @@ namespace FrbaCrucero.AbmPuerto
             AltaModificacionPuerto alta = new AltaModificacionPuerto();
             alta.Show();
         }
+
+        private void dgvPuertos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

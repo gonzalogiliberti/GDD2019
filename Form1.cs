@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaCrucero.AbmPuerto;
+using FrbaCrucero.AbmCrucero;
 
 namespace FrbaCrucero
 {
@@ -18,15 +19,21 @@ namespace FrbaCrucero
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void puertos_Click(object sender, EventArgs e)
         {
             Puertos p = new Puertos();
             p.ShowDialog();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void crucero_Click(object sender, EventArgs e)
         {
-
+            Cruceros c = new Cruceros();
+            c.ShowDialog();
         }
     }
 }

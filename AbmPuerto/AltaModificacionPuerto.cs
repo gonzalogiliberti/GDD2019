@@ -77,6 +77,7 @@ namespace FrbaCrucero.AbmPuerto
             {
                 CheckEmptyFields();
                 Puerto port = getFormData();
+                port.idPuerto = (int)this.unPuerto.Cells["idPuerto"].Value;
                 if (port.getPuerto() != this.unPuerto.Cells["Puerto"].Value.ToString())
                 {
                     if (this.dao.verifyPortExisted(port) != 0)
