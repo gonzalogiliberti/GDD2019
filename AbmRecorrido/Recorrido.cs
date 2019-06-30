@@ -15,8 +15,8 @@ namespace FrbaCrucero.AbmRecorrido
 
         public Recorrido(DataRow row)
         {
-            this.idRecorrido = Convert.ToInt32(row["idFabricante"]);
-            this.codigo = Convert.ToString(row["Fabricante"]);
+            this.idRecorrido = Convert.ToInt32(row["idRecorrido"]);
+            this.codigo = Convert.ToString(row["Codigo"]);
         }
     }
 }

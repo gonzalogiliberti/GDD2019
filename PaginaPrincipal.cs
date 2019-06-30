@@ -10,19 +10,16 @@ using System.Windows.Forms;
 using FrbaCrucero.AbmPuerto;
 using FrbaCrucero.AbmCrucero;
 using FrbaCrucero.AbmRecorrido;
+using FrbaCrucero.GeneracionViaje;
+using FrbaCrucero.AbmRol;
 
 namespace FrbaCrucero
 {
-    public partial class Form1 : Form
+    public partial class PaginaPrincipal : Form
     {
-        public Form1()
+        public PaginaPrincipal()
         {
             InitializeComponent();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void puertos_Click(object sender, EventArgs e)
@@ -40,6 +37,18 @@ namespace FrbaCrucero
         private void recorrido_Click(object sender, EventArgs e)
         {
             Recorridos r = new Recorridos();
+            r.ShowDialog();
+        }
+
+        private void genViaje_Click(object sender, EventArgs e)
+        {
+            GeneracionViajes g = new GeneracionViajes();
+            g.ShowDialog();
+        }
+
+        private void roles_Click(object sender, EventArgs e)
+        {
+            Roles r = new Roles();
             r.ShowDialog();
         }
     }

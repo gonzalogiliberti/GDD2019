@@ -7,6 +7,7 @@ using FrbaCrucero.Util;
 using System.Data;
 using FrbaCrucero.AbmRecorrido;
 
+
 namespace FrbaCrucero.Dao
 {
     class RecorridoDao

@@ -144,5 +144,19 @@ namespace FrbaCrucero.Dao
             }
             return where;
         }
+
+        public List<Crucero> getCrucerosDisponibles(String f1, String f2)
+        {
+            //TODO: Ver como obtener solo los cruceros disponibles en esas fechas
+            List<Crucero> cruceros = new List<Crucero>();
+            DataTable dt = getAllCruises();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                cruceros.Add(new Crucero(row));
+            }
+
+            return cruceros;
+        }
     }
 }
