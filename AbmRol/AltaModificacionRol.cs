@@ -32,7 +32,7 @@ namespace FrbaCrucero.AbmRol
             rDao = new RolDao();
             this.unRol = unRol;
             newRol = false;
-            this.textRol.Text = unRol.Cells["rol_Nombre"].Value.ToString();
+            this.textRol.Text = unRol.Cells["Rol"].Value.ToString();
             setupGrid((int)unRol.Cells["idRol"].Value);
         }
 

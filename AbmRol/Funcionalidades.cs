@@ -29,6 +29,7 @@ namespace FrbaCrucero.AbmRol
 
         public Funcionalidades(int rol)
         {
+            InitializeComponent();
             idRol = rol;
             rDao = new RolDao();
             setupGrid();
@@ -48,6 +49,13 @@ namespace FrbaCrucero.AbmRol
 
         private void AltaFuncionalidadCerrada(object sender, FormClosedEventArgs e)
         {
+            setupGrid();
+        }
+
+        private void dgvFunc_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            DataGridViewRow funcion = this.dgvFunc.SelectedRows[0];
+            rDao.setFuncRol((int)funcion.Cells["idFuncionalidad"].Value, idRol);
             setupGrid();
         }
     }

@@ -81,7 +81,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@FechaAlta", cruise.getFechaAlta());
             dic.Add("@CantCabinas", cruise.getCantidadCabinas());
 
-            db.executeProcedureWithParameters("cbo.sp_crear_crucero", dic);
+            db.executeProcedureWithParameters("dbo.sp_crear_crucero", dic);
         }
 
         public void updateCruise(Crucero cruise)
@@ -94,7 +94,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@FechaAlta", cruise.getFechaAlta());
             dic.Add("@CantCabinas", cruise.getCantidadCabinas());
 
-            db.executeProcedureWithParameters("cbo.sp_modificar_crucero", dic);
+            db.executeProcedureWithParameters("dbo.sp_modificar_crucero", dic);
         }
 
         public void deleteCruise(Crucero cruise)
@@ -107,7 +107,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@FechaAlta", cruise.getFechaAlta());
             dic.Add("@CantCabinas", cruise.getCantidadCabinas());
 
-            db.executeProcedureWithParameters("cbo.sp_eliminar_crucero", dic);
+            db.executeProcedureWithParameters("dbo.sp_eliminar_crucero", dic);
         }
 
         public DataTable searchCruise(Fabricante fabricante, String model, String identificador)

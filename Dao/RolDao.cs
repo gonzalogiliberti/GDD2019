@@ -31,7 +31,7 @@ namespace FrbaCrucero.Dao
         // Retornas todas las funcionalidad existes que no posee el rol
         public DataTable getFuncAvailable(int rolId)
         {
-            return db.select_query("select idFuncion, nombre from Funcion where idFuncion not in (select f.idFuncion from RolxFuncion rf join Funcion f on rf.idFuncion = f.idFuncion where rf.idRol = " + rolId);
+            return db.select_query("select idFuncion, nombre from Funcion where idFuncion not in (select f.idFuncion from RolxFuncion rf join Funcion f on rf.idFuncion = f.idFuncion where rf.idRol = " + rolId + " )");
         }
 
         public void removeFunctionFromRol(int idRol, int idFunc)
@@ -40,7 +40,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@IdCrucero", idRol);
             dic.Add("@Identificador", idFunc);
 
-            db.executeProcedureWithParameters("cbo.sp_eliminar_funcxrol", dic);
+            db.executeProcedureWithParameters("dbo.sp_eliminar_funcxrol", dic);
         }
 
         public void createFunction(String description)
@@ -48,15 +48,15 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@funcionNombre", description);
 
-            db.executeProcedureWithParameters("cbo.sp_crear_funcion", dic);
+            db.executeProcedureWithParameters("dbo.sp_crear_funcion", dic);
         }
 
         public void createRol(String name)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
-            dic.Add("@rolNombre", name);
+            dic.Add("@rolName", name);
 
-            db.executeProcedureWithParameters("cbo.sp_crear_rol", dic);
+            db.executeProcedureWithParameters("dbo.sp_crear_rol", dic);
         }
 
         public void updateRol(String name)
@@ -64,7 +64,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@rolNombre", name);
 
-            db.executeProcedureWithParameters("cbo.sp_modificar_rol", dic);
+            db.executeProcedureWithParameters("dbo.sp_modificar_rol", dic);
         }
 
         public int verifyRolExisted(String rolName)
@@ -75,6 +75,15 @@ namespace FrbaCrucero.Dao
                 return 1;
             }
             return 0;
+        }
+
+        public void setFuncRol(int idFunc, int idRol)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@idRol", idRol);
+            dic.Add("@idFunc", idFunc);
+
+            db.executeProcedureWithParameters("dbo.sp_set_funcxrol", dic);
         }
     }
 }

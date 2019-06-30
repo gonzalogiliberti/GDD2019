@@ -30,13 +30,13 @@
         {
             this.cancel = new System.Windows.Forms.Button();
             this.dgvFunc = new System.Windows.Forms.DataGridView();
-            this.idFuncionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.create = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.search = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
+            this.idFuncionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFunc)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,17 +63,7 @@
             this.dgvFunc.Name = "dgvFunc";
             this.dgvFunc.Size = new System.Drawing.Size(146, 131);
             this.dgvFunc.TabIndex = 1;
-            // 
-            // idFuncionalidad
-            // 
-            this.idFuncionalidad.HeaderText = "idFuncionalidad";
-            this.idFuncionalidad.Name = "idFuncionalidad";
-            this.idFuncionalidad.Visible = false;
-            // 
-            // Funcionalidad
-            // 
-            this.Funcionalidad.HeaderText = "Funcionalidades Disponibles";
-            this.Funcionalidad.Name = "Funcionalidad";
+            this.dgvFunc.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvFunc_CellMouseDoubleClick);
             // 
             // create
             // 
@@ -119,6 +109,19 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "Seleccione la Funcionalidad a Agregar";
             // 
+            // idFuncionalidad
+            // 
+            this.idFuncionalidad.DataPropertyName = "idFuncion";
+            this.idFuncionalidad.HeaderText = "idFuncionalidad";
+            this.idFuncionalidad.Name = "idFuncionalidad";
+            this.idFuncionalidad.Visible = false;
+            // 
+            // Funcionalidad
+            // 
+            this.Funcionalidad.DataPropertyName = "nombre";
+            this.Funcionalidad.HeaderText = "Funcionalidades Disponibles";
+            this.Funcionalidad.Name = "Funcionalidad";
+            // 
             // Funcionalidades
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,12 +146,12 @@
 
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.DataGridView dgvFunc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idFuncionalidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionalidad;
         private System.Windows.Forms.Button create;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button search;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idFuncionalidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionalidad;
     }
 }

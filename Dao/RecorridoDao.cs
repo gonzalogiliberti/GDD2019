@@ -45,7 +45,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@codigo", codigo);
 
-            db.executeProcedureWithParameters("cbo.sp_crear_recorrido", dic);
+            db.executeProcedureWithParameters("dbo.sp_crear_recorrido", dic);
         }
 
         public void updateRecorrido(String codigo)
@@ -53,7 +53,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@codigo", codigo);
 
-            db.executeProcedureWithParameters("cbo.sp_modificar_recorrido", dic);
+            db.executeProcedureWithParameters("dbo.sp_modificar_recorrido", dic);
         }
 
         public void deleteRecorrido(int idRecorrido)
@@ -61,7 +61,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@idRecorrido", idRecorrido);
 
-            db.executeProcedureWithParameters("cbo.sp_eliminar_recorrido", dic);
+            db.executeProcedureWithParameters("dbo.sp_eliminar_recorrido", dic);
         }
 
         public int verifyTramoExisted(Int32 puertoOrigen, Int32 puertoDestino, Int32 idRecorrido)
@@ -83,7 +83,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@puertoDestino", puertoDestino);
             dic.Add("@precio", precio);
 
-            db.executeProcedureWithParameters("cbo.sp_crear_tramo", dic);
+            db.executeProcedureWithParameters("dbo.sp_crear_tramo", dic);
         }
 
         public void updateTramo(int idRecorrido, int idTramo, int puertoOrigen, int puertoDestino, int precio)
@@ -95,7 +95,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@puertoDestino", puertoDestino);
             dic.Add("@precio", precio);
 
-            db.executeProcedureWithParameters("cbo.sp_modificar_tramo", dic);
+            db.executeProcedureWithParameters("dbo.sp_modificar_tramo", dic);
         }
 
         public void deleteTramo(int idRecorrido, int idTramo)
@@ -104,7 +104,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@idRecorrido", idRecorrido);
             dic.Add("@idTramo", idTramo);
 
-            db.executeProcedureWithParameters("cbo.sp_eliminar_tramo", dic);
+            db.executeProcedureWithParameters("dbo.sp_eliminar_tramo", dic);
         }
 
         public List<Recorrido> getRecorridos()
