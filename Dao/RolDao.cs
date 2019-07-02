@@ -37,8 +37,8 @@ namespace FrbaCrucero.Dao
         public void removeFunctionFromRol(int idRol, int idFunc)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
-            dic.Add("@IdCrucero", idRol);
-            dic.Add("@Identificador", idFunc);
+            dic.Add("@idRol", idRol);
+            dic.Add("@idFunc", idFunc);
 
             db.executeProcedureWithParameters("dbo.sp_eliminar_funcxrol", dic);
         }
@@ -59,10 +59,11 @@ namespace FrbaCrucero.Dao
             db.executeProcedureWithParameters("dbo.sp_crear_rol", dic);
         }
 
-        public void updateRol(String name)
+        public void updateRol(String name, int idRol)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@rolNombre", name);
+            dic.Add("idRol", idRol);
 
             db.executeProcedureWithParameters("dbo.sp_modificar_rol", dic);
         }

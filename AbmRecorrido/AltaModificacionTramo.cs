@@ -110,7 +110,7 @@ namespace FrbaCrucero.AbmRecorrido
                     throw new Exception("El Crucero Ingresado ya existe");
                 }
             }
-            this.dao.updateTramo(idTramo, idRecorrido, unTramo.idPuertoOrigen, unTramo.idPuertoDestino, unTramo.precio);
+            this.dao.updateTramo(idTramo, unTramo.idPuertoOrigen, unTramo.idPuertoDestino, unTramo.precio);
         }
 
         private Tramo getFormData()

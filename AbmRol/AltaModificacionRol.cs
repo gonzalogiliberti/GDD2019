@@ -91,7 +91,7 @@ namespace FrbaCrucero.AbmRol
                     {
                         System.Windows.Forms.MessageBox.Show("Ya existe un rol con el nombre ingresado");
                     }
-                    rDao.updateRol(this.textRol.Text);
+                    rDao.updateRol(this.textRol.Text, (int)unRol.Cells["idRol"].Value);
                 }
             }
         }

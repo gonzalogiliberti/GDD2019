@@ -80,7 +80,9 @@ namespace FrbaCrucero.AbmRecorrido
             {
                 throw new Exception("El Recorrido Ingresado ya existe");
             }
-            this.dao.createRecorrido(codigo);
+            Decimal code;
+            Decimal.TryParse(codigo,out code);
+            this.dao.createRecorrido(code);
             //TODO: ACa hay que guardar el id del recorrido para poder accerder a los tramos y crear nuevos
             //idRecorrido = this.dao.getIdRecorrido(codigo);
         }
@@ -88,14 +90,16 @@ namespace FrbaCrucero.AbmRecorrido
         private void updateRecorrido()
         {
             String codigo = this.textCodigo.Text;
-            if (codigo != this.unRecorrido.Cells["Cordigo"].Value.ToString())
+            if (codigo != this.unRecorrido.Cells["Codigo"].Value.ToString())
             {
                 if (this.dao.verifyRecorridoExisted(codigo) != 0)
                 {
                     throw new Exception("El Recorrido Ingresado ya existe");
                 }
             }
-            this.dao.updateRecorrido(codigo);
+            Decimal code;
+            Decimal.TryParse(codigo, out code);
+            this.dao.updateRecorrido(code, (int)this.unRecorrido.Cells["idRecorrido"].Value);
         }
 
         private void addTramo_Click(object sender, EventArgs e)

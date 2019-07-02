@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.dgvFunc = new System.Windows.Forms.DataGridView();
-            this.idFuncionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.cancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.idFuncionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFunc)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,17 +50,6 @@
             this.dgvFunc.Size = new System.Drawing.Size(146, 131);
             this.dgvFunc.TabIndex = 2;
             this.dgvFunc.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvFunc_CellMouseDoubleClick);
-            // 
-            // idFuncionalidad
-            // 
-            this.idFuncionalidad.HeaderText = "idFuncionalidad";
-            this.idFuncionalidad.Name = "idFuncionalidad";
-            this.idFuncionalidad.Visible = false;
-            // 
-            // Funcionalidad
-            // 
-            this.Funcionalidad.HeaderText = "Funcionalidades Asignadas";
-            this.Funcionalidad.Name = "Funcionalidad";
             // 
             // cancel
             // 
@@ -81,6 +70,19 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Seleccione la Funcionalidad a Remover del Rol";
             // 
+            // idFuncionalidad
+            // 
+            this.idFuncionalidad.DataPropertyName = "idFuncionalidad";
+            this.idFuncionalidad.HeaderText = "idFuncionalidad";
+            this.idFuncionalidad.Name = "idFuncionalidad";
+            this.idFuncionalidad.Visible = false;
+            // 
+            // Funcionalidad
+            // 
+            this.Funcionalidad.DataPropertyName = "Funcionalidad";
+            this.Funcionalidad.HeaderText = "Funcionalidades Asignadas";
+            this.Funcionalidad.Name = "Funcionalidad";
+            // 
             // RemoverFuncionalidad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -100,9 +102,9 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvFunc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn idFuncionalidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionalidad;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idFuncionalidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Funcionalidad;
     }
 }

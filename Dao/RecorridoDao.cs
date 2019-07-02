@@ -40,7 +40,7 @@ namespace FrbaCrucero.Dao
             return 0;
         }
 
-        public void createRecorrido(String codigo)
+        public void createRecorrido(Decimal codigo)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@codigo", codigo);
@@ -48,10 +48,11 @@ namespace FrbaCrucero.Dao
             db.executeProcedureWithParameters("dbo.sp_crear_recorrido", dic);
         }
 
-        public void updateRecorrido(String codigo)
+        public void updateRecorrido(Decimal codigo, int idRecorrido)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@codigo", codigo);
+            dic.Add("@idRecorrido", idRecorrido);
 
             db.executeProcedureWithParameters("dbo.sp_modificar_recorrido", dic);
         }
@@ -86,10 +87,9 @@ namespace FrbaCrucero.Dao
             db.executeProcedureWithParameters("dbo.sp_crear_tramo", dic);
         }
 
-        public void updateTramo(int idRecorrido, int idTramo, int puertoOrigen, int puertoDestino, int precio)
+        public void updateTramo(int idTramo, int puertoOrigen, int puertoDestino, int precio)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
-            dic.Add("@idRecorrido", idRecorrido);
             dic.Add("@idTramo", idTramo);
             dic.Add("@puertoOrigen", puertoOrigen);
             dic.Add("@puertoDestino", puertoDestino);

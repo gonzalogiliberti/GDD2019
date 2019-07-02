@@ -26,6 +26,7 @@ namespace FrbaCrucero.AbmRol
             InitializeComponent();
             rolId = idRol;
             rDao = new RolDao();
+            setupGrid();
         }
 
         private void cancel_Click(object sender, EventArgs e)
