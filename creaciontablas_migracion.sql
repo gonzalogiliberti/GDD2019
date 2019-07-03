@@ -182,6 +182,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Recorrido](
 	[idRecorrido] [int] IDENTITY(1,1),
+	[Codigo] [decimal](18,0),
  CONSTRAINT [PK_Recorrido] PRIMARY KEY CLUSTERED 
 (
 	[idRecorrido] ASC
@@ -332,7 +333,6 @@ CREATE TABLE [dbo].[Tramo](
 	[precioBase] [decimal](18,2),
 	[puertoOrigen] [int],
 	[puertoDestino] [int],
-	[recorridoCodigo] [decimal](18,0),
  CONSTRAINT [PK_Tramo] PRIMARY KEY CLUSTERED 
 (
 	[idTramo] ASC
@@ -510,9 +510,9 @@ ALTER TABLE [dbo].[Viaje] CHECK CONSTRAINT [FK_Viaje_Crucero]
 GO
 --Migracion Datos Cliente
 insert into GD1C2019.dbo.Cliente(dni, Nombre, Apellido, telefono, mail, fechaNac, direccion) 
-select CLI_DNI, CLI_NOMBRE, CLI_APELLIDO, CLI_TELEFONO, CLI_TELEFONO, CLI_FECHA_NAC, CLI_DIRECCION
+select CLI_DNI, CLI_NOMBRE, CLI_APELLIDO, CLI_TELEFONO, CLI_MAIL, CLI_FECHA_NAC, CLI_DIRECCION
 from gd_esquema.Maestra
-group by CLI_DNI, CLI_NOMBRE, CLI_APELLIDO
+group by CLI_DNI, CLI_NOMBRE, CLI_APELLIDO, CLI_TELEFONO, CLI_MAIL, CLI_FECHA_NAC, CLI_DIRECCION
 GO
 --Migracion Datos Puerto
 insert into GD1C2019.dbo.Puerto(nombre) select distinct(PUERTO_HASTA) from gd_esquema.Maestra
@@ -718,7 +718,7 @@ Create PROCEDURE dbo.sp_crear_tramo (@puertoOrigen int, @puertoDestino int, @pre
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	INSERT INTO Tramo(puertoOrigen,puertoDestino,precio) values (@puertoOrigen, @puertoDestino, @precio)
+	INSERT INTO Tramo(puertoOrigen,puertoDestino,precioBase) values (@puertoOrigen, @puertoDestino, @precio)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
