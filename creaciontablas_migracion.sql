@@ -726,3 +726,35 @@ AS BEGIN
 	
 END
 GO
+
+IF (OBJECT_ID ('dbo.sp_set_recorridoxtramo') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_set_recorridoxtramo
+GO
+Create PROCEDURE dbo.sp_set_recorridoxtramo (@idTramo int, @idRecorrido int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	insert into RecorridoXTramo(idRecorrido, idTramo) values (@idRecorrido, @idTramo)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_eliminar_recorridoxtramo') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_eliminar_recorridoxtramo
+GO
+Create PROCEDURE dbo.sp_eliminar_recorridoxtramo (@idTramo int, @idRecorrido int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Delete from RecorridoXTramo where idTramo = @idTramo and idRecorrido = @idRecorrido
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
