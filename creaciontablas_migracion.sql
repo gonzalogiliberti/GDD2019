@@ -5,7 +5,7 @@ CREATE TABLE [dbo].[Baja](
 	[idTipoBaja] [int] NOT NULL,
 	[FechaBaja] [date] NOT NULL,
 	[FechaRestauracion] [date] NULL,
-	[idCrucero] [int] NOT NULL,
+	[idCrucero] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_Baja] PRIMARY KEY CLUSTERED 
 (
 	[idBaja] ASC
@@ -23,7 +23,7 @@ CREATE TABLE [dbo].[Cabina](
 	[Numero] [int] NOT NULL,
 	[Piso] [int] NOT NULL,
 	[TipoCabina] [int],
-	[idCrucero] [int],
+	[idCrucero] [nvarchar](50),
  CONSTRAINT [PK_Cabina] PRIMARY KEY CLUSTERED 
 (
 	[idCabina] ASC
@@ -97,16 +97,15 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Crucero](
-	[intCrucero] [int] IDENTITY(1,1) NOT NULL,
+	[idCrucero] [nvarchar](50) NOT NULL,
 	[Modelo] [nvarchar](50),
 	[FechaAlta] [datetime2](3),
-	[Identificador] [nvarchar](50),
 	[Fabricante] [int],
 	[TipoServicio] [int],
 	[CantidadCabinas] [int],
  CONSTRAINT [PK_Crucero] PRIMARY KEY CLUSTERED 
 (
-	[intCrucero] ASC
+	[idCrucero] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -369,7 +368,7 @@ CREATE TABLE [dbo].[Viaje](
 	[FechaFin] [datetime2](3),
 	[FechaFinEstimada] [datetime2](3),
 	[idRecorrido] [int],
-	[idCrucero] [int],
+	[idCrucero] [nvarchar](50),
  CONSTRAINT [PK_Viaje] PRIMARY KEY CLUSTERED 
 (
 	[idViaje] ASC
@@ -384,7 +383,7 @@ CREATE NONCLUSTERED INDEX [IX_Rol] ON [dbo].[Rol]
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Baja]  WITH CHECK ADD  CONSTRAINT [FK_Baja_Crucero] FOREIGN KEY([idCrucero])
-REFERENCES [dbo].[Crucero] ([intCrucero])
+REFERENCES [dbo].[Crucero] ([idCrucero])
 GO
 ALTER TABLE [dbo].[Baja] CHECK CONSTRAINT [FK_Baja_Crucero]
 GO
@@ -394,7 +393,7 @@ GO
 ALTER TABLE [dbo].[Baja] CHECK CONSTRAINT [FK_Baja_TipoBaja]
 GO
 ALTER TABLE [dbo].[Cabina]  WITH CHECK ADD  CONSTRAINT [FK_Cabina_Crucero] FOREIGN KEY([idCrucero])
-REFERENCES [dbo].[Crucero] ([intCrucero])
+REFERENCES [dbo].[Crucero] ([idCrucero])
 GO
 ALTER TABLE [dbo].[Cabina] CHECK CONSTRAINT [FK_Cabina_Crucero]
 GO
@@ -504,7 +503,7 @@ GO
 ALTER TABLE [dbo].[Viaje] CHECK CONSTRAINT [FK_Viaje_Recorrido]
 GO
 ALTER TABLE [dbo].[Viaje]  WITH CHECK ADD  CONSTRAINT [FK_Viaje_Crucero] FOREIGN KEY([idCrucero])
-REFERENCES [dbo].[Crucero] ([intCrucero])
+REFERENCES [dbo].[Crucero] ([idCrucero])
 GO
 ALTER TABLE [dbo].[Viaje] CHECK CONSTRAINT [FK_Viaje_Crucero]
 GO
@@ -521,11 +520,11 @@ GO
 insert into GD1C2019.dbo.Fabricante(Nombre) select distinct(CRU_FABRICANTE) from gd_esquema.Maestra
 GO
 --Migracion Datos Crucero
-insert into GD1C2019.dbo.Crucero(Identificador,Modelo, Fabricante) select distinct(CRUCERO_IDENTIFICADOR), CRUCERO_MODELO,(Select idFabricante from Fabricante where Nombre = CRU_FABRICANTE ) from gd_esquema.maestra
+insert into GD1C2019.dbo.Crucero(idCrucero,Modelo, Fabricante) select distinct(CRUCERO_IDENTIFICADOR), CRUCERO_MODELO,(Select idFabricante from Fabricante where Nombre = CRU_FABRICANTE ) from gd_esquema.maestra
 GO
 --Migracion Datos Cabina
-insert into GD1C2019.dbo.Cabina(Numero,Piso, TipoCabina, idCrucero) select CABINA_NRO, CABINA_PISO, (select idTipoCabina from TipoCabina where Nombre = CABINA_TIPO) as tipo,
-	(select intCrucero from Crucero where CRUCERO_IDENTIFICADOR = Identificador) as crucero from gd_esquema.maestra where (select count(*) from Cabina where Numero = CABINA_NRO and Piso = CABINA_PISO and idCrucero = (select intCrucero from Crucero where CRUCERO_IDENTIFICADOR = Identificador)) = 0
+insert into GD1C2019.dbo.Cabina(Numero, Piso, TipoCabina, idCrucero) select CABINA_NRO, CABINA_PISO, (select idTipoCabina from TipoCabina where Nombre = CABINA_TIPO) as tipo,
+	CRUCERO_IDENTIFICADOR as crucero from gd_esquema.maestra where (select count(*) from Cabina where Numero = CABINA_NRO and Piso = CABINA_PISO and idCrucero = (select idCrucero from Crucero where CRUCERO_IDENTIFICADOR = Identificador)) = 0
 	group by CABINA_NRO, CABINA_PISO, CABINA_TIPO, CRUCERO_IDENTIFICADOR
 	order by CABINA_NRO, CABINA_PISO, crucero
 GO
@@ -541,7 +540,7 @@ insert into ClienteXRecorrido(idCliente, idRecorrido) select (select idCliente f
 (select idRecorrido from Recorrido where codigo = RECORRIDO_CODIGO) from gd_esquema.maestra group by CLI_DNI, RECORRIDO_CODIGO, CLI_NOMBRE
 GO
 insert into dbo.Viaje(FechaInicio, FechaFin, FechaFinEstimada, idCrucero, idRecorrido) select FECHA_SALIDA, FECHA_LLEGADA, FECHA_LLEGADA_ESTIMADA,
- (select intCrucero from Crucero where Identificador = CRUCERO_IDENTIFICADOR and Modelo = CRUCERO_MODELO), (select idRecorrido from Recorrido where RECORRIDO_CODIGO = codigo)
+ CRUCERO_IDENTIFICADOR, (select idRecorrido from Recorrido where RECORRIDO_CODIGO = codigo)
   from gd_esquema.maestra group by RECORRIDO_CODIGO, CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, FECHA_LLEGADA, FECHA_LLEGADA_ESTIMADA, FECHA_SALIDA
 GO
 insert into dbo.TipoBaja(Nombre) values ('Vida Util')
