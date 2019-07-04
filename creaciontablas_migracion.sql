@@ -548,7 +548,17 @@ insert into dbo.TipoBaja(Nombre) values ('Vida Util')
 GO
 insert into dbo.TipoBaja(Nombre) values ('Fuera de Servicio')
 GO
-
+--Migracion Datos Compra
+insert into dbo.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idCabina) 
+  (select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO, V.idViaje, Cli.idCliente, Cab.idCabina
+  from gd_esquema.Maestra M, Crucero Cru, Recorrido R, Viaje V, Cliente Cli, Cabina Cab
+  where PASAJE_CODIGO Is not null and
+		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO and
+		R.Codigo = RECORRIDO_CODIGO and
+		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and V.idRecorrido = R.idRecorrido and 
+		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
+		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = Cru.intCrucero)
+GO
 
 --Stores Funcion y Rol
 IF (OBJECT_ID ('dbo.sp_crear_funcion') IS NOT NULL)
