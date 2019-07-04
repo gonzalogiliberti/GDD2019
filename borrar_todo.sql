@@ -1,5 +1,5 @@
 /*Set schema*/
-DECLARE @schemaName as nvarchar(100)
+DECLARE @schemaName as nvarchar(10)
 DECLARE @schemaId as int
 
 SET @schemaName = 'dbo'
@@ -30,12 +30,14 @@ DEALLOCATE foreingkeys
 
 /*Drop tables*/
 DECLARE @queryDrop AS nvarchar(400)
-DECLARE tables CURSOR FOR select 
-	'DROP TABLE [' + s.name +
-	'].[' + t.name + ']'
-from sys.tables t
-inner join sys.schemas s on t.schema_id = s.schema_id
-where t.schema_id=@schemaId
+DECLARE tables CURSOR FOR 
+
+	select 
+		'DROP TABLE [' + s.name +
+		'].[' + t.name + ']'
+	from sys.tables t
+	inner join sys.schemas s on t.schema_id = s.schema_id
+	where t.schema_id=@schemaId and t.name != 'Maestra'
 
 OPEN tables
 
@@ -73,7 +75,9 @@ CLOSE proceduress
 DEALLOCATE proceduress
 
 /* DROP SCHEMA*/
-
+/* Al pedo borrar el schema */
+/*
 IF EXISTS (SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'dbo')
     DROP SCHEMA FSOCIETY
 GO
+*/
