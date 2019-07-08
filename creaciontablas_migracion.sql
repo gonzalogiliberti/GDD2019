@@ -198,6 +198,7 @@ GO
 CREATE TABLE [dbo].[RecorridoXTramo](
 	[idRecorrido] [int] NOT NULL,
 	[idTramo] [int] NOT NULL,
+	[orden] [int] default 0,
  CONSTRAINT [PK_RecorridoXTramo] PRIMARY KEY CLUSTERED 
 (
 	[idRecorrido] ASC,
@@ -315,7 +316,7 @@ GO
 CREATE TABLE [dbo].[TipoCabina](
 	[idTipoCabina] [int] IDENTITY(1,1),
 	[Nombre] [nvarchar](255),
-	[Recargo] [int],
+	[Recargo] [decimal](18,2),
  CONSTRAINT [PK_TipoCabina] PRIMARY KEY CLUSTERED 
 (
 	[idTipoCabina] ASC
@@ -522,6 +523,8 @@ insert into GD1C2019.dbo.Fabricante(Nombre) select distinct(CRU_FABRICANTE) from
 GO
 --Migracion Datos Crucero
 insert into GD1C2019.dbo.Crucero(Identificador,Modelo, Fabricante) select distinct(CRUCERO_IDENTIFICADOR), CRUCERO_MODELO,(Select idFabricante from Fabricante where Nombre = CRU_FABRICANTE ) from gd_esquema.maestra
+GO
+insert into dbo.TipoCabina(Nombre, Recargo) select distinct(CABINA_TIPO), CABINA_TIPO_PORC_RECARGO from gd_esquema.Maestra
 GO
 --Migracion Datos Cabina
 insert into GD1C2019.dbo.Cabina(Numero,Piso, TipoCabina, idCrucero) select CABINA_NRO, CABINA_PISO, (select idTipoCabina from TipoCabina where Nombre = CABINA_TIPO) as tipo,
@@ -761,6 +764,22 @@ AS BEGIN
 
     BEGIN TRANSACTION T1
 	Delete from RecorridoXTramo where idTramo = @idTramo and idRecorrido = @idRecorrido
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_crear_viaje') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_viaje
+GO
+Create PROCEDURE dbo.sp_crear_viaje (@fechaInicio datetime2(3), @fechaFin datetime2(3), @idCrucero int, @idRecorrido int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	insert into Viaje(FechaInicio, FechaFin, FechaFinEstimada, idCrucero ,idRecorrido) values (@fechaInicio, @fechaFin, @fechaFin, @idCrucero, @idRecorrido)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
