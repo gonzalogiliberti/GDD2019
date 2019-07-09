@@ -33,7 +33,7 @@
             this.recorrido = new System.Windows.Forms.Button();
             this.crucero = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.compraReserva = new System.Windows.Forms.Button();
             this.genViaje = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -86,14 +86,15 @@
             this.button5.Text = "Login";
             this.button5.UseVisualStyleBackColor = true;
             // 
-            // button6
+            // compraReserva
             // 
-            this.button6.Location = new System.Drawing.Point(216, 141);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(104, 23);
-            this.button6.TabIndex = 5;
-            this.button6.Text = "Comprar/Reservar";
-            this.button6.UseVisualStyleBackColor = true;
+            this.compraReserva.Location = new System.Drawing.Point(216, 141);
+            this.compraReserva.Name = "compraReserva";
+            this.compraReserva.Size = new System.Drawing.Size(104, 23);
+            this.compraReserva.TabIndex = 5;
+            this.compraReserva.Text = "Comprar/Reservar";
+            this.compraReserva.UseVisualStyleBackColor = true;
+            this.compraReserva.Click += new System.EventHandler(this.compraReserva_Click);
             // 
             // genViaje
             // 
@@ -105,19 +106,19 @@
             this.genViaje.UseVisualStyleBackColor = true;
             this.genViaje.Click += new System.EventHandler(this.genViaje_Click);
             // 
-            // Form1
+            // PaginaPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 186);
             this.Controls.Add(this.genViaje);
-            this.Controls.Add(this.button6);
+            this.Controls.Add(this.compraReserva);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.crucero);
             this.Controls.Add(this.recorrido);
             this.Controls.Add(this.roles);
             this.Controls.Add(this.puertos);
-            this.Name = "Form1";
+            this.Name = "PaginaPrincipal";
             this.Text = "FrbaCrucero";
             this.ResumeLayout(false);
 
@@ -129,7 +130,7 @@
         private System.Windows.Forms.Button roles;
         private System.Windows.Forms.Button recorrido;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button compraReserva;
         private System.Windows.Forms.Button genViaje;
         private System.Windows.Forms.Button crucero;
     }

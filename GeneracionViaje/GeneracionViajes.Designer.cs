@@ -37,6 +37,7 @@
             this.cancel = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.save = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dtInicio
@@ -48,6 +49,8 @@
             this.dtInicio.Name = "dtInicio";
             this.dtInicio.Size = new System.Drawing.Size(151, 20);
             this.dtInicio.TabIndex = 0;
+            this.dtInicio.Value = new System.DateTime(2019, 7, 7, 0, 0, 0, 0);
+            this.dtInicio.CloseUp += new System.EventHandler(this.dtInicio_CloseUp);
             // 
             // dtFin
             // 
@@ -58,6 +61,8 @@
             this.dtFin.Name = "dtFin";
             this.dtFin.Size = new System.Drawing.Size(149, 20);
             this.dtFin.TabIndex = 1;
+            this.dtFin.Value = new System.DateTime(2019, 7, 7, 0, 0, 0, 0);
+            this.dtFin.CloseUp += new System.EventHandler(this.dtFin_CloseUp);
             // 
             // label1
             // 
@@ -95,7 +100,7 @@
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(135, 245);
+            this.cancel.Location = new System.Drawing.Point(219, 257);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(124, 26);
             this.cancel.TabIndex = 6;
@@ -121,11 +126,22 @@
             this.label3.TabIndex = 8;
             this.label3.Text = "Crucero";
             // 
-            // GeneracionViaje
+            // save
+            // 
+            this.save.Location = new System.Drawing.Point(46, 257);
+            this.save.Name = "save";
+            this.save.Size = new System.Drawing.Size(107, 25);
+            this.save.TabIndex = 9;
+            this.save.Text = "Guardar";
+            this.save.UseVisualStyleBackColor = true;
+            this.save.Click += new System.EventHandler(this.save_Click);
+            // 
+            // GeneracionViajes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(448, 295);
+            this.ClientSize = new System.Drawing.Size(422, 295);
+            this.Controls.Add(this.save);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cancel);
@@ -135,7 +151,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dtFin);
             this.Controls.Add(this.dtInicio);
-            this.Name = "GeneracionViaje";
+            this.Name = "GeneracionViajes";
             this.Text = "GeneracionViaje";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -153,5 +169,6 @@
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button save;
     }
 }

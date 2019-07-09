@@ -122,7 +122,7 @@ namespace FrbaCrucero.Dao
         public List<Recorrido> getRecorridos()
         {
             List<Recorrido> recorridos = new List<Recorrido>();
-            DataTable dt = db.select_query("SELECT R.idRecorrido AS IdRecorrido, R.codigo AS Codigo FROM dbo.Recorrido R");
+            DataTable dt = db.select_query("SELECT R.idRecorrido AS idRecorrido, R.codigo AS codigo FROM dbo.Recorrido R");
 
             foreach (DataRow row in dt.Rows)
             {

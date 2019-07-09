@@ -145,11 +145,17 @@ namespace FrbaCrucero.Dao
             return where;
         }
 
-        public List<Crucero> getCrucerosDisponibles(String f1, String f2)
+        public List<Crucero> getCrucerosDisponibles(DateTime f1, DateTime f2)
         {
-            //TODO: Ver como obtener solo los cruceros disponibles en esas fechas
+
             List<Crucero> cruceros = new List<Crucero>();
-            DataTable dt = getAllCruises();
+            string query = " select c.intCrucero as idCrucero, c.Modelo, c.Identificador, c.Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, ISNULL(c.CantidadCabinas, 0) AS CantidadCabinas, ISNULL(c.FechaAlta, GETDATE()) AS FechaAlta from Crucero c where ";
+            query += "c.intCrucero not in ( select v1.idCrucero from Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin) and ";
+            query += "c.intCrucero not in ( select v2.idCrucero from Viaje v2 where '" + f2 + "' between v2.FechaInicio and v2.FechaFin) and ";
+            query += "c.intCrucero not in ( select v3.idCrucero from Viaje v3 where v3.FechaInicio between '" + f1 + "' and '" + f2 + "') and ";
+            query += "c.intCrucero not in ( select v4.idCrucero from Viaje v4 where v4.FechaFin between '" + f1 + "' and '" + f2 + "') ";
+
+            DataTable dt = db.select_query(query);
 
             foreach (DataRow row in dt.Rows)
             {

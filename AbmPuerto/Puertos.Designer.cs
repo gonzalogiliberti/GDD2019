@@ -30,12 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dgvPuertos = new System.Windows.Forms.DataGridView();
+            this.idPuerto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Puerto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboPuerto = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.altaPuerto = new System.Windows.Forms.Button();
-            this.idPuerto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Puerto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.puertoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.cancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPuertos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.puertoBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -50,15 +51,30 @@
             this.dgvPuertos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idPuerto,
             this.Puerto});
-            this.dgvPuertos.Location = new System.Drawing.Point(39, 101);
+            this.dgvPuertos.Location = new System.Drawing.Point(88, 85);
             this.dgvPuertos.MultiSelect = false;
             this.dgvPuertos.Name = "dgvPuertos";
             this.dgvPuertos.ReadOnly = true;
             this.dgvPuertos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPuertos.Size = new System.Drawing.Size(234, 86);
+            this.dgvPuertos.Size = new System.Drawing.Size(145, 86);
             this.dgvPuertos.TabIndex = 13;
             this.dgvPuertos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPuertos_CellContentClick);
             this.dgvPuertos.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPuertos_CellMouseDoubleClick);
+            // 
+            // idPuerto
+            // 
+            this.idPuerto.DataPropertyName = "idPuerto";
+            this.idPuerto.HeaderText = "idPuerto";
+            this.idPuerto.Name = "idPuerto";
+            this.idPuerto.ReadOnly = true;
+            this.idPuerto.Visible = false;
+            // 
+            // Puerto
+            // 
+            this.Puerto.DataPropertyName = "Puerto";
+            this.Puerto.HeaderText = "Puerto";
+            this.Puerto.Name = "Puerto";
+            this.Puerto.ReadOnly = true;
             // 
             // comboPuerto
             // 
@@ -81,38 +97,34 @@
             // 
             // altaPuerto
             // 
-            this.altaPuerto.Location = new System.Drawing.Point(119, 193);
+            this.altaPuerto.Location = new System.Drawing.Point(39, 197);
             this.altaPuerto.Name = "altaPuerto";
-            this.altaPuerto.Size = new System.Drawing.Size(75, 23);
+            this.altaPuerto.Size = new System.Drawing.Size(105, 23);
             this.altaPuerto.TabIndex = 3;
             this.altaPuerto.Text = "Alta";
             this.altaPuerto.UseVisualStyleBackColor = true;
             this.altaPuerto.Click += new System.EventHandler(this.altaPuerto_Click);
             // 
-            // idPuerto
-            // 
-            this.idPuerto.DataPropertyName = "idPuerto";
-            this.idPuerto.HeaderText = "idPuerto";
-            this.idPuerto.Name = "idPuerto";
-            this.idPuerto.ReadOnly = true;
-            this.idPuerto.Visible = false;
-            // 
-            // Puerto
-            // 
-            this.Puerto.DataPropertyName = "Puerto";
-            this.Puerto.HeaderText = "Puerto";
-            this.Puerto.Name = "Puerto";
-            this.Puerto.ReadOnly = true;
-            // 
             // puertoBindingSource
             // 
             this.puertoBindingSource.DataSource = typeof(FrbaCrucero.AbmPuerto.Puerto);
+            // 
+            // cancel
+            // 
+            this.cancel.Location = new System.Drawing.Point(161, 197);
+            this.cancel.Name = "cancel";
+            this.cancel.Size = new System.Drawing.Size(111, 23);
+            this.cancel.TabIndex = 14;
+            this.cancel.Text = "Cancelar";
+            this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
             // Puertos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(298, 283);
+            this.Controls.Add(this.cancel);
             this.Controls.Add(this.altaPuerto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboPuerto);
@@ -135,6 +147,7 @@
         private System.Windows.Forms.BindingSource puertoBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn idPuerto;
         private System.Windows.Forms.DataGridViewTextBoxColumn Puerto;
+        private System.Windows.Forms.Button cancel;
 
     }
 }
