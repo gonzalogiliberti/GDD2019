@@ -39,6 +39,7 @@
             this.search = new System.Windows.Forms.Button();
             this.seleccion = new System.Windows.Forms.Label();
             this.idViaje = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.idRecorrido = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idCrucero = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Identificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PuertoOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,6 +68,7 @@
             this.dgvViajes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvViajes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idViaje,
+            this.idRecorrido,
             this.idCrucero,
             this.Identificador,
             this.PuertoOrigen,
@@ -163,6 +165,13 @@
             this.idViaje.Name = "idViaje";
             this.idViaje.Visible = false;
             // 
+            // idRecorrido
+            // 
+            this.idRecorrido.DataPropertyName = "idRecorrido";
+            this.idRecorrido.HeaderText = "idRecorrido";
+            this.idRecorrido.Name = "idRecorrido";
+            this.idRecorrido.Visible = false;
+            // 
             // idCrucero
             // 
             this.idCrucero.DataPropertyName = "idCrucero";
@@ -250,6 +259,7 @@
         private System.Windows.Forms.Button search;
         private System.Windows.Forms.Label seleccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn idViaje;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idRecorrido;
         private System.Windows.Forms.DataGridViewTextBoxColumn idCrucero;
         private System.Windows.Forms.DataGridViewTextBoxColumn Identificador;
         private System.Windows.Forms.DataGridViewTextBoxColumn PuertoOrigen;

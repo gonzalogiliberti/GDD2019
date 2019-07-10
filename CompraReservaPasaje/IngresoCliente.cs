@@ -8,14 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaCrucero.Dao;
+using FrbaCrucero.AbmCrucero;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
     public partial class IngresoCliente : Form
     {
 
-        DataGridViewRow viaje;
-        DataGridViewRow cabina;
+        Viaje viaje;
+        TipoCabina cabina;
         int cantPasajeros;
         CompraDao dao;
         Cliente cliente = null;
@@ -26,7 +27,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             InitializeComponent();
         }
 
-        public IngresoCliente(DataGridViewRow unaCabina, DataGridViewRow unViaje, int cantidadPasajeros)
+        public IngresoCliente(TipoCabina unaCabina, Viaje unViaje, int cantidadPasajeros)
         {
             InitializeComponent();
             dao = new CompraDao();
@@ -109,6 +110,58 @@ namespace FrbaCrucero.CompraReservaPasaje
         public void setCliente(DataGridViewRow unCliente)
         {
             this.cliente = new Cliente(((DataRowView)unCliente.DataBoundItem).Row);
+        }
+
+        private void saveClient_Click(object sender, EventArgs e)
+        {
+            if(CheckEmptyFields())
+            {
+                if (newCliente)
+                {
+                    cliente = getFormData();
+                    this.dao.createClient(cliente);
+                    MessageBox.Show("Se guardaron correctamente los datos del cliente");
+                }
+                else
+                {
+                    this.dao.updateClient(cliente);
+                    MessageBox.Show("Se actualizaron correctamente los datos del cliente");
+                }
+            }
+        }
+
+        private bool CheckEmptyFields()
+        {
+            List<TextBox> inputs = new List<TextBox> { this.textNombre, this.textApellido, this.textDireccion, this.textMail, this.textTelefono, this.textDNI };
+            if (inputs.Any((t) => t.Text == ""))
+            {
+                MessageBox.Show("Complete todos los campos");
+                return false;
+            }
+
+            if (this.dtNac.Text == "")
+            {
+                MessageBox.Show("Complete la fecha de nacimiento");
+                return false;
+            }
+
+            return true;
+        }
+
+        private Cliente getFormData()
+        {
+            return new Cliente(this.textNombre.Text, this.textApellido.Text, this.textMail.Text, this.textDireccion.Text, Int32.Parse(this.textTelefono.Text), Decimal.Parse(this.textDNI.Text), this.dtNac.Value);
+        }
+
+        private void pay_Click(object sender, EventArgs e)
+        {
+            if (cliente == null)
+            {
+                MessageBox.Show("Debe guardar los datos del cliente primero");
+                return ;
+            }
+            Pago pago = new Pago(viaje, cabina, cliente, cantPasajeros);
+            pago.ShowDialog();
         }
     }
 }

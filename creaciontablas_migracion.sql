@@ -562,6 +562,10 @@ insert into dbo.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idC
 		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
 		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = Cru.intCrucero)
 GO
+insert into MedioPAgo(Nombre) Values ('Tarjeta de Credito')
+insert into MedioPAgo(Nombre) Values ('Transferencia Bancaria')
+insert into MedioPAgo(Nombre) Values ('Efectivo')
+GO
 
 --Stores Funcion y Rol
 IF (OBJECT_ID ('dbo.sp_crear_funcion') IS NOT NULL)
@@ -780,6 +784,53 @@ AS BEGIN
 
     BEGIN TRANSACTION T1
 	insert into Viaje(FechaInicio, FechaFin, FechaFinEstimada, idCrucero ,idRecorrido) values (@fechaInicio, @fechaFin, @fechaFin, @idCrucero, @idRecorrido)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_crear_cliente') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_cliente
+GO
+Create PROCEDURE dbo.sp_crear_cliente (@nombre varchar(255),@apellido varchar(255),@telefono int,@mail varchar(255),@direccion varchar(255),@dni decimal(18,0), @fechaNac datetime2(3)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	insert into Cliente(Nombre, Apellido, telefono, mail, direccion,dni,fechaNac) values (@nombre ,@apellido,@telefono ,@mail ,@direccion,@dni , @fechaNac)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_crear_compra') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_compra
+GO
+Create PROCEDURE dbo.sp_crear_compra (@idCli int, @idViaje int, @tipoCabina int, @medioPago int, @tarjetaNombre varchar(50), @tarjetaCoutas int, @precioTotal decimal(18,2),@cantPasajes int, @idCrucero int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	if(@tarjetaNombre != '' and @tarjetaCoutas = 0)
+	begin
+	INSERT INTO TarjetaCredito(Nombre, cuotas) values (@tarjetaNombre, @tarjetaCoutas)
+	end
+	
+	declare @idCabina int
+
+	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
+	and c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje)
+
+	declare @codigo decimal(18,0)
+	select @codigo = MAX(codigoPasaje) from Compra
+	set @codigo = @codigo + 1
+
+	insert into Compra(idViaje, idCliente, cantidadPasajes, medioPago, fecha, precioTotal,idCabina, codigoPasaje)
+	values (@idViaje, @idCli, @cantPasajes, @medioPago, GETDATE(), @precioTotal, @idCabina, @codigo)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;

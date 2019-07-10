@@ -151,5 +151,16 @@ namespace FrbaCrucero.Dao
             DataRow r = dt.Rows[0];
             return Convert.ToInt32(r["idRecorrido"]);
         }
+
+        public int getPrecioFinal(int idRecorrido)
+        {
+            DataTable dt = db.select_query("select sum(t.precioBase) as PrecioFinal  from RecorridoXTramo rt, Tramo t where rt.idRecorrido  = "+ idRecorrido +" and rt.idTramo = t.idTramo");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["PrecioFinal"]);
+        }
     }
 }

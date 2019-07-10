@@ -8,13 +8,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaCrucero.Dao;
+using FrbaCrucero.AbmCrucero;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
     public partial class SeleccionCabina : Form
     {
 
-        DataGridViewRow viaje;
+        Viaje viaje;
         CompraDao dao;
 
         public SeleccionCabina()
@@ -22,7 +23,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             InitializeComponent();
         }
 
-        public SeleccionCabina(DataGridViewRow unViaje)
+        public SeleccionCabina(Viaje unViaje)
         {
             InitializeComponent();
             dao = new CompraDao();
@@ -36,7 +37,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void setupGrid(int cantiCabinas)
         {
-            this.dgvCabinas.DataSource = dao.getCabinasDisponibles((int)viaje.Cells["idViaje"].Value, cantiCabinas);
+            this.dgvCabinas.DataSource = dao.getCabinasDisponibles(viaje.idViaje, cantiCabinas);
         }
 
         private void search_Click(object sender, EventArgs e)
@@ -54,7 +55,8 @@ namespace FrbaCrucero.CompraReservaPasaje
             if (this.dgvCabinas.SelectedRows.Count == 1)
             {
                 DataGridViewRow unaCabina = this.dgvCabinas.SelectedRows[0];
-                IngresoCliente sc = new IngresoCliente(unaCabina, viaje, Int32.Parse(this.textCant.Text));
+                TipoCabina tipo = new TipoCabina(unaCabina);
+                IngresoCliente sc = new IngresoCliente(tipo, viaje, Int32.Parse(this.textCant.Text));
                 sc.ShowDialog();
             }
         }
