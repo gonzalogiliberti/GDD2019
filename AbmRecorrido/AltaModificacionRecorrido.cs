@@ -80,22 +80,26 @@ namespace FrbaCrucero.AbmRecorrido
             {
                 throw new Exception("El Recorrido Ingresado ya existe");
             }
-            this.dao.createRecorrido(codigo);
+            Decimal code;
+            Decimal.TryParse(codigo,out code);
+            this.dao.createRecorrido(code);
             //TODO: ACa hay que guardar el id del recorrido para poder accerder a los tramos y crear nuevos
-            //idRecorrido = this.dao.getIdRecorrido(codigo);
+            idRecorrido = this.dao.getIdRecorrido(code);
         }
 
         private void updateRecorrido()
         {
             String codigo = this.textCodigo.Text;
-            if (codigo != this.unRecorrido.Cells["Cordigo"].Value.ToString())
+            if (codigo != this.unRecorrido.Cells["Codigo"].Value.ToString())
             {
                 if (this.dao.verifyRecorridoExisted(codigo) != 0)
                 {
                     throw new Exception("El Recorrido Ingresado ya existe");
                 }
             }
-            this.dao.updateRecorrido(codigo);
+            Decimal code;
+            Decimal.TryParse(codigo, out code);
+            this.dao.updateRecorrido(code, (int)this.unRecorrido.Cells["idRecorrido"].Value);
         }
 
         private void addTramo_Click(object sender, EventArgs e)
@@ -105,8 +109,9 @@ namespace FrbaCrucero.AbmRecorrido
                 MessageBox.Show("Debe guardar el recorrido primero");
                 return;
             }
-            AltaModificacionTramo a = new AltaModificacionTramo(idRecorrido);
-            a.ShowDialog();
+            Tramos t = new Tramos(idRecorrido);
+            t.FormClosed += new System.Windows.Forms.FormClosedEventHandler(TramosCerrada);
+            t.Show();
         }
 
         private void delete_Click(object sender, EventArgs e)
@@ -119,5 +124,21 @@ namespace FrbaCrucero.AbmRecorrido
             this.dao.deleteRecorrido(idRecorrido);
         }
 
+        private void TramosCerrada(object sender, EventArgs e)
+        {
+            setupGrid();
+        }
+
+        private void deleteTramo_Click(object sender, EventArgs e)
+        {
+            if (idRecorrido == -1)
+            {
+                MessageBox.Show("Debe guardar el recorrido primero");
+                return;
+            }
+            RemoverTramo r = new RemoverTramo(idRecorrido);
+            r.FormClosed += new System.Windows.Forms.FormClosedEventHandler(TramosCerrada);
+            r.Show();
+        }
     }
 }

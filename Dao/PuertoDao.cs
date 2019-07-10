@@ -52,7 +52,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@Nombre", port.getPuerto());
 
-            db.executeProcedureWithParameters("cbo.sp_crear_puerto",dic);
+            db.executeProcedureWithParameters("dbo.sp_crear_puerto",dic);
         }
 
         public void updatePort(Puerto port)
@@ -61,7 +61,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@IdPuerto", port.getId());
             dic.Add("@Nombre", port.getPuerto());
 
-            db.executeProcedureWithParameters("cbo.sp_modificar_puerto", dic);
+            db.executeProcedureWithParameters("dbo.sp_modificar_puerto", dic);
         }
 
         public void deletePort(DataGridViewRow unPuerto)
@@ -72,7 +72,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@IdPuerto", idPuerto);
             dic.Add("@Nombre", nombrePuerto);
-            db.executeProcedureWithParameters("cbo.sp_borrar_puerto", dic);
+            db.executeProcedureWithParameters("dbo.sp_borrar_puerto", dic);
         }
     }
 }

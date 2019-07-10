@@ -11,12 +11,33 @@ namespace FrbaCrucero.AbmRecorrido
     class Recorrido
     {
         public Int32 idRecorrido;
-        public String codigo;
+        public Decimal codigo;
 
         public Recorrido(DataRow row)
         {
-            this.idRecorrido = Convert.ToInt32(row["idFabricante"]);
-            this.codigo = Convert.ToString(row["Fabricante"]);
+            this.idRecorrido = Convert.ToInt32(row["idRecorrido"]);
+            this.codigo = Convert.ToDecimal(row["codigo"]);
         }
+
+        public Recorrido(Decimal code)
+        {
+            this.codigo = code;
+        }
+
+        public override string ToString()
+        {
+            return this.codigo.ToString();
+        }
+        
+        public Int32 getId()
+        {
+            return idRecorrido;
+        }
+
+        public String getPuerto()
+        {
+            return codigo.ToString();
+        }
+
     }
 }

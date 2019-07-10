@@ -84,6 +84,7 @@
     <Compile Include="AbmRecorrido\AltaModificacionTramo.Designer.cs">
       <DependentUpon>AltaModificacionTramo.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRecorrido\Recorrido.cs" />
     <Compile Include="AbmRecorrido\Recorridos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,11 +92,35 @@
       <DependentUpon>Recorridos.cs</DependentUpon>
     </Compile>
     <Compile Include="AbmRecorrido\Tramo.cs" />
-    <Compile Include="AbmRol\Form1.cs">
+    <Compile Include="AbmRol\AltaFuncionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AbmRol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="AbmRol\AltaFuncionalidad.Designer.cs">
+      <DependentUpon>AltaFuncionalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\AltaModificacionRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\AltaModificacionRol.Designer.cs">
+      <DependentUpon>AltaModificacionRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\Funcionalidades.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Funcionalidades.Designer.cs">
+      <DependentUpon>Funcionalidades.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\RemoverFuncionalidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\RemoverFuncionalidad.Designer.cs">
+      <DependentUpon>RemoverFuncionalidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmRol\Roles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRol\Roles.Designer.cs">
+      <DependentUpon>Roles.cs</DependentUpon>
     </Compile>
     <Compile Include="CompraReservaPasaje\Form1.cs">
       <SubType>Form</SubType>
@@ -106,17 +131,18 @@
     <Compile Include="Dao\CruceroDao.cs" />
     <Compile Include="Dao\LoginDao.cs" />
     <Compile Include="Dao\RecorridoDao.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Dao\RolDao.cs" />
+    <Compile Include="PaginaPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="PaginaPrincipal.Designer.cs">
+      <DependentUpon>PaginaPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="GeneracionViaje\Form1.cs">
+    <Compile Include="GeneracionViaje\GeneracionViajes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GeneracionViaje\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GeneracionViaje\GeneracionViajes.Designer.cs">
+      <DependentUpon>GeneracionViajes.cs</DependentUpon>
     </Compile>
     <Compile Include="ListadoEstadistico\Form1.cs">
       <SubType>Form</SubType>
@@ -164,8 +190,26 @@
     <EmbeddedResource Include="AbmRecorrido\Recorridos.resx">
       <DependentUpon>Recorridos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="AbmRol\AltaFuncionalidad.resx">
+      <DependentUpon>AltaFuncionalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\AltaModificacionRol.resx">
+      <DependentUpon>AltaModificacionRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Funcionalidades.resx">
+      <DependentUpon>Funcionalidades.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\RemoverFuncionalidad.resx">
+      <DependentUpon>RemoverFuncionalidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRol\Roles.resx">
+      <DependentUpon>Roles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaginaPrincipal.resx">
+      <DependentUpon>PaginaPrincipal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeneracionViaje\GeneracionViajes.resx">
+      <DependentUpon>GeneracionViajes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>

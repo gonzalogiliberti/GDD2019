@@ -1,6 +1,6 @@
 ﻿namespace FrbaCrucero.AbmRecorrido
 {
-    partial class AltaModificacionRecorrido
+    partial class RemoverTramo
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.cancel = new System.Windows.Forms.Button();
             this.dgvTramo = new System.Windows.Forms.DataGridView();
             this.idTramo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idPuertoOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -36,16 +37,18 @@
             this.puertoDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
-            this.textCodigo = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.addTramo = new System.Windows.Forms.Button();
-            this.cancel = new System.Windows.Forms.Button();
-            this.delete = new System.Windows.Forms.Button();
-            this.save = new System.Windows.Forms.Button();
-            this.deleteTramo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTramo)).BeginInit();
             this.SuspendLayout();
+            // 
+            // cancel
+            // 
+            this.cancel.Location = new System.Drawing.Point(145, 285);
+            this.cancel.Name = "cancel";
+            this.cancel.Size = new System.Drawing.Size(114, 30);
+            this.cancel.TabIndex = 0;
+            this.cancel.Text = "Cancelar";
+            this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
             // dgvTramo
             // 
@@ -60,13 +63,13 @@
             this.idPuertoDestino,
             this.puertoDestino,
             this.Precio});
-            this.dgvTramo.Location = new System.Drawing.Point(83, 153);
+            this.dgvTramo.Location = new System.Drawing.Point(29, 65);
             this.dgvTramo.MultiSelect = false;
             this.dgvTramo.Name = "dgvTramo";
             this.dgvTramo.ReadOnly = true;
             this.dgvTramo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvTramo.Size = new System.Drawing.Size(346, 214);
-            this.dgvTramo.TabIndex = 1;
+            this.dgvTramo.TabIndex = 3;
             this.dgvTramo.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTramo_CellMouseDoubleClick);
             // 
             // idTramo
@@ -117,102 +120,22 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(56, 51);
+            this.label1.Location = new System.Drawing.Point(123, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Codigo";
+            this.label1.Size = new System.Drawing.Size(154, 13);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Seleccione el recorrido a borrar";
             // 
-            // textCodigo
-            // 
-            this.textCodigo.Location = new System.Drawing.Point(161, 44);
-            this.textCodigo.Name = "textCodigo";
-            this.textCodigo.Size = new System.Drawing.Size(152, 20);
-            this.textCodigo.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(56, 93);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Precio Total";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(161, 90);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(151, 20);
-            this.textBox2.TabIndex = 5;
-            // 
-            // addTramo
-            // 
-            this.addTramo.Location = new System.Drawing.Point(12, 414);
-            this.addTramo.Name = "addTramo";
-            this.addTramo.Size = new System.Drawing.Size(98, 24);
-            this.addTramo.TabIndex = 6;
-            this.addTramo.Text = "Agregar Tramo";
-            this.addTramo.UseVisualStyleBackColor = true;
-            this.addTramo.Click += new System.EventHandler(this.addTramo_Click);
-            // 
-            // cancel
-            // 
-            this.cancel.Location = new System.Drawing.Point(323, 413);
-            this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(76, 26);
-            this.cancel.TabIndex = 7;
-            this.cancel.Text = "Cancelar";
-            this.cancel.UseVisualStyleBackColor = true;
-            this.cancel.Click += new System.EventHandler(this.cancel_Click);
-            // 
-            // delete
-            // 
-            this.delete.Location = new System.Drawing.Point(414, 413);
-            this.delete.Name = "delete";
-            this.delete.Size = new System.Drawing.Size(86, 26);
-            this.delete.TabIndex = 8;
-            this.delete.Text = "Eliminar";
-            this.delete.UseVisualStyleBackColor = true;
-            this.delete.Click += new System.EventHandler(this.delete_Click);
-            // 
-            // save
-            // 
-            this.save.Location = new System.Drawing.Point(231, 414);
-            this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(81, 25);
-            this.save.TabIndex = 9;
-            this.save.Text = "Guardar";
-            this.save.UseVisualStyleBackColor = true;
-            this.save.Click += new System.EventHandler(this.save_Click);
-            // 
-            // deleteTramo
-            // 
-            this.deleteTramo.Location = new System.Drawing.Point(116, 414);
-            this.deleteTramo.Name = "deleteTramo";
-            this.deleteTramo.Size = new System.Drawing.Size(100, 25);
-            this.deleteTramo.TabIndex = 10;
-            this.deleteTramo.Text = "Remover Tramo";
-            this.deleteTramo.UseVisualStyleBackColor = true;
-            this.deleteTramo.Click += new System.EventHandler(this.deleteTramo_Click);
-            // 
-            // AltaModificacionRecorrido
+            // RemoverTramo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(512, 450);
-            this.Controls.Add(this.deleteTramo);
-            this.Controls.Add(this.save);
-            this.Controls.Add(this.delete);
-            this.Controls.Add(this.cancel);
-            this.Controls.Add(this.addTramo);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textCodigo);
+            this.ClientSize = new System.Drawing.Size(407, 347);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvTramo);
-            this.Name = "AltaModificacionRecorrido";
-            this.Text = "AltaModificacionRecorrido";
+            this.Controls.Add(this.cancel);
+            this.Name = "RemoverTramo";
+            this.Text = "RemoverTramo";
             ((System.ComponentModel.ISupportInitialize)(this.dgvTramo)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -221,22 +144,14 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dgvTramo;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textCodigo;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button addTramo;
         private System.Windows.Forms.Button cancel;
-        private System.Windows.Forms.Button delete;
-        private System.Windows.Forms.Button save;
+        private System.Windows.Forms.DataGridView dgvTramo;
         private System.Windows.Forms.DataGridViewTextBoxColumn idTramo;
         private System.Windows.Forms.DataGridViewTextBoxColumn idPuertoOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn puertoOrigen;
         private System.Windows.Forms.DataGridViewTextBoxColumn idPuertoDestino;
         private System.Windows.Forms.DataGridViewTextBoxColumn puertoDestino;
         private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
-        private System.Windows.Forms.Button deleteTramo;
-
+        private System.Windows.Forms.Label label1;
     }
 }

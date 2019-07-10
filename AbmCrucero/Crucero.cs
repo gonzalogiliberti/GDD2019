@@ -70,5 +70,19 @@ namespace FrbaCrucero.AbmCrucero
             return this.cantidadCabinas;
         }
 
+        public override string ToString()
+        {
+            return this.identificador;
+        }
+
+        public Int32 getId()
+        {
+            return idCrucero;
+        }
+
+        public String getCrucero()
+        {
+            return identificador;
+        }
     }
 }

@@ -18,7 +18,6 @@ namespace FrbaCrucero.AbmRecorrido
         PuertoDao daoPuerto;
         DataGridViewRow unTramo;
         bool newTramo = true;
-        int idRecorrido;
 
         public AltaModificacionTramo()
         {
@@ -26,24 +25,15 @@ namespace FrbaCrucero.AbmRecorrido
             InitializeComponent();
             dao = new RecorridoDao();
             daoPuerto = new PuertoDao();
-        }
-
-        public AltaModificacionTramo(int idRecorrido)
-        {
-            InitializeComponent();
-            dao = new RecorridoDao();
-            this.idRecorrido = idRecorrido;
-            daoPuerto = new PuertoDao();
             setupCombos();
         }
 
-        public AltaModificacionTramo(DataGridViewRow unTramo, int idRecorrido)
+        public AltaModificacionTramo(DataGridViewRow unTramo)
         {
             InitializeComponent();
             dao = new RecorridoDao();
             this.unTramo = unTramo;
             newTramo = false;
-            this.idRecorrido = idRecorrido;
             daoPuerto = new PuertoDao();
             setupCombos();
             this.comboOrigen.Text = unTramo.Cells["puertoOrigen"].Value.ToString();
@@ -70,7 +60,7 @@ namespace FrbaCrucero.AbmRecorrido
 
         private void delete_Click(object sender, EventArgs e)
         {
-            this.dao.deleteTramo(idRecorrido, (int)this.unTramo.Cells["idTramo"].Value);
+            this.dao.deleteTramo((int)this.unTramo.Cells["idTramo"].Value);
         }
 
         private void save_Click(object sender, EventArgs e)
@@ -89,11 +79,11 @@ namespace FrbaCrucero.AbmRecorrido
         {
             Tramo unTramo = getFormData();
             CheckEmptyFields();
-            if (this.dao.verifyTramoExisted(unTramo.idPuertoOrigen, unTramo.idPuertoDestino, idRecorrido) != 0)
+            if (this.dao.verifyTramoExisted(unTramo.idPuertoOrigen, unTramo.idPuertoDestino) != 0)
             {
                 throw new Exception("El Crucero Ingresado ya existe");
             }
-            this.dao.createTramo(idRecorrido, unTramo.idPuertoOrigen, unTramo.idPuertoDestino, unTramo.precio);
+            this.dao.createTramo(unTramo.idPuertoOrigen, unTramo.idPuertoDestino, unTramo.precio);
         }
 
         private void updateTramo()
@@ -105,12 +95,12 @@ namespace FrbaCrucero.AbmRecorrido
             int pDestino = (int)this.unTramo.Cells["puertoDestino"].Value;
             if ((pOrigen != unTramo.idPuertoOrigen) || (pDestino != unTramo.idPuertoDestino))
             {
-                if (this.dao.verifyTramoExisted(unTramo.idPuertoOrigen, unTramo.idPuertoDestino, idRecorrido) != 0)
+                if (this.dao.verifyTramoExisted(unTramo.idPuertoOrigen, unTramo.idPuertoDestino) != 0)
                 {
-                    throw new Exception("El Crucero Ingresado ya existe");
+                    throw new Exception("El Tramo Ingresado ya existe");
                 }
             }
-            this.dao.updateTramo(idTramo, idRecorrido, unTramo.idPuertoOrigen, unTramo.idPuertoDestino, unTramo.precio);
+            this.dao.updateTramo(idTramo, unTramo.idPuertoOrigen, unTramo.idPuertoDestino, unTramo.precio);
         }
 
         private Tramo getFormData()
