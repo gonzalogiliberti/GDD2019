@@ -823,7 +823,7 @@ AS BEGIN
 	declare @idCabina int
 
 	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
-	and c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje)
+	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) or c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
 
 	declare @codigo decimal(18,0)
 	select @codigo = MAX(codigoPasaje) from Compra
@@ -831,6 +831,33 @@ AS BEGIN
 
 	insert into Compra(idViaje, idCliente, cantidadPasajes, medioPago, fecha, precioTotal,idCabina, codigoPasaje)
 	values (@idViaje, @idCli, @cantPasajes, @medioPago, GETDATE(), @precioTotal, @idCabina, @codigo)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_crear_reserva') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_reserva
+GO
+Create PROCEDURE dbo.sp_crear_reserva (@idCli int, @idViaje int, @tipoCabina int,@cantPasajes int, @idCrucero int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	
+	declare @idCabina int
+
+	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
+	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) or c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
+
+	declare @codigo decimal(18,0)
+	select @codigo = MAX(codigoReserva) from Reserva
+	set @codigo = @codigo + 1
+
+	insert into Reserva(idViaje, idCliente, cantidadPasajeros, fecha, idCabina, codigoReserva)
+	values (@idViaje, @idCli, @cantPasajes, GETDATE(), @idCabina, @codigo)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;

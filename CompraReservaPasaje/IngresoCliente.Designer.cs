@@ -218,6 +218,7 @@
             this.reserve.Text = "Reservar";
             this.reserve.UseVisualStyleBackColor = true;
             this.reserve.Visible = false;
+            this.reserve.Click += new System.EventHandler(this.reserve_Click);
             // 
             // labelTelefono
             // 

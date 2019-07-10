@@ -163,5 +163,15 @@ namespace FrbaCrucero.CompraReservaPasaje
             Pago pago = new Pago(viaje, cabina, cliente, cantPasajeros);
             pago.ShowDialog();
         }
+
+        private void reserve_Click(object sender, EventArgs e)
+        {
+            if (cliente == null)
+            {
+                MessageBox.Show("Debe guardar los datos del cliente primero");
+                return;
+            }
+            dao.reserve(cliente, viaje, cabina, cantPasajeros);
+        }
     }
 }

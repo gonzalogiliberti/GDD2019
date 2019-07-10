@@ -107,5 +107,17 @@ namespace FrbaCrucero.Dao
 
             db.executeProcedureWithParameters("dbo.sp_crear_compra", dic);
         }
+
+        public void reserve(Cliente cliente, Viaje viaje, TipoCabina tipoCabina, int cantPasajes)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@idCli", cliente.idCliente);
+            dic.Add("@idViaje", viaje.idViaje);
+            dic.Add("@tipoCabina", tipoCabina.idTipo);
+            dic.Add("@cantPasajes", cantPasajes);
+            dic.Add("@idCrucero", viaje.idCrucero);
+
+            db.executeProcedureWithParameters("dbo.sp_crear_reserva", dic);
+        }
     }
 }
