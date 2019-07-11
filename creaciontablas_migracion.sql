@@ -611,11 +611,11 @@ insert into dbo.Funcion (nombre) values ('Alta Viaje')
 insert into dbo.Funcion (nombre) values ('Estadistica')
 
 -- Rol de Admin
-insert into dbo.Rol (rol_Nombre) value ('Administrador')
+insert into dbo.Rol (rol_Nombre) values ('Administrador')
 GO
 
-insert into dbo.RolxFuncion (idRol, idFuncion) (select
-GO
+--insert into dbo.RolxFuncion (idRol, idFuncion) (select
+--GO
 
 -- Carga de tarjetas de credito
 insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('VISA', 'Visa', 12)
@@ -956,6 +956,22 @@ AS BEGIN
 
     BEGIN TRANSACTION T1
 	Update Puerto set Nombre = @Nombre where idPuerto = @IdPuerto
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_pagar_reserva') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_pagar_reserva
+GO
+Create PROCEDURE dbo.sp_pagar_reserva (@codigoReserva decimal(18,0)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Reserva set pagada = 1 where codigoReserva = @codigoReserva
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;

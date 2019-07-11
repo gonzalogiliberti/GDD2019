@@ -162,5 +162,14 @@ namespace FrbaCrucero.Dao
             }
             return dt.Rows[0];
         }
+
+        public void markReservePaid(decimal codigo)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@codigoReserva", codigo);
+
+            db.executeProcedureWithParameters("dbo.sp_pagar_reserva", dic);
+        }
+
     }
 }

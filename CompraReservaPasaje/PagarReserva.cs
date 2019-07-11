@@ -38,7 +38,8 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             if (this.textCodigo.Text != "")
             {
-                DataRow r = this.dao.getReserve(Convert.ToDecimal(this.textCodigo.Text));
+                decimal codigo = Convert.ToDecimal(this.textCodigo.Text);
+                DataRow r = this.dao.getReserve(codigo);
 
                 if (Convert.ToDateTime(r["fecha"]) >= DateTime.Now.AddDays(-3))
                 {
@@ -47,7 +48,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                     int idTipo = cDao.getTipoCabinaId(Convert.ToInt32(r["idCabina"]));
                     tipo = cDao.getTipoCabina(idTipo);
                     cantPasajes = Convert.ToInt32(r["cantidadPasajeros"]);
-                    Pago p = new Pago(viaje, tipo, cliente, cantPasajes);
+                    Pago p = new Pago(viaje, tipo, cliente, cantPasajes, codigo);
                     p.FormClosed += new System.Windows.Forms.FormClosedEventHandler(PagoCerrado);
                     p.Show();
                 }
