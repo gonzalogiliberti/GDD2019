@@ -119,5 +119,48 @@ namespace FrbaCrucero.Dao
 
             db.executeProcedureWithParameters("dbo.sp_crear_reserva", dic);
         }
+
+        public int getClientId(Cliente cliente)
+        {
+            DataTable dt = db.select_query("select c.idCliente from Cliente c where dni = " + cliente.dni +" and Nombre = '" + cliente.nombre + "' and Apellido = '" + cliente.apellido +"'");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["idCliente"]);
+        }
+
+        public Viaje getViaje(int viajeId)
+        {
+            DataTable dt = db.select_query("select * from Viaje where idViaje = " + viajeId);
+            if (dt.Rows.Count != 1)
+            {
+                return null;
+            }
+            DataRow r = dt.Rows[0];
+            return new Viaje(r);
+        }
+
+        public Cliente getCliente(int clienteId)
+        {
+            DataTable dt = db.select_query("select * from Cliente where idCliente = " + clienteId);
+            if (dt.Rows.Count != 1)
+            {
+                return null;
+            }
+            DataRow r = dt.Rows[0];
+            return new Cliente(r);
+        }
+
+        public DataRow getReserve(Decimal codigo)
+        {
+            DataTable dt = db.select_query("select * from Reserva where codigoReserva = " + codigo);
+            if (dt.Rows.Count != 1)
+            {
+                return null;
+            }
+            return dt.Rows[0];
+        }
     }
 }

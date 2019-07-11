@@ -58,5 +58,11 @@ namespace FrbaCrucero
             CompraReserva c = new CompraReserva();
             c.ShowDialog();
         }
+
+        private void payReserve_Click(object sender, EventArgs e)
+        {
+            PagarReserva p = new PagarReserva();
+            p.ShowDialog();
+        }
     }
 }

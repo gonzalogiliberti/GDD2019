@@ -20,5 +20,12 @@ namespace FrbaCrucero.AbmCrucero
             this.tipo = unaCabina.Cells["Tipo"].Value.ToString();
             this.recargo = (decimal)unaCabina.Cells["Recargo"].Value;
         }
+
+        public TipoCabina(DataRow unaCabina)
+        {
+            this.idTipo = Convert.ToInt32(unaCabina["idTipoCabina"]);
+            this.tipo = Convert.ToString(unaCabina["Nombre"]);
+            this.recargo = Convert.ToDecimal(unaCabina["Recargo"]);
+        }
     }
 }

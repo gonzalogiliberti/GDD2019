@@ -120,6 +120,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                 {
                     cliente = getFormData();
                     this.dao.createClient(cliente);
+                    cliente.idCliente = this.dao.getClientId(cliente);
                     MessageBox.Show("Se guardaron correctamente los datos del cliente");
                 }
                 else

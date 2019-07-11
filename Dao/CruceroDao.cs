@@ -164,5 +164,27 @@ namespace FrbaCrucero.Dao
 
             return cruceros;
         }
+
+        public int getTipoCabinaId(int idCabina)
+        {
+            DataTable dt = db.select_query("select c.TipoCabina from Cabina c where idCabina = " + idCabina);
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["TipoCabina"]);
+        }
+
+        public TipoCabina getTipoCabina(int tipo)
+        {
+            DataTable dt = db.select_query("select * from TipoCabina where idTipoCabina = " + tipo);
+            if (dt.Rows.Count != 1)
+            {
+                return null;
+            }
+            DataRow r = dt.Rows[0];
+            return new TipoCabina(r);
+        }
     }
 }
