@@ -104,6 +104,7 @@ CREATE TABLE [dbo].[Crucero](
 	[Fabricante] [int],
 	[TipoServicio] [int],
 	[CantidadCabinas] [int],
+	[Activo] [char] default 'A',
  CONSTRAINT [PK_Crucero] PRIMARY KEY CLUSTERED 
 (
 	[intCrucero] ASC
@@ -552,17 +553,37 @@ GO
 insert into dbo.TipoBaja(Nombre) values ('Fuera de Servicio')
 GO
 --Migracion Datos Compra
-insert into dbo.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idCabina) 
-  (select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO, V.idViaje, Cli.idCliente, Cab.idCabina
-  from gd_esquema.Maestra M, Crucero Cru, Recorrido R, Viaje V, Cliente Cli, Cabina Cab
-  where PASAJE_CODIGO Is not null and
-		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO and
-		R.Codigo = RECORRIDO_CODIGO and
-		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and V.idRecorrido = R.idRecorrido and 
-		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
-		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = Cru.intCrucero)
-GO
+/*
+select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO,CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, RECORRIDO_CODIGO, FECHA_SALIDA, FECHA_LLEGADA, CLI_DNI, CLI_APELLIDO, CLI_NOMBRE, CLI_FECHA_NAC, CABINA_NRO, CABINA_PISO, V.idViaje, Identificador, Modelo, Cru.intCrucero
+into #temp_Compra
+from gd_esquema.Maestra M, Viaje V, Crucero Cru
+where PASAJE_CODIGO Is not null and
+		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
+		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
 
+insert into dbo.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idCabina) 
+  ( select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina
+	from #temp_Compra M, Cliente Cli, Cabina Cab
+	where PASAJE_CODIGO Is not null and
+		  M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
+		  Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
+GO*/
+--Migracion Datos Reserva
+/*
+select RESERVA_FECHA, PASAJE_PRECIO, RESERVA_CODIGO, CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, RECORRIDO_CODIGO, FECHA_SALIDA, FECHA_LLEGADA, CLI_DNI, CLI_APELLIDO, CLI_NOMBRE, CLI_FECHA_NAC, CABINA_NRO, CABINA_PISO, V.idViaje, Identificador, Modelo, Cru.intCrucero
+into #temp_Reserva
+from gd_esquema.Maestra M, Viaje V, Crucero Cru
+where RESERVA_CODIGO Is not null and
+		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
+		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
+
+insert into dbo.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina) 
+(	select RESERVA_FECHA, RESERVA_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina
+	from #temp_Reserva M, Cliente Cli, Cabina Cab
+	where RESERVA_CODIGO Is not null and
+		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
+		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
+GO*/
 --Stores Funcion y Rol
 IF (OBJECT_ID ('dbo.sp_crear_funcion') IS NOT NULL)
 	DROP PROCEDURE dbo.sp_crear_funcion
