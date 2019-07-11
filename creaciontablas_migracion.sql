@@ -1,5 +1,3 @@
-
-GO
 CREATE TABLE [dbo].[Baja](
 	[idBaja] [int] NOT NULL,
 	[idTipoBaja] [int] NOT NULL,
@@ -79,7 +77,7 @@ CREATE TABLE [dbo].[Compra](
 	[idCliente] [int],
 	[cantidadPasajes] [int],
 	[medioPago] [int],
-	[tarjetaCredito] [int],
+	[tarjetaCredito] [char](4),
 	[fecha] [datetime2](3),
 	[precioTotal] [decimal](18,2),
 	[idCabina] [int],
@@ -104,6 +102,7 @@ CREATE TABLE [dbo].[Crucero](
 	[Fabricante] [int],
 	[TipoServicio] [int],
 	[CantidadCabinas] [int],
+	[Activo] [char] default 'A',
  CONSTRAINT [PK_Crucero] PRIMARY KEY CLUSTERED 
 (
 	[intCrucero] ASC
@@ -220,6 +219,7 @@ CREATE TABLE [dbo].[Reserva](
 	[fecha] [datetime2](3) ,
 	[idCabina] [int],
 	[codigoReserva] [decimal](18,0),
+	[pagada] bit,
  CONSTRAINT [PK_Reserva] PRIMARY KEY CLUSTERED 
 (
 	[idReserva] ASC
@@ -283,7 +283,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[TarjetaCredito](
-	[idTarjetaCredito] [int] IDENTITY(1,1),
+	[idTarjetaCredito] [char](4),
 	[Nombre] [nvarchar](255),
 	[cuotas] [int],
  CONSTRAINT [PK_TarjetaCredito] PRIMARY KEY CLUSTERED 
@@ -552,16 +552,77 @@ GO
 insert into dbo.TipoBaja(Nombre) values ('Fuera de Servicio')
 GO
 --Migracion Datos Compra
+
+select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO,CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, RECORRIDO_CODIGO, FECHA_SALIDA, FECHA_LLEGADA, CLI_DNI, CLI_APELLIDO, CLI_NOMBRE, CLI_FECHA_NAC, CABINA_NRO, CABINA_PISO, V.idViaje, Identificador, Modelo, Cru.intCrucero
+into #temp_Compra
+from gd_esquema.Maestra M, Viaje V, Crucero Cru
+where PASAJE_CODIGO Is not null and
+		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
+		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
+
 insert into dbo.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idCabina) 
-  (select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO, V.idViaje, Cli.idCliente, Cab.idCabina
-  from gd_esquema.Maestra M, Crucero Cru, Recorrido R, Viaje V, Cliente Cli, Cabina Cab
-  where PASAJE_CODIGO Is not null and
-		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO and
-		R.Codigo = RECORRIDO_CODIGO and
-		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and V.idRecorrido = R.idRecorrido and 
-		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
-		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = Cru.intCrucero)
+  ( select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina
+	from #temp_Compra M, Cliente Cli, Cabina Cab
+	where PASAJE_CODIGO Is not null and
+		  M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
+		  Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
 GO
+--Migracion Datos Reserva
+
+select RESERVA_FECHA, PASAJE_PRECIO, RESERVA_CODIGO, CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, RECORRIDO_CODIGO, FECHA_SALIDA, FECHA_LLEGADA, CLI_DNI, CLI_APELLIDO, CLI_NOMBRE, CLI_FECHA_NAC, CABINA_NRO, CABINA_PISO, V.idViaje, Identificador, Modelo, Cru.intCrucero
+into #temp_Reserva
+from gd_esquema.Maestra M, Viaje V, Crucero Cru
+where RESERVA_CODIGO Is not null and
+		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
+		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
+
+insert into dbo.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina, pagada) 
+(	select RESERVA_FECHA, RESERVA_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina, 1
+	from #temp_Reserva M, Cliente Cli, Cabina Cab
+	where RESERVA_CODIGO Is not null and
+		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
+		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
+GO
+--Se agregan las funciones y los roles para el administrador
+-- ROL
+insert into dbo.Funcion (nombre) values ('Alta Rol')
+insert into dbo.Funcion (nombre) values ('Modificacion Rol')
+insert into dbo.Funcion (nombre) values ('Baja Rol')
+
+-- Puerto
+insert into dbo.Funcion (nombre) values ('Alta Puerto')
+insert into dbo.Funcion (nombre) values ('Modificacion Puerto')
+insert into dbo.Funcion (nombre) values ('Baja Puerto')
+
+-- Recorrido
+insert into dbo.Funcion (nombre) values ('Alta Recorrido')
+insert into dbo.Funcion (nombre) values ('Modificacion Recorrido')
+insert into dbo.Funcion (nombre) values ('Baja Recorrido')
+
+-- Crucero
+insert into dbo.Funcion (nombre) values ('Alta Crucero')
+insert into dbo.Funcion (nombre) values ('Modificacion Crucero')
+insert into dbo.Funcion (nombre) values ('Baja Crucero')
+
+-- Viaje
+insert into dbo.Funcion (nombre) values ('Alta Viaje')
+
+-- Estadisticas
+insert into dbo.Funcion (nombre) values ('Estadistica')
+
+-- Rol de Admin
+insert into dbo.Rol (rol_Nombre) value ('Administrador')
+GO
+
+insert into dbo.RolxFuncion (idRol, idFuncion) (select
+GO
+
+-- Carga de tarjetas de credito
+insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('VISA', 'Visa', 12)
+insert into [TarjetaCredito](idTarjetaCredito ,Nombre, cuotas) values ('MAST', 'Mastercard', 6)
+insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('AMEX', 'AmeX', 3)
+
+-- Carga de Medios de Pago
 insert into MedioPAgo(Nombre) Values ('Tarjeta de Credito')
 insert into MedioPAgo(Nombre) Values ('Transferencia Bancaria')
 insert into MedioPAgo(Nombre) Values ('Efectivo')
