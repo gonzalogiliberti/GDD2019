@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FrbaCrucero.Util;
 using System.Data;
+using FrbaCrucero.CompraReservaPasaje;
+using FrbaCrucero.AbmCrucero;
 
 namespace FrbaCrucero.Dao
 {
@@ -21,7 +23,7 @@ namespace FrbaCrucero.Dao
         public DataTable getAllTrips(int pOri, int pDest, DateTime inicio)
         {
             
-            string query = "select V.idViaje, t.puertoOrigen AS idPuertoOri, p1.Nombre AS PuertoOri, t.puertoDestino AS idPuertoDest, p2.Nombre as PuertoDest, V.FechaInicio, V.FechaFin, c.intCrucero as idCrucero, c.Identificador from Viaje V, RecorridoXTramo rxt, Recorrido r, Tramo t, Puerto p1, Puerto p2, Crucero c ";
+            string query = "select V.idViaje, t.puertoOrigen AS idPuertoOri, p1.Nombre AS PuertoOri, t.puertoDestino AS idPuertoDest, p2.Nombre as PuertoDest, V.FechaInicio, V.FechaFin, c.intCrucero as idCrucero, c.Identificador, v.idRecorrido from Viaje V, RecorridoXTramo rxt, Recorrido r, Tramo t, Puerto p1, Puerto p2, Crucero c ";
             query += "where V.FechaInicio = '" + inicio + "' and t.puertoOrigen = "+ pOri + " and t.puertoDestino = " + pDest +" and rxt.idTramo = t.idTramo and ";
             query += "rxt.idRecorrido = r.idRecorrido and rxt.orden = 0 and p1.idPuerto = " + pOri +" and p2.idPuerto = " + pDest + " and c.intCrucero = v.idCrucero";
             return db.select_query(query);
@@ -38,6 +40,84 @@ namespace FrbaCrucero.Dao
         public DataTable searchCliente(decimal dni)
         {
             return db.select_query("select c.idCliente, c.Nombre, c.Apellido, c.mail, c.direccion, c.fechaNac, c.telefono, c.dni from Cliente c where c.dni = " + dni);
+        }
+
+        public void createClient(Cliente cli)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@nombre", cli.nombre);
+            dic.Add("@apellido", cli.apellido);
+            dic.Add("@telefono", cli.telefono);
+            dic.Add("@mail", cli.mail);
+            dic.Add("@direccion", cli.direccion);
+            dic.Add("@dni", cli.dni);
+            dic.Add("@fechaNac", cli.fechaNac);
+
+            db.executeProcedureWithParameters("dbo.sp_crear_cliente", dic);
+        }
+
+        public void updateClient(Cliente cli)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("idCli", cli.idCliente);
+            dic.Add("@nombre", cli.nombre);
+            dic.Add("@apellido", cli.apellido);
+            dic.Add("@telefono", cli.telefono);
+            dic.Add("@mail", cli.mail);
+            dic.Add("@direccion", cli.direccion);
+            dic.Add("@dni", cli.dni);
+            dic.Add("@fechaNac", cli.fechaNac);
+
+            db.executeProcedureWithParameters("dbo.sp_update_cliente", dic);
+        }
+
+        public List<MedioPAgo> getMedioPagos()
+        {
+            List<MedioPAgo> medios = new List<MedioPAgo>();
+            DataTable dt = db.select_query("SELECT m.idMedioPago, m.Nombre FROM dbo.MedioPAgo m");
+
+            foreach (DataRow row in dt.Rows)
+            {
+                medios.Add(new MedioPAgo(row));
+            }
+
+            return medios;
+        }
+
+        public void pay(Cliente cliente, Viaje viaje, TipoCabina tipoCabina, MedioPAgo mp, decimal precioTotal, TarjetaCredito tarjeta, int cantPasajes)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@idCli", cliente.idCliente);
+            dic.Add("@idViaje", viaje.idViaje);
+            dic.Add("@tipoCabina", tipoCabina.idTipo);
+            dic.Add("@medioPago", mp.idMedioPago);
+            if (tarjeta != null)
+            {
+                dic.Add("@tarjetaNombre", tarjeta.nombre);
+                dic.Add("@tarjetaCoutas", tarjeta.coutas);
+            }
+            else
+            {
+                dic.Add("@tarjetaNombre", "");
+                dic.Add("@tarjetaCoutas", 0);
+            }
+            dic.Add("@precioTotal", precioTotal );
+            dic.Add("@cantPasajes", cantPasajes );
+            dic.Add("@idCrucero", viaje.idCrucero);
+
+            db.executeProcedureWithParameters("dbo.sp_crear_compra", dic);
+        }
+
+        public void reserve(Cliente cliente, Viaje viaje, TipoCabina tipoCabina, int cantPasajes)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@idCli", cliente.idCliente);
+            dic.Add("@idViaje", viaje.idViaje);
+            dic.Add("@tipoCabina", tipoCabina.idTipo);
+            dic.Add("@cantPasajes", cantPasajes);
+            dic.Add("@idCrucero", viaje.idCrucero);
+
+            db.executeProcedureWithParameters("dbo.sp_crear_reserva", dic);
         }
     }
 }

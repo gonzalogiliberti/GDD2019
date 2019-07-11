@@ -196,6 +196,7 @@
             this.saveClient.Text = "Guardar Datos";
             this.saveClient.UseVisualStyleBackColor = true;
             this.saveClient.Visible = false;
+            this.saveClient.Click += new System.EventHandler(this.saveClient_Click);
             // 
             // pay
             // 
@@ -206,6 +207,7 @@
             this.pay.Text = "Pagar";
             this.pay.UseVisualStyleBackColor = true;
             this.pay.Visible = false;
+            this.pay.Click += new System.EventHandler(this.pay_Click);
             // 
             // reserve
             // 
@@ -216,6 +218,7 @@
             this.reserve.Text = "Reservar";
             this.reserve.UseVisualStyleBackColor = true;
             this.reserve.Visible = false;
+            this.reserve.Click += new System.EventHandler(this.reserve_Click);
             // 
             // labelTelefono
             // 

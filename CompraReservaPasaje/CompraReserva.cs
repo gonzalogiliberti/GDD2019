@@ -59,7 +59,8 @@ namespace FrbaCrucero.CompraReservaPasaje
             if (this.dgvViajes.SelectedRows.Count == 1)
             {
                 DataGridViewRow unViaje = this.dgvViajes.SelectedRows[0];
-                SeleccionCabina sc = new SeleccionCabina(unViaje);
+                Viaje viaje = new Viaje(unViaje);
+                SeleccionCabina sc = new SeleccionCabina(viaje);
                 sc.ShowDialog();
             }
         }
@@ -67,7 +68,8 @@ namespace FrbaCrucero.CompraReservaPasaje
         private void dgvViajes_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow unViaje = this.dgvViajes.SelectedRows[0];
-            SeleccionCabina sc = new SeleccionCabina(unViaje);
+            Viaje viaje = new Viaje(unViaje);
+            SeleccionCabina sc = new SeleccionCabina(viaje);
             sc.ShowDialog();
         }
     }
