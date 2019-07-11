@@ -77,7 +77,7 @@ CREATE TABLE [dbo].[Compra](
 	[idCliente] [int],
 	[cantidadPasajes] [int],
 	[medioPago] [int],
-	[tarjetaCredito] [int],
+	[tarjetaCredito] [char](4),
 	[fecha] [datetime2](3),
 	[precioTotal] [decimal](18,2),
 	[idCabina] [int],
@@ -219,6 +219,7 @@ CREATE TABLE [dbo].[Reserva](
 	[fecha] [datetime2](3) ,
 	[idCabina] [int],
 	[codigoReserva] [decimal](18,0),
+	[pagada] bit,
  CONSTRAINT [PK_Reserva] PRIMARY KEY CLUSTERED 
 (
 	[idReserva] ASC
@@ -282,7 +283,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[TarjetaCredito](
-	[idTarjetaCredito] [int] IDENTITY(1,1),
+	[idTarjetaCredito] [char](4),
 	[Nombre] [nvarchar](255),
 	[cuotas] [int],
  CONSTRAINT [PK_TarjetaCredito] PRIMARY KEY CLUSTERED 
@@ -575,8 +576,8 @@ where RESERVA_CODIGO Is not null and
 		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
 		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
 
-insert into dbo.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina) 
-(	select RESERVA_FECHA, RESERVA_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina
+insert into dbo.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina, pagada) 
+(	select RESERVA_FECHA, RESERVA_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina, 1
 	from #temp_Reserva M, Cliente Cli, Cabina Cab
 	where RESERVA_CODIGO Is not null and
 		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
@@ -616,6 +617,12 @@ GO
 insert into dbo.RolxFuncion (idRol, idFuncion) (select
 GO
 
+-- Carga de tarjetas de credito
+insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('VISA', 'Visa', 12)
+insert into [TarjetaCredito](idTarjetaCredito ,Nombre, cuotas) values ('MAST', 'Mastercard', 6)
+insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('AMEX', 'AmeX', 3)
+
+-- Carga de Medios de Pago
 insert into MedioPAgo(Nombre) Values ('Tarjeta de Credito')
 insert into MedioPAgo(Nombre) Values ('Transferencia Bancaria')
 insert into MedioPAgo(Nombre) Values ('Efectivo')
