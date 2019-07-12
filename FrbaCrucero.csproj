@@ -50,6 +50,7 @@
     <Compile Include="AbmCrucero\AltaModificacionCrucero.Designer.cs">
       <DependentUpon>AltaModificacionCrucero.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCrucero\TipoCabina.cs" />
     <Compile Include="AbmCrucero\Crucero.cs" />
     <Compile Include="AbmCrucero\Cruceros.cs">
       <SubType>Form</SubType>
@@ -91,7 +92,19 @@
     <Compile Include="AbmRecorrido\Recorridos.Designer.cs">
       <DependentUpon>Recorridos.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmRecorrido\RemoverTramo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRecorrido\RemoverTramo.Designer.cs">
+      <DependentUpon>RemoverTramo.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRecorrido\Tramo.cs" />
+    <Compile Include="AbmRecorrido\Tramos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmRecorrido\Tramos.Designer.cs">
+      <DependentUpon>Tramos.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmRol\AltaFuncionalidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,16 +135,52 @@
     <Compile Include="AbmRol\Roles.Designer.cs">
       <DependentUpon>Roles.cs</DependentUpon>
     </Compile>
-    <Compile Include="CompraReservaPasaje\Form1.cs">
+    <Compile Include="CompraReservaPasaje\Cliente.cs" />
+    <Compile Include="CompraReservaPasaje\CompraReserva.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CompraReservaPasaje\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="CompraReservaPasaje\CompraReserva.Designer.cs">
+      <DependentUpon>CompraReserva.cs</DependentUpon>
     </Compile>
+    <Compile Include="CompraReservaPasaje\IngresoCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\IngresoCliente.Designer.cs">
+      <DependentUpon>IngresoCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\MedioPAgo.cs" />
+    <Compile Include="CompraReservaPasaje\Pago.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\Pago.Designer.cs">
+      <DependentUpon>Pago.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\PagarReserva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\PagarReserva.Designer.cs">
+      <DependentUpon>PagarReserva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\SeleccionCabina.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\SeleccionCabina.Designer.cs">
+      <DependentUpon>SeleccionCabina.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\SelectCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\SelectCliente.Designer.cs">
+      <DependentUpon>SelectCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CompraReservaPasaje\TarjetaCredito.cs" />
+    <Compile Include="CompraReservaPasaje\Viaje.cs" />
+    <Compile Include="Dao\CompraDao.cs" />
     <Compile Include="Dao\CruceroDao.cs" />
     <Compile Include="Dao\LoginDao.cs" />
     <Compile Include="Dao\RecorridoDao.cs" />
     <Compile Include="Dao\RolDao.cs" />
+    <Compile Include="Dao\ViajeDao.cs" />
     <Compile Include="PaginaPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -190,6 +239,12 @@
     <EmbeddedResource Include="AbmRecorrido\Recorridos.resx">
       <DependentUpon>Recorridos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmRecorrido\RemoverTramo.resx">
+      <DependentUpon>RemoverTramo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmRecorrido\Tramos.resx">
+      <DependentUpon>Tramos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\AltaFuncionalidad.resx">
       <DependentUpon>AltaFuncionalidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -204,6 +259,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AbmRol\Roles.resx">
       <DependentUpon>Roles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\CompraReserva.resx">
+      <DependentUpon>CompraReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\IngresoCliente.resx">
+      <DependentUpon>IngresoCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\Pago.resx">
+      <DependentUpon>Pago.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\PagarReserva.resx">
+      <DependentUpon>PagarReserva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\SeleccionCabina.resx">
+      <DependentUpon>SeleccionCabina.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CompraReservaPasaje\SelectCliente.resx">
+      <DependentUpon>SelectCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PaginaPrincipal.resx">
       <DependentUpon>PaginaPrincipal.cs</DependentUpon>
