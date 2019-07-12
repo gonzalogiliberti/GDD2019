@@ -16,7 +16,7 @@ namespace FrbaCrucero.Dao
             this.db = DatabaseController.getInstance();
         }
 
-        public void createViaje(DateTime fIni, DateTime fFin, int idCrucero, int idRecorrido)
+        public void createViaje(DateTime fIni, DateTime fFin, int idRecorrido, int idCrucero)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@fechaInicio", fIni);

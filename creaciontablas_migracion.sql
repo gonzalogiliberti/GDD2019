@@ -616,7 +616,6 @@ GO
 
 insert into dbo.RolxFuncion (idRol, idFuncion) (SELECT idRol, idFuncion from dbo.Funcion, dbo.Rol)
 GO
-
 -- Carga de tarjetas de credito
 insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('VISA', 'Visa', 12)
 insert into [TarjetaCredito](idTarjetaCredito ,Nombre, cuotas) values ('MAST', 'Mastercard', 6)
@@ -915,7 +914,14 @@ AS BEGIN
 
 	declare @codigo decimal(18,0)
 	select @codigo = MAX(codigoReserva) from Reserva
-	set @codigo = @codigo + 1
+	if (@codigo is not null)
+	begin
+		set @codigo = @codigo + 1
+	end
+	else
+	begin
+		 set @codigo = 0
+	end
 
 	insert into Reserva(idViaje, idCliente, cantidadPasajeros, fecha, idCabina, codigoReserva)
 	values (@idViaje, @idCli, @cantPasajes, GETDATE(), @idCabina, @codigo)
@@ -926,6 +932,54 @@ AS BEGIN
 	
 END
 GO
+
+IF (OBJECT_ID ('dbo.sp_crear_puerto') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_puerto
+GO
+Create PROCEDURE dbo.sp_crear_puerto (@Nombre nvarchar(255)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	INSERT into Puerto(Nombre) values (@Nombre)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+IF (OBJECT_ID ('dbo.sp_modificar_puerto') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_modificar_puerto
+GO
+Create PROCEDURE dbo.sp_modificar_puerto (@IdPuerto int,@Nombre nvarchar(255)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Puerto set Nombre = @Nombre where idPuerto = @IdPuerto
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_pagar_reserva') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_pagar_reserva
+GO
+Create PROCEDURE dbo.sp_pagar_reserva (@codigoReserva decimal(18,0)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Reserva set pagada = 1 where codigoReserva = @codigoReserva
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
 
 Create PROCEDURE LOGIN(@usr nchar(25), @pass nchar(25))
 as
