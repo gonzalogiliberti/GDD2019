@@ -348,7 +348,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Usuario](
 	[idUsuario] [int],
-	[username] [nchar](25),
+	[username] [nchar](25) UNIQUE,
 	[password] [nchar](25),
 	[fallos] [int],
 	[idRol] [int],
@@ -611,10 +611,10 @@ insert into dbo.Funcion (nombre) values ('Alta Viaje')
 insert into dbo.Funcion (nombre) values ('Estadistica')
 
 -- Rol de Admin
-insert into dbo.Rol (rol_Nombre) value ('Administrador')
+insert into dbo.Rol (rol_Nombre) values ('Administrador')
 GO
 
-insert into dbo.RolxFuncion (idRol, idFuncion) (select
+insert into dbo.RolxFuncion (idRol, idFuncion) (SELECT idRol, idFuncion from dbo.Funcion, dbo.Rol)
 GO
 
 -- Carga de tarjetas de credito
@@ -925,4 +925,35 @@ AS BEGIN
 	COMMIT TRANSACTION T1;
 	
 END
+GO
+
+Create PROCEDURE LOGIN(@usr nchar(25), @pass nchar(25))
+as
+BEGIN
+	declare @fallos int;
+	declare @passCursor nchar(25);
+	declare @idRol int;
+	declare userCursor cursor for ( select top 1 idRol, fallos, password from Usuario where username = @usr);
+	open userCursor
+	fetch userCursor into @idRoll, @fallos, @passCursor
+
+
+
+	if @@FETCH_STATUS = 0
+	Begin
+		if (@passCursor = @pass)
+		Begin
+			set @fallos = 0
+		END
+		else
+			set @fallos = @fallos + 1
+	End
+	
+	update Usuario set fallos = @fallos Where username = @usr;
+	
+	IF @fallos = 0
+		RETURN select idFuncion from RolxFuncion where idRol = @idRol
+
+	RETURN NULL;
+END;
 GO
