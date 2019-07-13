@@ -42,6 +42,7 @@
             this.cancel = new System.Windows.Forms.Button();
             this.delete = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.addCabin = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textCantCab
@@ -56,9 +57,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(19, 109);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 13);
+            this.label1.Size = new System.Drawing.Size(92, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Cantidad de Cabinas";
+            this.label1.Text = "Cantidad de Pisos";
             // 
             // textIdentificador
             // 
@@ -168,11 +169,22 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "CRUCERO";
             // 
+            // addCabin
+            // 
+            this.addCabin.Location = new System.Drawing.Point(131, 328);
+            this.addCabin.Name = "addCabin";
+            this.addCabin.Size = new System.Drawing.Size(65, 40);
+            this.addCabin.TabIndex = 14;
+            this.addCabin.Text = "Agregar Cabinas";
+            this.addCabin.UseVisualStyleBackColor = true;
+            this.addCabin.Click += new System.EventHandler(this.addCabin_Click);
+            // 
             // AltaModificacionCrucero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(338, 373);
+            this.Controls.Add(this.addCabin);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.delete);
             this.Controls.Add(this.cancel);
@@ -210,5 +222,6 @@
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button delete;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button addCabin;
     }
 }

@@ -29,11 +29,11 @@ namespace FrbaCrucero.Dao
             return db.select_query(query);
         }
 
-        public DataTable getCabinasDisponibles(int idViaje, int cantPasajeros)
+        public DataTable getCabinasDisponibles(int idViaje, int cantPasajeros, int idCrucero)
         {
-            string query = "select count(ca.idCabina) as cantidadCabinas, t.Nombre, t.Recargo, t.idTipoCabina from Cabina ca, Crucero c, TipoCabina t, Viaje v ";
-            query += "where v.idViaje = " + idViaje +" and t.idTipoCabina = ca.TipoCabina and c.intCrucero = ca.idCrucero and ";
-            query += "ca.idCabina not in (select co.idCabina from Compra co where co.idViaje = " + idViaje + ")  group by t.Nombre, t.Recargo, t.idTipoCabina having count(ca.idCabina) > " + cantPasajeros ;
+            string query = "select count(ca.idCabina) as cantidadCabinas, t.Nombre, t.Recargo, t.idTipoCabina from Cabina ca, TipoCabina t, Viaje v ";
+            query += "where v.idViaje = " + idViaje + " and "+ idCrucero + " = ca.idCrucero and ca.TipoCabina = t.idTipoCabina and ";
+            query += "ca.idCabina not in (select co.idCabina from Compra co where co.idViaje = " + idViaje + ")  group by t.Nombre, t.Recargo, t.idTipoCabina having count(ca.idCabina) > " + cantPasajeros;
             return db.select_query(query);
         }
 

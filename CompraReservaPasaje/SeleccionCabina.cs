@@ -37,7 +37,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void setupGrid(int cantiCabinas)
         {
-            this.dgvCabinas.DataSource = dao.getCabinasDisponibles(viaje.idViaje, cantiCabinas);
+            this.dgvCabinas.DataSource = dao.getCabinasDisponibles(viaje.idViaje, cantiCabinas, viaje.idCrucero );
         }
 
         private void search_Click(object sender, EventArgs e)

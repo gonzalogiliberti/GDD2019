@@ -16,12 +16,14 @@ namespace FrbaCrucero.AbmCrucero
         CruceroDao dao;
         bool newCruise = true;
         public DataGridViewRow unCrucero;
+        int idCrucero = -1;
 
         public AltaModificacionCrucero()
         {
             dao = new CruceroDao();
             InitializeComponent();
             setupCombos();
+            this.textCantCab.Text = "1";
         }
 
         public AltaModificacionCrucero(DataGridViewRow unCrucero)
@@ -31,7 +33,9 @@ namespace FrbaCrucero.AbmCrucero
             setupCombos();
             this.unCrucero = unCrucero;
             newCruise = false;
-            this.textCantCab.Text = unCrucero.Cells["CantidadCabinas"].Value.ToString();
+            //this.textCantCab.Text = unCrucero.Cells["CantidadCabinas"].Value.ToString();
+            this.textCantCab.Text = "1";
+            this.idCrucero = (int)unCrucero.Cells["idCrucero"].Value;
             this.textIdentificador.Text = unCrucero.Cells["Identificador"].Value.ToString();
             this.comboFabricante.Text = unCrucero.Cells["Fabricante"].Value.ToString();
             this.comboModelo.Text = unCrucero.Cells["Modelo"].Value.ToString();
@@ -89,6 +93,7 @@ namespace FrbaCrucero.AbmCrucero
                     throw new Exception("El Crucero Ingresado ya existe");
                 }
                 this.dao.createCruise(cruise);
+                this.idCrucero = this.dao.getIdCrucero(cruise);
             }
             catch (Exception ex)
             {
@@ -136,6 +141,19 @@ namespace FrbaCrucero.AbmCrucero
             Crucero cruise = getFormData();
             cruise.idCrucero = (int)this.unCrucero.Cells["idCrucero"].Value;
             dao.deleteCruise(cruise);
+        }
+
+        private void addCabin_Click(object sender, EventArgs e)
+        {
+            if (idCrucero != -1)
+            {
+                Cabinas cab = new Cabinas(Convert.ToInt32(this.textCantCab.Text), idCrucero);
+                cab.Show();
+            }
+            else
+            {
+                MessageBox.Show("Debe guardar los datos del crucero primero");
+            }
         }
 
     }

@@ -186,5 +186,82 @@ namespace FrbaCrucero.Dao
             DataRow r = dt.Rows[0];
             return new TipoCabina(r);
         }
+
+        public void createCabinas(int cantPisos, int cantCabinas, int tipo, int crucero)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@pisos", cantPisos);
+            dic.Add("@cabinas", cantCabinas);
+            dic.Add("@tipo", tipo);
+            dic.Add("@crucero", crucero);
+
+            db.executeProcedureWithParameters("dbo.sp_crear_cabinas", dic);
+        }
+
+        public int getIdCrucero(Crucero cruise)
+        {
+            DataTable dt = db.select_query("Select CRU.intCrucero from dbo.Crucero CRU where CRU.Identificador = '" + cruise.getIdentificador() + "'");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["intCrucero"]);
+        }
+
+        public int getIdEstandar()
+        {
+            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.20");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["idTipoCabina"]);
+        }
+
+        public int getIdExterior()
+        {
+            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.40");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["idTipoCabina"]);
+        }
+
+        public int getIdBalcon()
+        {
+            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.60");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["idTipoCabina"]);
+        }
+
+        public int getIdSuite()
+        {
+            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.80");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["idTipoCabina"]);
+        }
+
+        public int getIdEjecutivo()
+        {
+            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 2.00");
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToInt32(r["idTipoCabina"]);
+        }
     }
 }
