@@ -17,6 +17,7 @@ namespace FrbaCrucero.AbmCrucero
         bool newCruise = true;
         public DataGridViewRow unCrucero;
         int idCrucero = -1;
+        int idViaje = -1;
 
         public AltaModificacionCrucero()
         {
@@ -24,6 +25,15 @@ namespace FrbaCrucero.AbmCrucero
             InitializeComponent();
             setupCombos();
             this.textCantCab.Text = "1";
+        }
+
+        public AltaModificacionCrucero(int idViaje)
+        {
+            dao = new CruceroDao();
+            InitializeComponent();
+            setupCombos();
+            this.textCantCab.Text = "1";
+            this.idViaje = idViaje;
         }
 
         public AltaModificacionCrucero(DataGridViewRow unCrucero)
@@ -94,6 +104,10 @@ namespace FrbaCrucero.AbmCrucero
                 }
                 this.dao.createCruise(cruise);
                 this.idCrucero = this.dao.getIdCrucero(cruise);
+                if (idViaje != -1)
+                {
+                    dao.updateCruiseViaje(this.idCrucero, idViaje);
+                }
             }
             catch (Exception ex)
             {
@@ -149,6 +163,28 @@ namespace FrbaCrucero.AbmCrucero
             {
                 Cabinas cab = new Cabinas(Convert.ToInt32(this.textCantCab.Text), idCrucero);
                 cab.Show();
+            }
+            else
+            {
+                MessageBox.Show("Debe guardar los datos del crucero primero");
+            }
+        }
+
+        private void baja_Click(object sender, EventArgs e)
+        {
+            if (idCrucero != -1)
+            {
+                Crucero cruise = getFormData();
+                cruise.idCrucero = idCrucero;
+                if (dao.getEstado(idCrucero) == "A")
+                {
+                    Baja ba = new Baja(cruise);
+                    ba.Show();
+                }
+                else
+                {
+                    MessageBox.Show("El crucero ya se encuentra dado de baja");
+                }
             }
             else
             {

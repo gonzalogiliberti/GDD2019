@@ -194,5 +194,17 @@ namespace FrbaCrucero.Dao
             return Convert.ToDecimal(r["codigoReserva"]);
         }
 
+        public List<Viaje> getViajes(int crucero)
+        {
+            List<Viaje> viajes = new List<Viaje>();
+            DataTable dt = db.select_query("select v.idViaje, v.idCrucero, v.idRecorrido, v.FechaInicio, v.FechaFin from Viaje v where v.idCrucero = " + crucero);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                viajes.Add(new Viaje(row));
+            }
+
+            return viajes;
+        }
     }
 }

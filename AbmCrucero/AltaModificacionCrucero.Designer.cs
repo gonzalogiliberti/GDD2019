@@ -40,9 +40,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.save = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
-            this.delete = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.addCabin = new System.Windows.Forms.Button();
+            this.historial = new System.Windows.Forms.Button();
+            this.baja = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textCantCab
@@ -150,16 +151,6 @@
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
-            // delete
-            // 
-            this.delete.Location = new System.Drawing.Point(221, 292);
-            this.delete.Name = "delete";
-            this.delete.Size = new System.Drawing.Size(76, 31);
-            this.delete.TabIndex = 12;
-            this.delete.Text = "Eliminar";
-            this.delete.UseVisualStyleBackColor = true;
-            this.delete.Click += new System.EventHandler(this.delete_Click);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -171,22 +162,42 @@
             // 
             // addCabin
             // 
-            this.addCabin.Location = new System.Drawing.Point(131, 328);
+            this.addCabin.Location = new System.Drawing.Point(83, 335);
             this.addCabin.Name = "addCabin";
-            this.addCabin.Size = new System.Drawing.Size(65, 40);
+            this.addCabin.Size = new System.Drawing.Size(70, 36);
             this.addCabin.TabIndex = 14;
             this.addCabin.Text = "Agregar Cabinas";
             this.addCabin.UseVisualStyleBackColor = true;
             this.addCabin.Click += new System.EventHandler(this.addCabin_Click);
             // 
+            // historial
+            // 
+            this.historial.Location = new System.Drawing.Point(189, 335);
+            this.historial.Name = "historial";
+            this.historial.Size = new System.Drawing.Size(64, 36);
+            this.historial.TabIndex = 15;
+            this.historial.Text = "Historial Bajas";
+            this.historial.UseVisualStyleBackColor = true;
+            // 
+            // baja
+            // 
+            this.baja.Location = new System.Drawing.Point(220, 293);
+            this.baja.Name = "baja";
+            this.baja.Size = new System.Drawing.Size(75, 29);
+            this.baja.TabIndex = 16;
+            this.baja.Text = "Baja";
+            this.baja.UseVisualStyleBackColor = true;
+            this.baja.Click += new System.EventHandler(this.baja_Click);
+            // 
             // AltaModificacionCrucero
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 373);
+            this.ClientSize = new System.Drawing.Size(338, 383);
+            this.Controls.Add(this.baja);
+            this.Controls.Add(this.historial);
             this.Controls.Add(this.addCabin);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.delete);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.save);
             this.Controls.Add(this.label5);
@@ -220,8 +231,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button save;
         private System.Windows.Forms.Button cancel;
-        private System.Windows.Forms.Button delete;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button addCabin;
+        private System.Windows.Forms.Button historial;
+        private System.Windows.Forms.Button baja;
     }
 }

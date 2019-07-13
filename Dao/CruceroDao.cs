@@ -20,7 +20,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllCruises()
         {
-            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, CantidadCabinas, FechaAlta  from dbo.Crucero");
+            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from Cabina ca where ca.idCrucero = intCrucero) As CantidadCabinas, FechaAlta  from dbo.Crucero");
         }
 
         public List<Fabricante> getFabricantes()
@@ -114,7 +114,7 @@ namespace FrbaCrucero.Dao
         {
 
             String where = getWhereClause(fabricante, model, identificador);
-            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, CantidadCabinas, FechaAlta  from dbo.Crucero " + where);
+            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, CantidadCabinas, FechaAlta  from dbo.Crucero " + where + " and Activo = 1");
         }
 
         public String getWhereClause(Fabricante fabricante, String model, String identificador)
@@ -149,11 +149,11 @@ namespace FrbaCrucero.Dao
         {
 
             List<Crucero> cruceros = new List<Crucero>();
-            string query = " select c.intCrucero as idCrucero, c.Modelo, c.Identificador, c.Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, ISNULL(c.CantidadCabinas, 0) AS CantidadCabinas, ISNULL(c.FechaAlta, GETDATE()) AS FechaAlta from Crucero c where ";
-            query += "c.intCrucero not in ( select v1.idCrucero from Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin) and ";
-            query += "c.intCrucero not in ( select v2.idCrucero from Viaje v2 where '" + f2 + "' between v2.FechaInicio and v2.FechaFin) and ";
-            query += "c.intCrucero not in ( select v3.idCrucero from Viaje v3 where v3.FechaInicio between '" + f1 + "' and '" + f2 + "') and ";
-            query += "c.intCrucero not in ( select v4.idCrucero from Viaje v4 where v4.FechaFin between '" + f1 + "' and '" + f2 + "') ";
+            string query = " select c.intCrucero as idCrucero, c.Modelo, c.Identificador, c.Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from Cabina where idCrucero = c.intCrucero) AS CantidadCabinas, ISNULL(c.FechaAlta, GETDATE()) AS FechaAlta from Crucero c where ";
+            query += "c.intCrucero not in ( select v1.idCrucero from Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin and ";
+            query += "'" + f2 + "' between v1.FechaInicio and v1.FechaFin and ";
+            query += "v1.FechaInicio between '" + f1 + "' and '" + f2 + "' and ";
+            query += "v1.FechaFin between '" + f1 + "' and '" + f2 + "') and c.Activo = 'A' ";
 
             DataTable dt = db.select_query(query);
 
@@ -262,6 +262,82 @@ namespace FrbaCrucero.Dao
             }
             DataRow r = dt.Rows[0];
             return Convert.ToInt32(r["idTipoCabina"]);
+        }
+
+        public DataTable getViajesForCruise(int crucero)
+        {
+            return db.select_query("select idViaje, FechaInicio, FechaFin, (select Codigo from Recorrido r where r.idRecorrido = v.idRecorrido ) as Recorrido from Viaje v where idCrucero = " + crucero + " and FechaInicio > '" + DateTime.Now + "'");
+        }
+
+        public void updateCruiseViaje(int crucero, int viaje)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@crucero", crucero);
+            dic.Add("@viaje", viaje);
+
+            db.executeProcedureWithParameters("dbo.sp_modifcar_cucero_viaje", dic);
+        }
+
+        public DataTable getCrucerosParaReemplazo(DateTime f1, DateTime f2)
+        {
+            string query = " select c.intCrucero , c.Modelo, c.Identificador, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from Cabina where idCrucero = c.intCrucero) AS CantidadCabinas from Crucero c where ";
+            query += "c.intCrucero not in ( select v1.idCrucero from Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin and ";
+            query += "'" + f2 + "' between v1.FechaInicio and v1.FechaFin and ";
+            query += "v1.FechaInicio between '" + f1 + "' and '" + f2 + "' and ";
+            query += "v1.FechaFin between '" + f1 + "' and '" + f2 + "') and c.Activo = 'A' ";
+
+            return db.select_query(query);
+        }
+
+        public void bajaCruceroUtil(int crucero, string descripcion, DateTime fecha)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@crucero", crucero);
+            dic.Add("@descripcion", descripcion);
+            dic.Add("@fechaBaja", fecha);
+
+            db.executeProcedureWithParameters("dbo.sp_baja_crucero_util", dic);
+        }
+
+        public void bajaCruceroServicio(int crucero, string descripcion, DateTime fechaInicio, DateTime fechaFin )
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@crucero", crucero);
+            dic.Add("@descripcion", descripcion);
+            dic.Add("@fechaBaja", fechaInicio);
+            dic.Add("@fechaRestauracion", fechaFin);
+
+            db.executeProcedureWithParameters("dbo.sp_baja_crucero_servicio", dic);
+        }
+
+        public void devolverPasajes(int crucero, DateTime fechaBaja)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@crucero", crucero);
+            dic.Add("@fechaBaja", fechaBaja);
+
+            db.executeProcedureWithParameters("dbo.sp_devolver_pasajes", dic);
+        }
+
+        public void reprogramarViajes(int viajeId, DateTime inicio, DateTime fin)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@idViaje", viajeId);
+            dic.Add("@fechaInicio", inicio);
+            dic.Add("@fechaFin", fin);
+
+            db.executeProcedureWithParameters("dbo.sp_reprogramar_viaje", dic);
+        }
+
+        public string getEstado(int cruceroId)
+        {
+            DataTable dt = db.select_query("select Activo from Crucero where intCrucero = " + cruceroId);
+            if (dt.Rows.Count != 1)
+            {
+                return "";
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToString(r["Activo"]);
         }
     }
 }
