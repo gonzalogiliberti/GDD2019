@@ -178,6 +178,7 @@
             this.historial.TabIndex = 15;
             this.historial.Text = "Historial Bajas";
             this.historial.UseVisualStyleBackColor = true;
+            this.historial.Click += new System.EventHandler(this.historial_Click);
             // 
             // baja
             // 

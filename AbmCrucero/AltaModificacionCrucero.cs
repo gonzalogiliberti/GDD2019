@@ -192,5 +192,18 @@ namespace FrbaCrucero.AbmCrucero
             }
         }
 
+        private void historial_Click(object sender, EventArgs e)
+        {
+            if (idCrucero != -1)
+            {
+                HistorialBaja h = new HistorialBaja(this.idCrucero);
+                h.Show();
+            }
+            else
+            {
+                MessageBox.Show("Guarde el crucero primero");
+            }
+        }
+
     }
 }

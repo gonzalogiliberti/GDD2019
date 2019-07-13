@@ -339,5 +339,10 @@ namespace FrbaCrucero.Dao
             DataRow r = dt.Rows[0];
             return Convert.ToString(r["Activo"]);
         }
+
+        public DataTable getAllBajas(int crucero)
+        {
+            return db.select_query("select b.idBaja, b.FechaBaja, b.FechaRestauracion as FechaAlta, b.Descripcion, (select Nombre from TipoBaja t where t.idTipoBaja = b.idTipoBaja ) as Nombre from Baja b where b.idCrucero = " + crucero);
+        }
     }
 }
