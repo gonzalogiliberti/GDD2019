@@ -347,11 +347,12 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Usuario](
-	[idUsuario] [int],
-	[username] [nchar](25) UNIQUE,
-	[password] [nchar](25),
-	[fallos] [int],
+	[idUsuario] [int] IDENTITY(1,1),
+	[username] [varchar](25) UNIQUE,
+	[pass] [nchar](64),
+	[fallos] [int] default 0,
 	[idRol] [int],
+	[tStamp] Datetime,
  CONSTRAINT [PK_Usuario] PRIMARY KEY CLUSTERED 
 (
 	[idUsuario] ASC
@@ -566,6 +567,7 @@ insert into dbo.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idC
 	where PASAJE_CODIGO Is not null and
 		  M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
 		  Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
+Drop Table #temp_Compra
 GO
 --Migracion Datos Reserva
 
@@ -582,27 +584,20 @@ insert into dbo.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina, paga
 	where RESERVA_CODIGO Is not null and
 		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
 		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
+Drop Table #temp_Reserva
 GO
 --Se agregan las funciones y los roles para el administrador
 -- ROL
-insert into dbo.Funcion (nombre) values ('Alta Rol')
-insert into dbo.Funcion (nombre) values ('Modificacion Rol')
-insert into dbo.Funcion (nombre) values ('Baja Rol')
+insert into dbo.Funcion (nombre) values ('ABM Rol')
 
 -- Puerto
-insert into dbo.Funcion (nombre) values ('Alta Puerto')
-insert into dbo.Funcion (nombre) values ('Modificacion Puerto')
-insert into dbo.Funcion (nombre) values ('Baja Puerto')
+insert into dbo.Funcion (nombre) values ('ABM Puerto')
 
 -- Recorrido
-insert into dbo.Funcion (nombre) values ('Alta Recorrido')
-insert into dbo.Funcion (nombre) values ('Modificacion Recorrido')
-insert into dbo.Funcion (nombre) values ('Baja Recorrido')
+insert into dbo.Funcion (nombre) values ('ABM Recorrido')
 
 -- Crucero
-insert into dbo.Funcion (nombre) values ('Alta Crucero')
-insert into dbo.Funcion (nombre) values ('Modificacion Crucero')
-insert into dbo.Funcion (nombre) values ('Baja Crucero')
+insert into dbo.Funcion (nombre) values ('ABM Crucero')
 
 -- Viaje
 insert into dbo.Funcion (nombre) values ('Alta Viaje')
@@ -610,6 +605,7 @@ insert into dbo.Funcion (nombre) values ('Alta Viaje')
 -- Estadisticas
 insert into dbo.Funcion (nombre) values ('Estadistica')
 
+select * from Funcion
 -- Rol de Admin
 insert into dbo.Rol (rol_Nombre) values ('Administrador')
 GO
@@ -626,6 +622,24 @@ insert into MedioPAgo(Nombre) Values ('Tarjeta de Credito')
 insert into MedioPAgo(Nombre) Values ('Transferencia Bancaria')
 insert into MedioPAgo(Nombre) Values ('Efectivo')
 GO
+/*
+[Usuario](
+	[idUsuario] [int],[dbo].[Compra]
+	[username] [varchar](25) UNIQUE,
+	[pass] [nchar](64),
+	[fallos] [int],
+	[idRol] [int],
+	[tStamp] Datetime,
+*/
+--Carga de usuarios Admin
+insert into Usuario(username, pass, idRol) select 'admin1','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into Usuario(username, pass, idRol) select 'admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into Usuario(username, pass, idRol) select 'admin3','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into Usuario(username, pass, idRol) select 'admin4','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+
+update Usuario set fallos = 0 where idRol = 1
+
+select * from usuario
 
 --Stores Funcion y Rol
 IF (OBJECT_ID ('dbo.sp_crear_funcion') IS NOT NULL)
@@ -981,33 +995,45 @@ END
 GO
 
 
-Create PROCEDURE LOGIN(@usr nchar(25), @pass nchar(25))
+Create PROCEDURE dbo.sp_login (@usr char(25), @pass char(64), @res int OUTPUT)
 as
 BEGIN
+	BEGIN TRANSACTION T1
 	declare @fallos int;
-	declare @passCursor nchar(25);
+	declare @passSaved nchar(255);
 	declare @idRol int;
-	declare userCursor cursor for ( select top 1 idRol, fallos, password from Usuario where username = @usr);
-	open userCursor
-	fetch userCursor into @idRoll, @fallos, @passCursor
+	declare @timeStamp date;
+	declare @now date;
+	declare @abilitada bit;
+
+	
+	set @now = GETDATE();
+	select @idRol=idRol, @fallos=fallos, @passSaved = [pass], @timeStamp = [tStamp] from Usuario where username = @usr
 
 
-
-	if @@FETCH_STATUS = 0
+	if @fallos > 2 and DATEDIFF(hour, @timeStamp ,getDate()) < 1
 	Begin
-		if (@passCursor = @pass)
+	 --inabilitar usuario por una hora
+		set @res= -1
+	End
+	Else
+	Begin
+		IF (@passSaved = @pass)
 		Begin
-			set @fallos = 0
+			set @fallos = 0;
+			set @res = @idRol;
 		END
-		else
+		ELSE
+		Begin
 			set @fallos = @fallos + 1
+			set @res = 0;
+		End
 	End
 	
-	update Usuario set fallos = @fallos Where username = @usr;
-	
-	IF @fallos = 0
-		RETURN select idFuncion from RolxFuncion where idRol = @idRol
+	update Usuario set fallos = @fallos, tStamp = @now Where username = @usr;
 
-	RETURN NULL;
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
 END;
 GO

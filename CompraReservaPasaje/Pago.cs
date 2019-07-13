@@ -101,7 +101,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                 dao.pay(cliente, viaje, tipoCabina, mp, precioTotal, tarjeta, cantidadPasajeros);
                 if (this.codigoReserva != -1)
                 {
-                    dao.markReservepaid(codigoReserva);
+                    //dao.markReservepaid(codigoReserva);
                 }
             }
         }
