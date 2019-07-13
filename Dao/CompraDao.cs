@@ -29,11 +29,11 @@ namespace FrbaCrucero.Dao
             return db.select_query(query);
         }
 
-        public DataTable getCabinasDisponibles(int idViaje, int cantPasajeros)
+        public DataTable getCabinasDisponibles(int idViaje, int cantPasajeros, int idCrucero)
         {
-            string query = "select count(ca.idCabina) as cantidadCabinas, t.Nombre, t.Recargo, t.idTipoCabina from Cabina ca, Crucero c, TipoCabina t, Viaje v ";
-            query += "where v.idViaje = " + idViaje +" and t.idTipoCabina = ca.TipoCabina and c.intCrucero = ca.idCrucero and ";
-            query += "ca.idCabina not in (select co.idCabina from Compra co where co.idViaje = " + idViaje + ")  group by t.Nombre, t.Recargo, t.idTipoCabina having count(ca.idCabina) > " + cantPasajeros ;
+            string query = "select count(ca.idCabina) as cantidadCabinas, t.Nombre, t.Recargo, t.idTipoCabina from Cabina ca, TipoCabina t, Viaje v ";
+            query += "where v.idViaje = " + idViaje + " and "+ idCrucero + " = ca.idCrucero and ca.TipoCabina = t.idTipoCabina and ";
+            query += "ca.idCabina not in (select co.idCabina from Compra co where co.idViaje = " + idViaje + ")  group by t.Nombre, t.Recargo, t.idTipoCabina having count(ca.idCabina) > " + cantPasajeros;
             return db.select_query(query);
         }
 
@@ -84,7 +84,7 @@ namespace FrbaCrucero.Dao
             return medios;
         }
 
-        public void pay(Cliente cliente, Viaje viaje, TipoCabina tipoCabina, MedioPAgo mp, decimal precioTotal, TarjetaCredito tarjeta, int cantPasajes)
+        public void pay(Cliente cliente, Viaje viaje, TipoCabina tipoCabina, MedioPAgo mp, double precioTotal, TarjetaCredito tarjeta, int cantPasajes)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@idCli", cliente.idCliente);
@@ -171,5 +171,40 @@ namespace FrbaCrucero.Dao
             db.executeProcedureWithParameters("dbo.sp_pagar_reserva", dic);
         }
 
+        public decimal getCodigoPasaje(Cliente cliente, Viaje viaje, MedioPAgo mp, double precioTotal, TarjetaCredito tarjeta, int cantPasajes)
+        {
+            String precio = precioTotal.ToString();
+            DataTable dt = db.select_query("select codigoPasaje from Compra where idCliente = " + cliente.idCliente + " and idViaje = " + viaje.idViaje + " and cantidadPasajes = " + cantPasajes + " and medioPago = " + mp.idMedioPago + " and precioTotal = " + precio.Replace(",", "."));
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToDecimal(r["codigoPasaje"]);
+        }
+
+        public decimal getCodigoReserva(Cliente cliente, Viaje viaje, int cantPasajes)
+        {
+            DataTable dt = db.select_query("select codigoReserva from Reserva where idCliente = " + cliente.idCliente + " and idViaje = " + viaje.idViaje + " and cantidadPasajes = " + cantPasajes );
+            if (dt.Rows.Count != 1)
+            {
+                return -1;
+            }
+            DataRow r = dt.Rows[0];
+            return Convert.ToDecimal(r["codigoReserva"]);
+        }
+
+        public List<Viaje> getViajes(int crucero)
+        {
+            List<Viaje> viajes = new List<Viaje>();
+            DataTable dt = db.select_query("select v.idViaje, v.idCrucero, v.idRecorrido, v.FechaInicio, v.FechaFin from Viaje v where v.idCrucero = " + crucero);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                viajes.Add(new Viaje(row));
+            }
+
+            return viajes;
+        }
     }
 }

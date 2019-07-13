@@ -27,7 +27,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getTramosForRecorrido(int idRecorrido)
         {
-            return db.select_query("select t.idTramo AS idTramo,  t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from RecorridoXTramo rt join Tramo t on t.idTramo = rt.idTramo where rt.idRecorrido = " + idRecorrido);
+            return db.select_query("select t.idTramo AS idTramo,  t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from RecorridoXTramo rt join Tramo t on t.idTramo = rt.idTramo where rt.idRecorrido = " + idRecorrido + " order by rt.orden");
         }
 
         public DataTable getTramosAvailableRecorrido(int idRecorrido)
@@ -161,6 +161,23 @@ namespace FrbaCrucero.Dao
             }
             DataRow r = dt.Rows[0];
             return Convert.ToInt32(r["PrecioFinal"]);
+        }
+
+        public String getPuertoOrigenRecorrido(int idRecorrido)
+        {
+            DataTable dt = getTramosForRecorrido(idRecorrido);
+            DataRow r = dt.Rows[0];
+
+            return Convert.ToString(r["puertoOrigen"]);
+        }
+
+        public String getPuertoDestinoRecorrido(int idRecorrido)
+        {
+            DataTable dt = getTramosForRecorrido(idRecorrido);
+            int lastTramo = dt.Rows.Count - 1;
+            DataRow r = dt.Rows[lastTramo];
+
+            return Convert.ToString(r["puertoDestino"]);
         }
     }
 }

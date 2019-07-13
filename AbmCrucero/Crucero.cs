@@ -7,7 +7,7 @@ using System.Data;
 
 namespace FrbaCrucero.AbmCrucero
 {
-    class Crucero
+    public class Crucero
     {
         public Int32 idCrucero;
         public String identificador;

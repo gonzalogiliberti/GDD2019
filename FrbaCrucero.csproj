@@ -50,6 +50,42 @@
     <Compile Include="AbmCrucero\AltaModificacionCrucero.Designer.cs">
       <DependentUpon>AltaModificacionCrucero.cs</DependentUpon>
     </Compile>
+    <Compile Include="AbmCrucero\Baja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\Baja.Designer.cs">
+      <DependentUpon>Baja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\BajaEfectiva.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\BajaEfectiva.Designer.cs">
+      <DependentUpon>BajaEfectiva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\Cabinas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\Cabinas.Designer.cs">
+      <DependentUpon>Cabinas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\CrucerosDisponibles.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\CrucerosDisponibles.Designer.cs">
+      <DependentUpon>CrucerosDisponibles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\HistorialBaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\HistorialBaja.Designer.cs">
+      <DependentUpon>HistorialBaja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AbmCrucero\ReemplazoCrucero.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbmCrucero\ReemplazoCrucero.Designer.cs">
+      <DependentUpon>ReemplazoCrucero.cs</DependentUpon>
+    </Compile>
     <Compile Include="AbmCrucero\TipoCabina.cs" />
     <Compile Include="AbmCrucero\Crucero.cs" />
     <Compile Include="AbmCrucero\Cruceros.cs">
@@ -221,8 +257,26 @@
     <EmbeddedResource Include="AbmCrucero\AltaModificacionCrucero.resx">
       <DependentUpon>AltaModificacionCrucero.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\Baja.resx">
+      <DependentUpon>Baja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\BajaEfectiva.resx">
+      <DependentUpon>BajaEfectiva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\Cabinas.resx">
+      <DependentUpon>Cabinas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AbmCrucero\Cruceros.resx">
       <DependentUpon>Cruceros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\CrucerosDisponibles.resx">
+      <DependentUpon>CrucerosDisponibles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\HistorialBaja.resx">
+      <DependentUpon>HistorialBaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AbmCrucero\ReemplazoCrucero.resx">
+      <DependentUpon>ReemplazoCrucero.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AbmPuerto\AltaModificacionPuerto.resx">
       <DependentUpon>AltaModificacionPuerto.cs</DependentUpon>

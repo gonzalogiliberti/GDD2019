@@ -22,7 +22,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         CompraDao dao;
         RecorridoDao rDao;
         MedioPAgo mp;
-        decimal precioTotal;
+        double precioTotal;
         decimal codigoReserva = -1;
 
         public Pago(Viaje unViaje, TipoCabina unTipo, Cliente unCliente, int pasajeros, decimal codigoReserva)
@@ -34,7 +34,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             this.tipoCabina = unTipo;
             this.cliente = unCliente;
             this.cantidadPasajeros = pasajeros;
-            this.precioTotal = rDao.getPrecioFinal(viaje.idRecorrido) * unTipo.recargo;
+            this.precioTotal = (double)((rDao.getPrecioFinal(viaje.idRecorrido) * unTipo.recargo) * cantidadPasajeros);
             this.textPrecio.Text = precioTotal.ToString();
             this.codigoReserva = codigoReserva;
             setupCombo();
@@ -49,7 +49,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             this.tipoCabina = unTipo;
             this.cliente = unCliente;
             this.cantidadPasajeros = pasajeros;
-            this.precioTotal = rDao.getPrecioFinal(viaje.idRecorrido) * unTipo.recargo;
+            this.precioTotal = (double)((rDao.getPrecioFinal(viaje.idRecorrido) * unTipo.recargo) * cantidadPasajeros);
             this.textPrecio.Text = precioTotal.ToString();
             setupCombo();
         }
@@ -101,8 +101,14 @@ namespace FrbaCrucero.CompraReservaPasaje
                 dao.pay(cliente, viaje, tipoCabina, mp, precioTotal, tarjeta, cantidadPasajeros);
                 if (this.codigoReserva != -1)
                 {
+<<<<<<< HEAD
                     //dao.markReservepaid(codigoReserva);
+=======
+                    dao.markReservePaid(codigoReserva);
+>>>>>>> 983ad3b84e42e5313767e3ffeb14a7b61bd2c03e
                 }
+                decimal codigoPasaje = dao.getCodigoPasaje(cliente, viaje, mp, precioTotal, tarjeta, cantidadPasajeros);
+                showPayInformation(codigoPasaje);
             }
         }
 
@@ -132,6 +138,21 @@ namespace FrbaCrucero.CompraReservaPasaje
                 }
             }
             return true;
+        }
+
+        private void showPayInformation(decimal codigoPasaje)
+        {
+            string puertoOrigen = rDao.getPuertoOrigenRecorrido(viaje.idRecorrido);
+            string puertoDestino = rDao.getPuertoDestinoRecorrido(viaje.idRecorrido);
+
+            string texto = "El codigo de su pasaje es: " + codigoPasaje;
+            texto += " parte el dia: " + viaje.fechaInicio + " desde " + puertoOrigen;
+            texto += " finaliza el dia: " + viaje.fechaFin + " en el puerto: " + puertoDestino;
+            texto += " el precio final es: " + precioTotal + " y fue abonado con: " + mp.Nombre;
+            texto += ". Le deseamos un buen viaje. ";
+
+            MessageBox.Show(texto);
+            this.Close();
         }
     }
 }

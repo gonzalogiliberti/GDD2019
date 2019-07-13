@@ -1,9 +1,10 @@
 CREATE TABLE [dbo].[Baja](
-	[idBaja] [int] NOT NULL,
+	[idBaja] [int] IDENTITY(1,1) NOT NULL,
 	[idTipoBaja] [int] NOT NULL,
 	[FechaBaja] [date] NOT NULL,
 	[FechaRestauracion] [date] NULL,
 	[idCrucero] [int] NOT NULL,
+	[Descripcion] [nvarchar](255) NOT NULL,
  CONSTRAINT [PK_Baja] PRIMARY KEY CLUSTERED 
 (
 	[idBaja] ASC
@@ -897,11 +898,18 @@ AS BEGIN
 	declare @idCabina int
 
 	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
-	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) or c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
+	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
 
 	declare @codigo decimal(18,0)
 	select @codigo = MAX(codigoPasaje) from Compra
-	set @codigo = @codigo + 1
+	if (@codigo is not null)
+	begin
+		set @codigo = @codigo + 1
+	end
+	else
+	begin
+		 set @codigo = 0
+	end
 
 	insert into Compra(idViaje, idCliente, cantidadPasajes, medioPago, fecha, precioTotal,idCabina, codigoPasaje)
 	values (@idViaje, @idCli, @cantPasajes, @medioPago, GETDATE(), @precioTotal, @idCabina, @codigo)
@@ -924,7 +932,7 @@ AS BEGIN
 	declare @idCabina int
 
 	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
-	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) or c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
+	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
 
 	declare @codigo decimal(18,0)
 	select @codigo = MAX(codigoReserva) from Reserva
@@ -1036,4 +1044,169 @@ BEGIN
         ROLLBACK TRANSACTION T1;
 	COMMIT TRANSACTION T1;
 END;
+
+GO
+IF (OBJECT_ID ('dbo.sp_crear_crucero') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_crucero
+GO
+Create PROCEDURE dbo.sp_crear_crucero (@Identificador nvarchar(50), @Modelo nvarchar(50), @IdFabricante int, @FechaAlta datetime2(3), @CantCabinas int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	insert into Crucero(Identificador,Modelo,FechaAlta,Fabricante,Activo) values (@Identificador, @Modelo, @FechaAlta, @IdFabricante, 1)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_crear_cabinas') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_crear_cabinas
+GO
+Create PROCEDURE dbo.sp_crear_cabinas (@pisos int, @cabinas int,@tipo int, @crucero int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	declare @contadorPisos int
+	declare @contadorCabinas int
+	declare @numero int
+
+	set @contadorPisos = 1
+	set @contadorCabinas = 1
+	
+	WHILE @contadorPisos < (@pisos+1)
+	BEGIN
+		WHILE @contadorCabinas < (@cabinas+1)
+		BEGIN
+			set @numero = (@contadorPisos * 100) + @contadorCabinas
+			insert into Cabina (Piso, Numero, TipoCabina, idCrucero) values (@contadorPisos, @numero, @tipo, @crucero)
+			set @contadorCabinas = @contadorCabinas + 1
+		END
+		set @contadorCabinas = 1
+		set @contadorPisos = @contadorPisos + 1
+	END
+
+
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_modificar_crucero') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_modificar_crucero
+GO
+Create PROCEDURE dbo.sp_modificar_crucero (@IdCrucero int,@Identificador nvarchar(50), @Modelo nvarchar(50), @IdFabricante int, @FechaAlta datetime2(3), @CantCabinas int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Crucero set Identificador = @Identificador, Modelo = @Modelo, Fabricante = @IdFabricante, FechaAlta = @FechaAlta where intCrucero = @IdCrucero 
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_modifcar_cucero_viaje') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_modifcar_cucero_viaje
+GO
+Create PROCEDURE dbo.sp_modifcar_cucero_viaje (@crucero int, @viaje int) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Viaje set idCrucero = @crucero where idViaje = @viaje
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_baja_crucero_util') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_baja_crucero_util
+GO
+Create PROCEDURE dbo.sp_baja_crucero_util (@crucero int, @descripcion varchar(255), @fechaBaja datetime2(3)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Crucero set Activo = 'B' where intCrucero = @crucero
+	insert into Baja(idTipoBaja, idCrucero, FechaBaja, descripcion) values (1, @crucero, @fechaBaja, @descripcion)
+
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_baja_crucero_servicio') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_baja_crucero_servicio
+GO
+Create PROCEDURE dbo.sp_baja_crucero_servicio (@crucero int, @descripcion varchar(255),@fechaBaja datetime2(3), @fechaRestauracion datetime2(3)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Crucero set Activo = 'B' where intCrucero = @crucero
+	insert into Baja(idTipoBaja, idCrucero, FechaBaja, descripcion, FechaRestauracion) values (2, @crucero, @fechaBaja, @descripcion, @fechaRestauracion)
+
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_devolver_pasajes') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_devolver_pasajes
+GO
+Create PROCEDURE dbo.sp_devolver_pasajes (@crucero int,@fechaBaja datetime2(3)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	declare @idViaje int
+	declare miCursor cursor for
+	select idViaje from Viaje where idCrucero = @crucero and FechaInicio > @fechaBaja
+	
+	open miCursor
+	fetch miCursor into @idViaje
+
+	if @@FETCH_STATUS = 0
+	Begin
+		delete from Compra where idViaje = @idViaje
+		delete from Reserva where idViaje = @idViaje
+	end 
+	close miCursor
+	deallocate miCursor
+
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
+IF (OBJECT_ID ('dbo.sp_reprogramar_viaje') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_reprogramar_viaje
+GO
+Create PROCEDURE dbo.sp_reprogramar_viaje (@idViaje int,@fechaInicio datetime2(3), @fechaFin datetime2(3)) 
+AS BEGIN
+
+    BEGIN TRANSACTION T1
+	Update Viaje set FechaInicio = @fechaInicio, FechaFin = @fechaFin, FechaFinEstimada = @fechaFin where idViaje = @idViaje
+
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
 GO
