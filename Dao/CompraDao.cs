@@ -206,5 +206,13 @@ namespace FrbaCrucero.Dao
 
             return viajes;
         }
+
+        public void marcarVencidasReservas(DateTime date)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@date", date);
+
+            db.executeProcedureWithParameters("dbo.delete_old_reserve", dic);
+        }
     }
 }

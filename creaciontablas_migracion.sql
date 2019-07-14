@@ -221,7 +221,8 @@ CREATE TABLE [dbo].[Reserva](
 	[fecha] [datetime2](3) ,
 	[idCabina] [int],
 	[codigoReserva] [decimal](18,0),
-	[pagada] bit,
+	[pagada] bit default 0,
+	[vencida] bit default 0,
  CONSTRAINT [PK_Reserva] PRIMARY KEY CLUSTERED 
 (
 	[idReserva] ASC
@@ -615,14 +616,14 @@ GO
 insert into dbo.RolxFuncion (idRol, idFuncion) (SELECT idRol, idFuncion from dbo.Funcion, dbo.Rol)
 GO
 -- Carga de tarjetas de credito
-insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('VISA', 'Visa', 12)
-insert into [TarjetaCredito](idTarjetaCredito ,Nombre, cuotas) values ('MAST', 'Mastercard', 6)
-insert into [TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('AMEX', 'AmeX', 3)
+insert into dbo.[TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('VISA', 'Visa', 12)
+insert into dbo.[TarjetaCredito](idTarjetaCredito ,Nombre, cuotas) values ('MAST', 'Mastercard', 6)
+insert into dbo.[TarjetaCredito](idTarjetaCredito, Nombre, cuotas) values ('AMEX', 'AmeX', 3)
 
 -- Carga de Medios de Pago
-insert into MedioPAgo(Nombre) Values ('Tarjeta de Credito')
-insert into MedioPAgo(Nombre) Values ('Transferencia Bancaria')
-insert into MedioPAgo(Nombre) Values ('Efectivo')
+insert into dbo.MedioPAgo(Nombre) Values ('Tarjeta de Credito')
+insert into dbo.MedioPAgo(Nombre) Values ('Transferencia Bancaria')
+insert into dbo.MedioPAgo(Nombre) Values ('Efectivo')
 GO
 /*
 [Usuario](
@@ -634,10 +635,10 @@ GO
 	[tStamp] Datetime,
 */
 --Carga de usuarios Admin
-insert into Usuario(username, pass, idRol) select 'admin1','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-insert into Usuario(username, pass, idRol) select 'admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-insert into Usuario(username, pass, idRol) select 'admin3','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-insert into Usuario(username, pass, idRol) select 'admin4','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into dbo.Usuario(username, pass, idRol) select 'admin1','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into dbo.Usuario(username, pass, idRol) select 'admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into dbo.Usuario(username, pass, idRol) select 'admin3','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
+insert into dbo.Usuario(username, pass, idRol) select 'admin4','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
 
 update Usuario set fallos = 0 where idRol = 1
 
@@ -650,7 +651,7 @@ GO
 CREATE PROCEDURE dbo.sp_crear_funcion (@funcionNombre  varchar(50)) 
 AS BEGIN
     BEGIN TRANSACTION T1
-	insert into Funcion(nombre) values (@funcionNombre)
+	insert into dbo.Funcion(nombre) values (@funcionNombre)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -666,7 +667,7 @@ GO
 CREATE PROCEDURE dbo.sp_crear_rol (@rolName  varchar(50)) 
 AS BEGIN
     BEGIN TRANSACTION T1
-	insert into Rol(rol_Nombre) values (@rolName)
+	insert into dbo.Rol(rol_Nombre) values (@rolName)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -682,7 +683,7 @@ Create PROCEDURE dbo.sp_set_funcxrol (@idRol int, @idFunc int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	insert into RolxFuncion(idRol, idFuncion) values (@idRol, @idFunc)
+	insert into dbo.RolxFuncion(idRol, idFuncion) values (@idRol, @idFunc)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -698,7 +699,7 @@ Create PROCEDURE dbo.sp_eliminar_funcxrol (@idRol int, @idFunc int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	delete from RolxFuncion where idRol = @idRol and idFuncion = @idFunc
+	delete from dbo.RolxFuncion where idRol = @idRol and idFuncion = @idFunc
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -714,7 +715,7 @@ Create PROCEDURE dbo.sp_update_rol (@name varchar(50) ,@idRol int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	UPDATE Rol SET rol_Nombre = @name where idRol = @idRol
+	UPDATE dbo.Rol SET rol_Nombre = @name where idRol = @idRol
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -731,7 +732,7 @@ Create PROCEDURE dbo.sp_crear_recorrido (@codigo decimal(18,0))
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	INSERT into Recorrido (codigo) values (@codigo)
+	INSERT into dbo.Recorrido (codigo) values (@codigo)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -747,7 +748,7 @@ Create PROCEDURE dbo.sp_modificar_recorrido (@codigo decimal(18,0), @idRecorrido
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	UPDATE Recorrido set codigo = @codigo where idRecorrido = @idRecorrido
+	UPDATE dbo.Recorrido set codigo = @codigo where idRecorrido = @idRecorrido
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -763,11 +764,11 @@ Create PROCEDURE dbo.sp_eliminar_recorrido (@idRecorrido int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Delete from Recorrido where idRecorrido = @idRecorrido
+	Delete from dbo.Recorrido where idRecorrido = @idRecorrido
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
-	COMMIT TRANSACTION T1;
+	COMMIT TRANSACTION T1;	
 	
 END
 GO
@@ -779,7 +780,7 @@ Create PROCEDURE dbo.sp_modificar_tramo (@idTramo int, @puertoOrigen int, @puert
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Tramo set puertoOrigen = @puertoOrigen, puertoDestino = @puertoDestino, precioBase = @precio where idTramo = @idTramo
+	Update dbo.Tramo set puertoOrigen = @puertoOrigen, puertoDestino = @puertoDestino, precioBase = @precio where idTramo = @idTramo
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -795,7 +796,7 @@ Create PROCEDURE dbo.sp_eliminar_tramo (@idTramo int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Delete from Tramo where idTramo = @idTramo
+	Delete from dbo.Tramo where idTramo = @idTramo
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -811,7 +812,7 @@ Create PROCEDURE dbo.sp_crear_tramo (@puertoOrigen int, @puertoDestino int, @pre
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	INSERT INTO Tramo(puertoOrigen,puertoDestino,precioBase) values (@puertoOrigen, @puertoDestino, @precio)
+	INSERT INTO dbo.Tramo(puertoOrigen,puertoDestino,precioBase) values (@puertoOrigen, @puertoDestino, @precio)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -827,7 +828,7 @@ Create PROCEDURE dbo.sp_set_recorridoxtramo (@idTramo int, @idRecorrido int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	insert into RecorridoXTramo(idRecorrido, idTramo) values (@idRecorrido, @idTramo)
+	insert into dbo.RecorridoXTramo(idRecorrido, idTramo) values (@idRecorrido, @idTramo)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -843,7 +844,7 @@ Create PROCEDURE dbo.sp_eliminar_recorridoxtramo (@idTramo int, @idRecorrido int
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Delete from RecorridoXTramo where idTramo = @idTramo and idRecorrido = @idRecorrido
+	Delete from dbo.RecorridoXTramo where idTramo = @idTramo and idRecorrido = @idRecorrido
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -859,7 +860,7 @@ Create PROCEDURE dbo.sp_crear_viaje (@fechaInicio datetime2(3), @fechaFin dateti
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	insert into Viaje(FechaInicio, FechaFin, FechaFinEstimada, idCrucero ,idRecorrido) values (@fechaInicio, @fechaFin, @fechaFin, @idCrucero, @idRecorrido)
+	insert into dbo.Viaje(FechaInicio, FechaFin, FechaFinEstimada, idCrucero ,idRecorrido) values (@fechaInicio, @fechaFin, @fechaFin, @idCrucero, @idRecorrido)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -875,7 +876,7 @@ Create PROCEDURE dbo.sp_crear_cliente (@nombre varchar(255),@apellido varchar(25
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	insert into Cliente(Nombre, Apellido, telefono, mail, direccion,dni,fechaNac) values (@nombre ,@apellido,@telefono ,@mail ,@direccion,@dni , @fechaNac)
+	insert into dbo.Cliente(Nombre, Apellido, telefono, mail, direccion,dni,fechaNac) values (@nombre ,@apellido,@telefono ,@mail ,@direccion,@dni , @fechaNac)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -893,12 +894,12 @@ AS BEGIN
     BEGIN TRANSACTION T1
 	if(@tarjetaNombre != '' and @tarjetaCoutas = 0)
 	begin
-	INSERT INTO TarjetaCredito(Nombre, cuotas) values (@tarjetaNombre, @tarjetaCoutas)
+	INSERT INTO dbo.TarjetaCredito(Nombre, cuotas) values (@tarjetaNombre, @tarjetaCoutas)
 	end
 	
 	declare @idCabina int
 
-	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
+	select top 1 @idCabina = c.idCabina from dbo.Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
 	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
 
 	declare @codigo decimal(18,0)
@@ -912,7 +913,7 @@ AS BEGIN
 		 set @codigo = 0
 	end
 
-	insert into Compra(idViaje, idCliente, cantidadPasajes, medioPago, fecha, precioTotal,idCabina, codigoPasaje)
+	insert into dbo.Compra(idViaje, idCliente, cantidadPasajes, medioPago, fecha, precioTotal,idCabina, codigoPasaje)
 	values (@idViaje, @idCli, @cantPasajes, @medioPago, GETDATE(), @precioTotal, @idCabina, @codigo)
 	
 	if (@@ERROR !=0)
@@ -946,7 +947,7 @@ AS BEGIN
 		 set @codigo = 0
 	end
 
-	insert into Reserva(idViaje, idCliente, cantidadPasajeros, fecha, idCabina, codigoReserva)
+	insert into dbo.Reserva(idViaje, idCliente, cantidadPasajeros, fecha, idCabina, codigoReserva)
 	values (@idViaje, @idCli, @cantPasajes, GETDATE(), @idCabina, @codigo)
 	
 	if (@@ERROR !=0)
@@ -963,7 +964,7 @@ Create PROCEDURE dbo.sp_crear_puerto (@Nombre nvarchar(255))
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	INSERT into Puerto(Nombre) values (@Nombre)
+	INSERT into dbo.Puerto(Nombre) values (@Nombre)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -978,7 +979,7 @@ Create PROCEDURE dbo.sp_modificar_puerto (@IdPuerto int,@Nombre nvarchar(255))
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Puerto set Nombre = @Nombre where idPuerto = @IdPuerto
+	Update dbo.Puerto set Nombre = @Nombre where idPuerto = @IdPuerto
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -994,7 +995,7 @@ Create PROCEDURE dbo.sp_pagar_reserva (@codigoReserva decimal(18,0))
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Reserva set pagada = 1 where codigoReserva = @codigoReserva
+	Update dbo.Reserva set pagada = 1 where codigoReserva = @codigoReserva
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -1039,7 +1040,7 @@ BEGIN
 		End
 	End
 	
-	update Usuario set fallos = @fallos, tStamp = @now Where username = @usr;
+	update dbo.Usuario set fallos = @fallos, tStamp = @now Where username = @usr;
 
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -1054,7 +1055,7 @@ Create PROCEDURE dbo.sp_crear_crucero (@Identificador nvarchar(50), @Modelo nvar
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	insert into Crucero(Identificador,Modelo,FechaAlta,Fabricante,Activo) values (@Identificador, @Modelo, @FechaAlta, @IdFabricante, 1)
+	insert into dbo.Crucero(Identificador,Modelo,FechaAlta,Fabricante,Activo) values (@Identificador, @Modelo, @FechaAlta, @IdFabricante, 1)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -1082,7 +1083,7 @@ AS BEGIN
 		WHILE @contadorCabinas < (@cabinas+1)
 		BEGIN
 			set @numero = (@contadorPisos * 100) + @contadorCabinas
-			insert into Cabina (Piso, Numero, TipoCabina, idCrucero) values (@contadorPisos, @numero, @tipo, @crucero)
+			insert into dbo.Cabina (Piso, Numero, TipoCabina, idCrucero) values (@contadorPisos, @numero, @tipo, @crucero)
 			set @contadorCabinas = @contadorCabinas + 1
 		END
 		set @contadorCabinas = 1
@@ -1104,7 +1105,7 @@ Create PROCEDURE dbo.sp_modificar_crucero (@IdCrucero int,@Identificador nvarcha
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Crucero set Identificador = @Identificador, Modelo = @Modelo, Fabricante = @IdFabricante, FechaAlta = @FechaAlta where intCrucero = @IdCrucero 
+	Update dbo.Crucero set Identificador = @Identificador, Modelo = @Modelo, Fabricante = @IdFabricante, FechaAlta = @FechaAlta where intCrucero = @IdCrucero 
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -1120,7 +1121,7 @@ Create PROCEDURE dbo.sp_modifcar_cucero_viaje (@crucero int, @viaje int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Viaje set idCrucero = @crucero where idViaje = @viaje
+	Update dbo.Viaje set idCrucero = @crucero where idViaje = @viaje
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
@@ -1136,8 +1137,8 @@ Create PROCEDURE dbo.sp_baja_crucero_util (@crucero int, @descripcion varchar(25
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Crucero set Activo = 'B' where intCrucero = @crucero
-	insert into Baja(idTipoBaja, idCrucero, FechaBaja, descripcion) values (1, @crucero, @fechaBaja, @descripcion)
+	Update dbo.Crucero set Activo = 'B' where intCrucero = @crucero
+	insert into dbo.Baja(idTipoBaja, idCrucero, FechaBaja, descripcion) values (1, @crucero, @fechaBaja, @descripcion)
 
 	
 	if (@@ERROR !=0)
@@ -1154,8 +1155,8 @@ Create PROCEDURE dbo.sp_baja_crucero_servicio (@crucero int, @descripcion varcha
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Crucero set Activo = 'B' where intCrucero = @crucero
-	insert into Baja(idTipoBaja, idCrucero, FechaBaja, descripcion, FechaRestauracion) values (2, @crucero, @fechaBaja, @descripcion, @fechaRestauracion)
+	Update dbo.Crucero set Activo = 'B' where intCrucero = @crucero
+	insert into dbo.Baja(idTipoBaja, idCrucero, FechaBaja, descripcion, FechaRestauracion) values (2, @crucero, @fechaBaja, @descripcion, @fechaRestauracion)
 
 	
 	if (@@ERROR !=0)
@@ -1174,15 +1175,15 @@ AS BEGIN
     BEGIN TRANSACTION T1
 	declare @idViaje int
 	declare miCursor cursor for
-	select idViaje from Viaje where idCrucero = @crucero and FechaInicio > @fechaBaja
+	select idViaje from dbo.Viaje where idCrucero = @crucero and FechaInicio > @fechaBaja
 	
 	open miCursor
 	fetch miCursor into @idViaje
 
 	if @@FETCH_STATUS = 0
 	Begin
-		delete from Compra where idViaje = @idViaje
-		delete from Reserva where idViaje = @idViaje
+		delete from dbo.Compra where idViaje = @idViaje
+		delete from dbo.Reserva where idViaje = @idViaje
 	end 
 	close miCursor
 	deallocate miCursor
@@ -1202,7 +1203,7 @@ Create PROCEDURE dbo.sp_reprogramar_viaje (@idViaje int,@fechaInicio datetime2(3
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	Update Viaje set FechaInicio = @fechaInicio, FechaFin = @fechaFin, FechaFinEstimada = @fechaFin where idViaje = @idViaje
+	Update dbo.Viaje set FechaInicio = @fechaInicio, FechaFin = @fechaFin, FechaFinEstimada = @fechaFin where idViaje = @idViaje
 
 	
 	if (@@ERROR !=0)
