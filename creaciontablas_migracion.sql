@@ -1272,8 +1272,9 @@ end
 GO
 
 create Function dbo.fx_RecorridosYTramos ()
-returns Table
-as
+RETURNS @res TABLE (
+	idRecorrido int, codigo int, orden int, idPuertoOrigen int, puertoOrigen nvarchar(255), idPuertoDestino int, puertoDestino nvarchar(255), Precio decimal(18,2))
+AS
 BEGIN
 	declare @idRec int;
 	declare @cod int;
@@ -1294,9 +1295,6 @@ BEGIN
 	declare @precioAux decimal(18,2);
 
 	declare @precioAcu decimal(18,2);
-
-	declare @res TABLE (idRecorrido int, codigo int, orden int, idPuertoOrigen int, puertoOrigen nvarchar(255), idPuertoDestino int, puertoDestino nvarchar(255), Precio decimal(18,2));
-
 
 	declare miCursor CURSOR FOR 
 		select r.idRecorrido AS idRecorrido, r.codigo AS Codigo, rt.orden
@@ -1341,6 +1339,6 @@ BEGIN
 	END
 	CLOSE miCursor;
 	DEALLOCATE miCursor;
-	return @res;
+	RETURN;
 END;
 GO

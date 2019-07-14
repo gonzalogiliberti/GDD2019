@@ -22,17 +22,18 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllRecorridos()
         {
-            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from (Recorrido r join RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A'");
+            //return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio from (dbo.Recorrido r join dbo.RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join dbo.Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A' order by idRecorrido, r.codigo, rt.orden");
+            return db.select_query("select * from dbo.fx_RecorridosYTramos()");
         }
 
         public DataTable getTramosForRecorrido(int idRecorrido)
         {
-            return db.select_query("select t.idTramo AS idTramo,  t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from RecorridoXTramo rt join Tramo t on t.idTramo = rt.idTramo where rt.idRecorrido = " + idRecorrido + " order by rt.orden");
+            return db.select_query("select t.idTramo AS idTramo, t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from dbo.Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from dbo.Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio from dbo.RecorridoXTramo rt join dbo.Tramo t on t.idTramo = rt.idTramo where rt.idRecorrido = " + idRecorrido + " order by rt.orden");
         }
 
         public DataTable getTramosAvailableRecorrido(int idRecorrido)
         {
-            return db.select_query("select t.idTramo AS idTramo,  t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio from Tramo t join RecorridoXTramo rt on t.idTramo = rt.idTramo where t.idTramo not in (select t.idTramo  from RecorridoXTramo rt join Tramo t on t.idTramo = rt.idTramo where rt.idRecorrido = " + idRecorrido + ") order by t.idTramo desc  ");
+            return db.select_query("select t.idTramo AS idTramo, t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from dbo.Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from dbo.Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio from dbo.Tramo t join dbo.RecorridoXTramo rt on t.idTramo = rt.idTramo where t.idTramo not in (select t.idTramo from dbo.RecorridoXTramo rt join dbo.Tramo t on t.idTramo = rt.idTramo where rt.idRecorrido = " + idRecorrido + ") order by t.idTramo desc  ");
         }
 
         public int verifyRecorridoExisted(String codigo)
@@ -154,7 +155,7 @@ namespace FrbaCrucero.Dao
 
         public int getPrecioFinal(int idRecorrido)
         {
-            DataTable dt = db.select_query("select sum(t.precioBase) as PrecioFinal  from RecorridoXTramo rt, Tramo t where rt.idRecorrido  = "+ idRecorrido +" and rt.idTramo = t.idTramo");
+            DataTable dt = db.select_query("select sum(t.precioBase) as PrecioFinal from dbo.RecorridoXTramo rt, dbo.Tramo t where rt.idRecorrido  = " + idRecorrido + " and rt.idTramo = t.idTramo");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -182,7 +183,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getRecorrido(decimal code)
         {
-            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from (Recorrido r join RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A' and r.codigo = " + code);
+            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from dbo.Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from dbo.Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio from (dbo.Recorrido r join dbo.RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join dbo.Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A' and r.codigo = " + code);
         }
     }
 }

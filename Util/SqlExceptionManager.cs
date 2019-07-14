@@ -21,7 +21,7 @@ namespace FrbaCrucero.Util
                 case 2602:
                     throw new DuplicateKeyException(ex.Message.ToString() + "Esta operacion ya fue Realizada");
                 default:
-                    throw new Exception("Hubo un error, reintente mas tarde");
+                    throw new Exception(ex.Message.ToString());
 
             }
 
