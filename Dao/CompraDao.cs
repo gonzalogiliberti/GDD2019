@@ -22,8 +22,8 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllTrips(int pOri, int pDest, DateTime inicio)
         {
-            
-            string query = "select V.idViaje, t.puertoOrigen AS idPuertoOri, p1.Nombre AS PuertoOri, t.puertoDestino AS idPuertoDest, p2.Nombre as PuertoDest, V.FechaInicio, V.FechaFin, c.intCrucero as idCrucero, c.Identificador, v.idRecorrido from Viaje V, RecorridoXTramo rxt, Recorrido r, Tramo t, Puerto p1, Puerto p2, Crucero c ";
+
+            string query = "select V.idViaje, t.puertoOrigen AS idPuertoOri, p1.Nombre AS PuertoOri, t.puertoDestino AS idPuertoDest, p2.Nombre as PuertoDest, V.FechaInicio, V.FechaFin, c.intCrucero as idCrucero, c.Identificador, v.idRecorrido from dbo.Viaje V, RecorridoXTramo rxt, Recorrido r, Tramo t, Puerto p1, Puerto p2, Crucero c ";
             query += "where V.FechaInicio = '" + inicio + "' and t.puertoOrigen = "+ pOri + " and t.puertoDestino = " + pDest +" and rxt.idTramo = t.idTramo and ";
             query += "rxt.idRecorrido = r.idRecorrido and rxt.orden = 0 and p1.idPuerto = " + pOri +" and p2.idPuerto = " + pDest + " and c.intCrucero = v.idCrucero";
             return db.select_query(query);
@@ -31,15 +31,15 @@ namespace FrbaCrucero.Dao
 
         public DataTable getCabinasDisponibles(int idViaje, int cantPasajeros, int idCrucero)
         {
-            string query = "select count(ca.idCabina) as cantidadCabinas, t.Nombre, t.Recargo, t.idTipoCabina from Cabina ca, TipoCabina t, Viaje v ";
+            string query = "select count(ca.idCabina) as cantidadCabinas, t.Nombre, t.Recargo, t.idTipoCabina from dbo.Cabina ca, TipoCabina t, Viaje v ";
             query += "where v.idViaje = " + idViaje + " and "+ idCrucero + " = ca.idCrucero and ca.TipoCabina = t.idTipoCabina and ";
-            query += "ca.idCabina not in (select co.idCabina from Compra co where co.idViaje = " + idViaje + ")  group by t.Nombre, t.Recargo, t.idTipoCabina having count(ca.idCabina) > " + cantPasajeros;
+            query += "ca.idCabina not in (select co.idCabina from dbo.Compra co where co.idViaje = " + idViaje + ")  group by t.Nombre, t.Recargo, t.idTipoCabina having count(ca.idCabina) > " + cantPasajeros;
             return db.select_query(query);
         }
 
         public DataTable searchCliente(decimal dni)
         {
-            return db.select_query("select c.idCliente, c.Nombre, c.Apellido, c.mail, c.direccion, c.fechaNac, c.telefono, c.dni from Cliente c where c.dni = " + dni);
+            return db.select_query("select c.idCliente, c.Nombre, c.Apellido, c.mail, c.direccion, c.fechaNac, c.telefono, c.dni from dbo.Cliente c where c.dni = " + dni);
         }
 
         public void createClient(Cliente cli)
@@ -122,7 +122,7 @@ namespace FrbaCrucero.Dao
 
         public int getClientId(Cliente cliente)
         {
-            DataTable dt = db.select_query("select c.idCliente from Cliente c where dni = " + cliente.dni +" and Nombre = '" + cliente.nombre + "' and Apellido = '" + cliente.apellido +"'");
+            DataTable dt = db.select_query("select c.idCliente from dbo.Cliente c where dni = " + cliente.dni + " and Nombre = '" + cliente.nombre + "' and Apellido = '" + cliente.apellido + "'");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -133,7 +133,7 @@ namespace FrbaCrucero.Dao
 
         public Viaje getViaje(int viajeId)
         {
-            DataTable dt = db.select_query("select * from Viaje where idViaje = " + viajeId);
+            DataTable dt = db.select_query("select * from dbo.Viaje where idViaje = " + viajeId);
             if (dt.Rows.Count != 1)
             {
                 return null;
@@ -144,7 +144,7 @@ namespace FrbaCrucero.Dao
 
         public Cliente getCliente(int clienteId)
         {
-            DataTable dt = db.select_query("select * from Cliente where idCliente = " + clienteId);
+            DataTable dt = db.select_query("select * from dbo.Cliente where idCliente = " + clienteId);
             if (dt.Rows.Count != 1)
             {
                 return null;
@@ -155,7 +155,7 @@ namespace FrbaCrucero.Dao
 
         public DataRow getReserve(Decimal codigo)
         {
-            DataTable dt = db.select_query("select * from Reserva where codigoReserva = " + codigo);
+            DataTable dt = db.select_query("select * from dbo.Reserva where codigoReserva = " + codigo);
             if (dt.Rows.Count != 1)
             {
                 return null;
@@ -174,7 +174,7 @@ namespace FrbaCrucero.Dao
         public decimal getCodigoPasaje(Cliente cliente, Viaje viaje, MedioPAgo mp, double precioTotal, TarjetaCredito tarjeta, int cantPasajes)
         {
             String precio = precioTotal.ToString();
-            DataTable dt = db.select_query("select codigoPasaje from Compra where idCliente = " + cliente.idCliente + " and idViaje = " + viaje.idViaje + " and cantidadPasajes = " + cantPasajes + " and medioPago = " + mp.idMedioPago + " and precioTotal = " + precio.Replace(",", "."));
+            DataTable dt = db.select_query("select codigoPasaje from dbo.Compra where idCliente = " + cliente.idCliente + " and idViaje = " + viaje.idViaje + " and cantidadPasajes = " + cantPasajes + " and medioPago = " + mp.idMedioPago + " and precioTotal = " + precio.Replace(",", "."));
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -185,7 +185,7 @@ namespace FrbaCrucero.Dao
 
         public decimal getCodigoReserva(Cliente cliente, Viaje viaje, int cantPasajes)
         {
-            DataTable dt = db.select_query("select codigoReserva from Reserva where idCliente = " + cliente.idCliente + " and idViaje = " + viaje.idViaje + " and cantidadPasajes = " + cantPasajes );
+            DataTable dt = db.select_query("select codigoReserva from dbo.Reserva where idCliente = " + cliente.idCliente + " and idViaje = " + viaje.idViaje + " and cantidadPasajes = " + cantPasajes);
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -242,7 +242,7 @@ namespace FrbaCrucero.Dao
         public List<Viaje> getViajes(int crucero)
         {
             List<Viaje> viajes = new List<Viaje>();
-            DataTable dt = db.select_query("select v.idViaje, v.idCrucero, v.idRecorrido, v.FechaInicio, v.FechaFin from Viaje v where v.idCrucero = " + crucero);
+            DataTable dt = db.select_query("select v.idViaje, v.idCrucero, v.idRecorrido, v.FechaInicio, v.FechaFin from dbo.Viaje v where v.idCrucero = " + crucero);
 
             foreach (DataRow row in dt.Rows)
             {

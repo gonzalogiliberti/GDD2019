@@ -53,7 +53,7 @@ namespace FrbaCrucero.Dao
         public List<int> getFunciones(int idRol)
         {
             List<int> funciones = new List<int>();
-            DataTable res = db.select_query("select F.idFuncion, F.nombre from RolxFuncion RF join Funcion F on RF.idFuncion = F.idFuncion where idRol = " + idRol.ToString());
+            DataTable res = db.select_query("select F.idFuncion, F.nombre from dbo.RolxFuncion RF join Funcion F on RF.idFuncion = F.idFuncion where idRol = " + idRol.ToString());
             foreach (DataRow row in res.Rows)
             {
                 funciones.Add((int)row.ItemArray[0]);

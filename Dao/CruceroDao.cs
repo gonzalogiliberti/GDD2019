@@ -20,7 +20,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllCruises()
         {
-            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from Cabina ca where ca.idCrucero = intCrucero) As CantidadCabinas, FechaAlta  from dbo.Crucero");
+            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from dbo.Cabina ca where ca.idCrucero = intCrucero) As CantidadCabinas, FechaAlta  from dbo.Crucero");
         }
 
         public List<Fabricante> getFabricantes()
@@ -149,8 +149,8 @@ namespace FrbaCrucero.Dao
         {
 
             List<Crucero> cruceros = new List<Crucero>();
-            string query = " select c.intCrucero as idCrucero, c.Modelo, c.Identificador, c.Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from Cabina where idCrucero = c.intCrucero) AS CantidadCabinas, ISNULL(c.FechaAlta, GETDATE()) AS FechaAlta from Crucero c where ";
-            query += "c.intCrucero not in ( select v1.idCrucero from Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin and ";
+            string query = " select c.intCrucero as idCrucero, c.Modelo, c.Identificador, c.Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from dbo.Cabina where idCrucero = c.intCrucero) AS CantidadCabinas, ISNULL(c.FechaAlta, GETDATE()) AS FechaAlta from dbo.Crucero c where ";
+            query += "c.intCrucero not in ( select v1.idCrucero from dbo.Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin and ";
             query += "'" + f2 + "' between v1.FechaInicio and v1.FechaFin and ";
             query += "v1.FechaInicio between '" + f1 + "' and '" + f2 + "' and ";
             query += "v1.FechaFin between '" + f1 + "' and '" + f2 + "') and c.Activo = 'A' ";
@@ -167,7 +167,7 @@ namespace FrbaCrucero.Dao
 
         public int getTipoCabinaId(int idCabina)
         {
-            DataTable dt = db.select_query("select c.TipoCabina from Cabina c where idCabina = " + idCabina);
+            DataTable dt = db.select_query("select c.TipoCabina from dbo.Cabina c where idCabina = " + idCabina);
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -178,7 +178,7 @@ namespace FrbaCrucero.Dao
 
         public TipoCabina getTipoCabina(int tipo)
         {
-            DataTable dt = db.select_query("select * from TipoCabina where idTipoCabina = " + tipo);
+            DataTable dt = db.select_query("select * from dbo.TipoCabina where idTipoCabina = " + tipo);
             if (dt.Rows.Count != 1)
             {
                 return null;
@@ -211,7 +211,7 @@ namespace FrbaCrucero.Dao
 
         public int getIdEstandar()
         {
-            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.20");
+            DataTable dt = db.select_query("select idTipoCabina from dbo.TipoCabina where Recargo = 1.20");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -222,7 +222,7 @@ namespace FrbaCrucero.Dao
 
         public int getIdExterior()
         {
-            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.40");
+            DataTable dt = db.select_query("select idTipoCabina from dbo.TipoCabina where Recargo = 1.40");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -233,7 +233,7 @@ namespace FrbaCrucero.Dao
 
         public int getIdBalcon()
         {
-            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.60");
+            DataTable dt = db.select_query("select idTipoCabina from dbo.TipoCabina where Recargo = 1.60");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -244,7 +244,7 @@ namespace FrbaCrucero.Dao
 
         public int getIdSuite()
         {
-            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 1.80");
+            DataTable dt = db.select_query("select idTipoCabina from dbo.TipoCabina where Recargo = 1.80");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -255,7 +255,7 @@ namespace FrbaCrucero.Dao
 
         public int getIdEjecutivo()
         {
-            DataTable dt = db.select_query("select idTipoCabina from TipoCabina where Recargo = 2.00");
+            DataTable dt = db.select_query("select idTipoCabina from dbo.TipoCabina where Recargo = 2.00");
             if (dt.Rows.Count != 1)
             {
                 return -1;
@@ -266,7 +266,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getViajesForCruise(int crucero)
         {
-            return db.select_query("select idViaje, FechaInicio, FechaFin, (select Codigo from Recorrido r where r.idRecorrido = v.idRecorrido ) as Recorrido from Viaje v where idCrucero = " + crucero + " and FechaInicio > '" + DateTime.Now + "'");
+            return db.select_query("select idViaje, FechaInicio, FechaFin, (select Codigo from dbo.Recorrido r where r.idRecorrido = v.idRecorrido ) as Recorrido from dbo.Viaje v where idCrucero = " + crucero + " and FechaInicio > '" + DateTime.Now + "'");
         }
 
         public void updateCruiseViaje(int crucero, int viaje)
@@ -280,8 +280,8 @@ namespace FrbaCrucero.Dao
 
         public DataTable getCrucerosParaReemplazo(DateTime f1, DateTime f2)
         {
-            string query = " select c.intCrucero , c.Modelo, c.Identificador, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from Cabina where idCrucero = c.intCrucero) AS CantidadCabinas from Crucero c where ";
-            query += "c.intCrucero not in ( select v1.idCrucero from Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin and ";
+            string query = " select c.intCrucero , c.Modelo, c.Identificador, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, (select count(*) from dbo.Cabina where idCrucero = c.intCrucero) AS CantidadCabinas from dbo.Crucero c where ";
+            query += "c.intCrucero not in ( select v1.idCrucero from dbo.Viaje v1 where '" + f1 + "' between v1.FechaInicio and v1.FechaFin and ";
             query += "'" + f2 + "' between v1.FechaInicio and v1.FechaFin and ";
             query += "v1.FechaInicio between '" + f1 + "' and '" + f2 + "' and ";
             query += "v1.FechaFin between '" + f1 + "' and '" + f2 + "') and c.Activo = 'A' ";
@@ -342,7 +342,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllBajas(int crucero)
         {
-            return db.select_query("select b.idBaja, b.FechaBaja, b.FechaRestauracion as FechaAlta, b.Descripcion, (select Nombre from TipoBaja t where t.idTipoBaja = b.idTipoBaja ) as Nombre from Baja b where b.idCrucero = " + crucero);
+            return db.select_query("select b.idBaja, b.FechaBaja, b.FechaRestauracion as FechaAlta, b.Descripcion, (select Nombre from dbo.TipoBaja t where t.idTipoBaja = b.idTipoBaja ) as Nombre from dbo.Baja b where b.idCrucero = " + crucero);
         }
     }
 }
