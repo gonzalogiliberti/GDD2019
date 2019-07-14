@@ -49,10 +49,28 @@ namespace FrbaCrucero.AbmRol
 
         private void dgvRol_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            DataGridViewRow unRol = this.dgvRol.SelectedRows[0];
-            AltaModificacionRol a = new AltaModificacionRol(unRol);
-            a.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionRolCerrada);
-            a.ShowDialog();
+            if (this.dgvRol.SelectedRows.Count == 1)
+            {
+                DataGridViewRow unRol = this.dgvRol.SelectedRows[0];
+                AltaModificacionRol a = new AltaModificacionRol(unRol);
+                a.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionRolCerrada);
+                a.ShowDialog();
+            }
+        }
+
+        private void search_Click(object sender, EventArgs e)
+        {
+            String searchValue = this.textRol.Text;
+            int rowIndex = -1;
+            foreach (DataGridViewRow row in dgvRol.Rows)
+            {
+                if (row.Cells[1].Value.ToString().Equals(searchValue))
+                {
+                    rowIndex = row.Index;
+                    dgvRol.CurrentCell = dgvRol[1,rowIndex];
+                    break;
+                }
+            }
         }
     }
 }

@@ -231,7 +231,7 @@ namespace FrbaCrucero.Dao
         {
             String query =
                 "select TOP 5 idCrucero as Crucero, sum( DATEDIFF(DAY, FechaBaja, FechaRestauracion) ) as DiasDeBaja  from dbo.Baja " + 
-                "where idTipoBaja = 1 and FechaBaja > " + fecha1 + " and FechaRestauracion < " + fecha2 +
+                "where idTipoBaja = 2 and FechaBaja > " + fecha1 + " and FechaRestauracion < " + fecha2 +
                 " group by idCrucero" +
                 " order by DiasDeBaja desc;";
 

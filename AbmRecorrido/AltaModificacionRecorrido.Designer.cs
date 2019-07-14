@@ -37,8 +37,6 @@
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.textCodigo = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.addTramo = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
             this.delete = new System.Windows.Forms.Button();
@@ -60,13 +58,14 @@
             this.idPuertoDestino,
             this.puertoDestino,
             this.Precio});
-            this.dgvTramo.Location = new System.Drawing.Point(83, 153);
+            this.dgvTramo.Location = new System.Drawing.Point(59, 89);
             this.dgvTramo.MultiSelect = false;
             this.dgvTramo.Name = "dgvTramo";
             this.dgvTramo.ReadOnly = true;
             this.dgvTramo.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTramo.Size = new System.Drawing.Size(346, 214);
+            this.dgvTramo.Size = new System.Drawing.Size(392, 278);
             this.dgvTramo.TabIndex = 1;
+            this.dgvTramo.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTramo_CellContentClick);
             this.dgvTramo.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvTramo_CellMouseDoubleClick);
             // 
             // idTramo
@@ -130,22 +129,6 @@
             this.textCodigo.Size = new System.Drawing.Size(152, 20);
             this.textCodigo.TabIndex = 3;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(56, 93);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(64, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Precio Total";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(161, 90);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(151, 20);
-            this.textBox2.TabIndex = 5;
-            // 
             // addTramo
             // 
             this.addTramo.Location = new System.Drawing.Point(12, 414);
@@ -206,8 +189,6 @@
             this.Controls.Add(this.delete);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.addTramo);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.textCodigo);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvTramo);
@@ -224,8 +205,6 @@
         private System.Windows.Forms.DataGridView dgvTramo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textCodigo;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Button addTramo;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button delete;

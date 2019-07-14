@@ -62,10 +62,18 @@ namespace FrbaCrucero.Dao
         public void updateRol(String name, int idRol)
         {
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
-            dic.Add("@rolNombre", name);
-            dic.Add("idRol", idRol);
+            dic.Add("@name", name);
+            dic.Add("@idRol", idRol);
 
-            db.executeProcedureWithParameters("dbo.sp_modificar_rol", dic);
+            db.executeProcedureWithParameters("dbo.sp_update_rol", dic);
+        }
+
+        public void deleteRol(String name)
+        {
+            Dictionary<String, Object> dic = new Dictionary<String, Object>();
+            dic.Add("@rolName", name);
+
+            db.executeProcedureWithParameters("dbo.sp_eliminar_rol", dic);
         }
 
         public int verifyRolExisted(String rolName)

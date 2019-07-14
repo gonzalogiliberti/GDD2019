@@ -30,13 +30,13 @@
         {
             this.cancel = new System.Windows.Forms.Button();
             this.dgvFunc = new System.Windows.Forms.DataGridView();
+            this.idFuncionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.create = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.search = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.idFuncionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Funcionalidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFunc)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,6 +64,19 @@
             this.dgvFunc.Size = new System.Drawing.Size(146, 131);
             this.dgvFunc.TabIndex = 1;
             this.dgvFunc.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvFunc_CellMouseDoubleClick);
+            // 
+            // idFuncionalidad
+            // 
+            this.idFuncionalidad.DataPropertyName = "idFuncion";
+            this.idFuncionalidad.HeaderText = "idFuncionalidad";
+            this.idFuncionalidad.Name = "idFuncionalidad";
+            this.idFuncionalidad.Visible = false;
+            // 
+            // Funcionalidad
+            // 
+            this.Funcionalidad.DataPropertyName = "nombre";
+            this.Funcionalidad.HeaderText = "Funcionalidades Disponibles";
+            this.Funcionalidad.Name = "Funcionalidad";
             // 
             // create
             // 
@@ -99,6 +112,7 @@
             this.search.TabIndex = 5;
             this.search.Text = "Buscar";
             this.search.UseVisualStyleBackColor = true;
+            this.search.Click += new System.EventHandler(this.search_Click);
             // 
             // label2
             // 
@@ -108,19 +122,6 @@
             this.label2.Size = new System.Drawing.Size(189, 13);
             this.label2.TabIndex = 6;
             this.label2.Text = "Seleccione la Funcionalidad a Agregar";
-            // 
-            // idFuncionalidad
-            // 
-            this.idFuncionalidad.DataPropertyName = "idFuncion";
-            this.idFuncionalidad.HeaderText = "idFuncionalidad";
-            this.idFuncionalidad.Name = "idFuncionalidad";
-            this.idFuncionalidad.Visible = false;
-            // 
-            // Funcionalidad
-            // 
-            this.Funcionalidad.DataPropertyName = "nombre";
-            this.Funcionalidad.HeaderText = "Funcionalidades Disponibles";
-            this.Funcionalidad.Name = "Funcionalidad";
             // 
             // Funcionalidades
             // 
