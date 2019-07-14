@@ -13,11 +13,15 @@ using FrbaCrucero.AbmRecorrido;
 using FrbaCrucero.GeneracionViaje;
 using FrbaCrucero.AbmRol;
 using FrbaCrucero.CompraReservaPasaje;
+using FrbaCrucero.Login;
 
 namespace FrbaCrucero
 {
     public partial class PaginaPrincipal : Form
     {
+        Roles r = new Roles();
+        List<int> funciones;
+
         public PaginaPrincipal()
         {
             InitializeComponent();
@@ -63,6 +67,48 @@ namespace FrbaCrucero
         {
             PagarReserva p = new PagarReserva();
             p.ShowDialog();
+        }
+
+        private void login_Click(object sender, EventArgs e)
+        {
+            LoginForm l = new LoginForm();
+            DialogResult res = l.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                funciones = l.funciones;
+                showButtons();
+            }
+
+        }
+        private void showButtons()
+        {
+            foreach (int f in funciones)
+            {
+                switch(f)
+                {
+                    case 1:
+                        roles.Visible = true;
+                        break;
+                    case 2:
+                        puertos.Visible = true;
+                        break;
+                    case 3:
+                        recorrido.Visible = true;
+                        break;
+                    case 4:
+                        crucero.Visible = true;
+                        break;
+                    case 5:
+                        genViaje.Visible = true;
+                        break;
+                    case 14:
+                        //.Visible = true;
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
     }
 }

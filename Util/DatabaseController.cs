@@ -110,6 +110,33 @@ namespace FrbaCrucero.Util
             }
         }
 
+        public int executeProcedureWithParametersReturnInt(String query, Dictionary<String, Object> dictionary, Dictionary<String, Object> returnParams)
+        {
+            int res = 0;
+            try
+            {
+                openConnection();
+                SqlCommand command = new SqlCommand(query, getConnectionString());
+                foreach (String key in dictionary.Keys)
+                {
+                    command.Parameters.AddWithValue(key, dictionary[key]);
+                }
+                foreach (String key in returnParams.Keys)
+                {
+                    command.Parameters.Add(key, dictionary[key]).Direction = ParameterDirection.Output;
+                }
+                command.CommandType = CommandType.StoredProcedure;
+                command.ExecuteNonQuery();
+                closeConnection();
+            }
+            catch (SqlException ex)
+            {
+                closeConnection();
+                SqlExceptionManager.handlerException(ex);
+            }
+            return (int)res;
+        }
+
 
         public DataTable select_query(String query)
         {
