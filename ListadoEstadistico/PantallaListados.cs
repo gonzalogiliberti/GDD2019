@@ -13,25 +13,25 @@ namespace FrbaCrucero.ListadoEstadistico
 {
     public partial class PantallaListados : Form
     {
-        private CruceroDao cruceroDao;
+
         private CompraDao compraDao;
         private String fecha1;
         private String fecha2;
 
         public PantallaListados()
         {
-            cruceroDao = new CruceroDao();
             compraDao = new CompraDao();
             InitializeComponent();
         }
 
         public void setupCombos()
         {
+
         }
 
         public void setupGrid()
         {
-//            this.listadosGrid.DataSource = dao.getAllCruises();
+
         }
 
         private void genListado_Click(object sender, EventArgs e)
@@ -61,14 +61,11 @@ namespace FrbaCrucero.ListadoEstadistico
                         break;
 
                     case "Recorridos con mas cabinas libres en cada viaje realizado":
-                        MessageBox.Show(fecha1);
-                        MessageBox.Show(fecha2);
-
+                        this.listadosGrid.DataSource = compraDao.getTopRecorridosLibres(fecha1, fecha2);
                         break;
 
                     case "Cruceros con mayor cantidad de dias fuera de servicio":
-                        MessageBox.Show("listado 3");
-                        this.listadosGrid.DataSource = cruceroDao.getAllCruises();
+                        this.listadosGrid.DataSource = compraDao.getTopCrucerosDeBaja(fecha1, fecha2);
                         break;
                 }
 
@@ -77,8 +74,8 @@ namespace FrbaCrucero.ListadoEstadistico
             {
                 MessageBox.Show(ex.Message.ToString(), "Error generando el listado solicitado");
             }    
-        }
 
+        }
 
 
     }
