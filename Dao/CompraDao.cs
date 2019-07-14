@@ -194,6 +194,51 @@ namespace FrbaCrucero.Dao
             return Convert.ToDecimal(r["codigoReserva"]);
         }
 
+        public DataTable getTopRecorridosVendidos(String fecha1, String fecha2)
+        {
+            String query = "select TOP 5  idRecorrido AS Recorrido, count(idRecorrido) AS Ventas from " + 
+                            "(select idCompra, idViaje, fecha from dbo.Compra where fecha > " + fecha1
+                        + " and fecha < " + fecha2 + ") t1 " + 
+                        "INNER JOIN " + 
+                        "(select idViaje AS viaje2, idRecorrido from dbo.Viaje ) t2" + 
+                        " ON t1.idViaje = t2.viaje2 group by idRecorrido ORDER BY 2 DESC;";
+
+            DataTable table = db.select_query(query);
+            return table;
+        }
+
+        public DataTable getTopRecorridosLibres(String fecha1, String fecha2)
+        {
+            String query =
+                "select TOP 5 Recorrido, sum(CabinasCrucero-CabinasVendidas) as CabinasLibresEnTotalidadDeViajes from " +
+                "(select t2.Recorrido, Viaje, t1.CabinasVendidas, t2.Crucero from " +
+                    "(select idViaje AS Viaje, count(idViaje) AS CabinasVendidas from dbo.Compra where fecha > " + fecha1 + " and fecha < " + fecha2 + " GROUP BY idViaje) t1 " +
+                    "INNER JOIN " +
+                    "(select idViaje, idCrucero AS Crucero, idRecorrido AS Recorrido from dbo.viaje) t2 " +
+                    "ON t1.Viaje = t2.idViaje " +
+                ") table1 " +
+                "INNER JOIN " +
+                "(select idCrucero, count(idCrucero) AS CabinasCrucero from dbo.Cabina GROUP BY idCrucero) table2 " +
+                "ON table1.Crucero = table2.idCrucero " +
+                "group by Recorrido " +
+                "order by CabinasLibresEnTotalidadDeViajes desc;";
+
+            DataTable table = db.select_query(query);
+            return table;
+        }
+
+        public DataTable getTopCrucerosDeBaja(String fecha1, String fecha2)
+        {
+            String query =
+                "select TOP 5 idCrucero as Crucero, sum( DATEDIFF(DAY, FechaBaja, FechaRestauracion) ) as DiasDeBaja  from dbo.Baja " + 
+                "where idTipoBaja = 1 and FechaBaja > " + fecha1 + " and FechaRestauracion < " + fecha2 +
+                " group by idCrucero" +
+                " order by DiasDeBaja desc;";
+
+            DataTable table = db.select_query(query);
+            return table;
+        }
+
         public List<Viaje> getViajes(int crucero)
         {
             List<Viaje> viajes = new List<Viaje>();
