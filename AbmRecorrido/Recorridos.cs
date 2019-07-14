@@ -60,6 +60,15 @@ namespace FrbaCrucero.AbmRecorrido
 
         private void search_Click(object sender, EventArgs e)
         {
+            if (this.textCodigo.Text != "")
+            {
+                decimal code = Convert.ToDecimal(this.textCodigo.Text);
+                this.dgvRecorrido.DataSource = dao.getRecorrido(code);
+            }
+            else
+            {
+                MessageBox.Show("Por favor ingrese el codigo");
+            }
 
         }
     }

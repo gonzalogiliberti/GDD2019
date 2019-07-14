@@ -114,7 +114,7 @@ namespace FrbaCrucero.Dao
         {
 
             String where = getWhereClause(fabricante, model, identificador);
-            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, CantidadCabinas, FechaAlta  from dbo.Crucero " + where + " and Activo = 1");
+            return db.select_query("Select intCrucero as idCrucero, Modelo, Identificador, Fabricante as IdFabricante, (select F.Nombre from dbo.Fabricante F where F.idFabricante = Fabricante) as Fabricante, CantidadCabinas, FechaAlta  from dbo.Crucero " + where + " and Activo = 'A'");
         }
 
         public String getWhereClause(Fabricante fabricante, String model, String identificador)
