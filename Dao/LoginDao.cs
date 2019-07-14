@@ -33,7 +33,7 @@ namespace FrbaCrucero.Dao
             try
             {
                 db.openConnection();
-                SqlCommand command = new SqlCommand("dbo.sp_login", db.getConnectionString());
+                SqlCommand command = new SqlCommand("JavaPorter.sp_login", db.getConnectionString());
                 command.Parameters.AddWithValue("@usr", user);
                 command.Parameters.AddWithValue("@pass", sha256(pass));
                 command.Parameters.Add("@res", SqlDbType.Int).Direction = ParameterDirection.Output;
@@ -53,7 +53,7 @@ namespace FrbaCrucero.Dao
         public List<int> getFunciones(int idRol)
         {
             List<int> funciones = new List<int>();
-            DataTable res = db.select_query("select F.idFuncion, F.nombre from dbo.RolxFuncion RF join Funcion F on RF.idFuncion = F.idFuncion where idRol = " + idRol.ToString());
+            DataTable res = db.select_query("select F.idFuncion, F.nombre from JavaPorter.RolxFuncion RF join JavaPorter.Funcion F on RF.idFuncion = F.idFuncion where idRol = " + idRol.ToString());
             foreach (DataRow row in res.Rows)
             {
                 funciones.Add((int)row.ItemArray[0]);

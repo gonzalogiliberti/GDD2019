@@ -24,7 +24,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@idCrucero", idCrucero);
             dic.Add("@idRecorrido", idRecorrido);
 
-            db.executeProcedureWithParameters("dbo.sp_crear_viaje", dic);
+            db.executeProcedureWithParameters("JavaPorter.sp_crear_viaje", dic);
         }
     }
 }
