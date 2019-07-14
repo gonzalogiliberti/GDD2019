@@ -49,9 +49,16 @@ namespace FrbaCrucero.CompraReservaPasaje
             DateTime d = this.dtInicio.Value;
             Puerto pOrigen = this.comboPuertoOri.SelectedItem as Puerto;
             Puerto pDestino = this.comboPuertoDest.SelectedItem as Puerto;
-            this.dgvViajes.DataSource = dao.getAllTrips(pOrigen.idPuerto, pDestino.idPuerto, d);
-            dgvViajes.Visible = true;
-            this.seleccion.Visible = true;
+            if(pOrigen != null && pDestino != null)
+            {
+                this.dgvViajes.DataSource = dao.getAllTrips(pOrigen.idPuerto, pDestino.idPuerto, d);
+                dgvViajes.Visible = true;
+                this.seleccion.Visible = true;
+            }
+            else
+            {
+                MessageBox.Show("Seleccion puerto de destino y origen");
+            }
         }
 
         private void dgvViajes_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
