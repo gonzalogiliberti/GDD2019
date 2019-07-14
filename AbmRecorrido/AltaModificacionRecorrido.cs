@@ -140,5 +140,10 @@ namespace FrbaCrucero.AbmRecorrido
             r.FormClosed += new System.Windows.Forms.FormClosedEventHandler(TramosCerrada);
             r.Show();
         }
+
+        private void dgvTramo_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
