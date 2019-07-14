@@ -1261,3 +1261,77 @@ AS BEGIN
 	
 END
 GO
+
+create Function dbo.fx_RecorridosYTramos ()
+returns Table
+as
+BEGIN
+	declare @idRec int;
+	declare @cod int;
+	declare @orden int;
+	declare @idPOri int;
+	declare @pOri nvarchar(255);
+	declare @idPDes int;
+	declare @pDes nvarchar(255);
+	declare @precio decimal(18,2);
+
+	declare @idRecAux int;
+	declare @codAux int;
+	declare @ordenAux int;
+	declare @idPOriAux int;
+	declare @pOriAux nvarchar(255);
+	declare @idPDesAux int;
+	declare @pDesAux nvarchar(255);
+	declare @precioAux decimal(18,2);
+
+	declare @precioAcu decimal(18,2);
+
+	declare @res TABLE (idRecorrido int, codigo int, orden int, idPuertoOrigen int, puertoOrigen nvarchar(255), idPuertoDestino int, puertoDestino nvarchar(255), Precio decimal(18,2));
+
+
+	declare miCursor CURSOR FOR 
+		select r.idRecorrido AS idRecorrido, r.codigo AS Codigo, rt.orden
+			,t.puertoOrigen AS idPuertoOrigen,
+			(Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, 
+			t.puertoDestino AS idPuertoDestino,
+			(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , 
+			t.precioBase AS Precio
+
+		from dbo.Recorrido r join dbo.RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido join dbo.Tramo t on t.idTramo = rt.idTramo 
+		where r.Estado = 'A'
+		order by idRecorrido, r.codigo, rt.orden;
+
+	open miCursor;
+	FETCH NEXT FROM miCursor into @idRec, @cod, @orden, @idPOri, @pOri, @idPDes, @pDes, @precio;
+	set @precioAcu = @precio;
+	FETCH NEXT FROM miCursor into @idRecAux, @codAux, @ordenAux, @idPOriAux, @pOriAux, @idPDesAux, @pDesAux, @precioAux;
+	
+	While @@FETCH_STATUS = 0
+	BEGIN
+		if(@idRec = @idRecAux)
+		BEGIN
+			SET @precioAcu =  @precioAcu + @precioAux;
+			SET @idPDes = @idPDesAux
+			SET @pDes = @pDesAux
+		END
+		ELSE
+		BEGIN
+			INSERT INTO @res(idRecorrido, codigo,idPuertoOrigen, puertoOrigen, idPuertoDestino, puertoDestino, Precio) values
+				(@idRec, @cod, @idPOri, @pOri, @idPDes, @pDes, @precioAcu);
+			SET @idRec = @idRecAux;
+			SET @cod = @codAux;
+			SET @orden = @ordenAux;
+			SET @idPOri = @idPOriAux;
+			SET @pOri = @pOriAux;
+			SET @idPDes = @idPDesAux;
+			SET @pDes = @pDesAux;
+			SET @precio = @precioAux;
+		END
+
+		FETCH NEXT FROM miCursor into @idRecAux, @codAux, @ordenAux, @idPOriAux, @pOriAux, @idPDesAux, @pDesAux, @precioAux;
+	END
+	CLOSE miCursor;
+	DEALLOCATE miCursor;
+	return @res;
+END;
+GO
