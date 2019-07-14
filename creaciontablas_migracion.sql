@@ -1,3 +1,6 @@
+CREATE SCHEMA JavaPorter;
+GO;
+
 CREATE TABLE [JavaPorter].[Baja](
 	[idBaja] [int] IDENTITY(1,1) NOT NULL,
 	[idTipoBaja] [int] NOT NULL,
@@ -716,6 +719,20 @@ CREATE PROCEDURE JavaPorter.sp_crear_rol (@rolName  varchar(50))
 AS BEGIN
     BEGIN TRANSACTION T1
 	insert into JavaPorter.Rol(rol_Nombre) values (@rolName)
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+IF (OBJECT_ID ('JavaPorter.sp_eliminar_rol') IS NOT NULL)
+	DROP PROCEDURE JavaPorter.sp_eliminar_rol
+GO
+CREATE PROCEDURE JavaPorter.sp_eliminar_rol (@rolName  varchar(50)) 
+AS BEGIN
+    BEGIN TRANSACTION T1
+	delete from JavaPorter.Rol where rol_Nombre = @rolName
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;

@@ -80,18 +80,23 @@ namespace FrbaCrucero.AbmRol
                 if (rDao.verifyRolExisted(this.textRol.Text) != 0)
                 {
                     System.Windows.Forms.MessageBox.Show("Ya existe un rol con el nombre ingresado");
+                    return;
                 }
                 rDao.createRol(this.textRol.Text);
+                MessageBox.Show("Se ha creado el Rol");
+                this.Close();
             }
             else
             {
-                if (this.textRol.Text != unRol.Cells["rol_Nombre"].Value.ToString())
+                if (this.textRol.Text != unRol.Cells["Rol"].Value.ToString())
                 {
                     if (rDao.verifyRolExisted(this.textRol.Text) != 0)
                     {
                         System.Windows.Forms.MessageBox.Show("Ya existe un rol con el nombre ingresado");
+                        return;
                     }
                     rDao.updateRol(this.textRol.Text, (int)unRol.Cells["idRol"].Value);
+                    MessageBox.Show("Se ha actualizado el Rol");
                 }
             }
         }
@@ -107,7 +112,14 @@ namespace FrbaCrucero.AbmRol
 
         private void delete_Click(object sender, EventArgs e)
         {
-
+            if (this.textRol.Text == "Administrador")
+            {
+                MessageBox.Show("No se puede Eliminar el rol Administrador");
+                return;
+            }
+            rDao.deleteRol(this.textRol.Text);
+            MessageBox.Show("Se ha eliminado el Rol");
+            this.Close();
         }
     }
 }

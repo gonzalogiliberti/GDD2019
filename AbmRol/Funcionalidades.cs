@@ -58,5 +58,20 @@ namespace FrbaCrucero.AbmRol
             rDao.setFuncRol((int)funcion.Cells["idFuncionalidad"].Value, idRol);
             setupGrid();
         }
+
+        private void search_Click(object sender, EventArgs e)
+        {
+            String searchValue = this.textBox1.Text;
+            int rowIndex = -1;
+            foreach (DataGridViewRow row in dgvFunc.Rows)
+            {
+                if (row.Cells[1].Value.ToString().Equals(searchValue))
+                {
+                    rowIndex = row.Index;
+                    dgvFunc.CurrentCell = dgvFunc[1, rowIndex];
+                    break;
+                }
+            }
+        }
     }
 }

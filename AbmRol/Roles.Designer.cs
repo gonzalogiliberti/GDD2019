@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.dgvRol = new System.Windows.Forms.DataGridView();
+            this.idRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.textRol = new System.Windows.Forms.TextBox();
             this.search = new System.Windows.Forms.Button();
             this.create = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
-            this.idRol = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Rol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRol)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,6 +53,19 @@
             this.dgvRol.Size = new System.Drawing.Size(144, 105);
             this.dgvRol.TabIndex = 0;
             this.dgvRol.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRol_CellMouseDoubleClick);
+            // 
+            // idRol
+            // 
+            this.idRol.DataPropertyName = "idRol";
+            this.idRol.HeaderText = "idRol";
+            this.idRol.Name = "idRol";
+            this.idRol.Visible = false;
+            // 
+            // Rol
+            // 
+            this.Rol.DataPropertyName = "rol_Nombre";
+            this.Rol.HeaderText = "Rol";
+            this.Rol.Name = "Rol";
             // 
             // label1
             // 
@@ -78,6 +91,7 @@
             this.search.TabIndex = 3;
             this.search.Text = "Buscar";
             this.search.UseVisualStyleBackColor = true;
+            this.search.Click += new System.EventHandler(this.search_Click);
             // 
             // create
             // 
@@ -98,19 +112,6 @@
             this.cancel.Text = "Cancelar";
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
-            // 
-            // idRol
-            // 
-            this.idRol.DataPropertyName = "idRol";
-            this.idRol.HeaderText = "idRol";
-            this.idRol.Name = "idRol";
-            this.idRol.Visible = false;
-            // 
-            // Rol
-            // 
-            this.Rol.DataPropertyName = "rol_Nombre";
-            this.Rol.HeaderText = "Rol";
-            this.Rol.Name = "Rol";
             // 
             // Roles
             // 

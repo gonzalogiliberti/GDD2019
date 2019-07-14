@@ -57,5 +57,20 @@ namespace FrbaCrucero.AbmRol
                 a.ShowDialog();
             }
         }
+
+        private void search_Click(object sender, EventArgs e)
+        {
+            String searchValue = this.textRol.Text;
+            int rowIndex = -1;
+            foreach (DataGridViewRow row in dgvRol.Rows)
+            {
+                if (row.Cells[1].Value.ToString().Equals(searchValue))
+                {
+                    rowIndex = row.Index;
+                    dgvRol.CurrentCell = dgvRol[1,rowIndex];
+                    break;
+                }
+            }
+        }
     }
 }
