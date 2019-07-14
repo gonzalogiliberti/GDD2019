@@ -183,6 +183,7 @@ GO
 CREATE TABLE [dbo].[Recorrido](
 	[idRecorrido] [int] IDENTITY(1,1),
 	[Codigo] [decimal](18,0),
+	[Estado] [char] default 'A',
  CONSTRAINT [PK_Recorrido] PRIMARY KEY CLUSTERED 
 (
 	[idRecorrido] ASC

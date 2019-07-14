@@ -36,7 +36,6 @@
             this.puertoDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.crearTramo = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.comboOrigen = new System.Windows.Forms.ComboBox();
             this.comboDestino = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -124,15 +123,6 @@
             this.crearTramo.UseVisualStyleBackColor = true;
             this.crearTramo.Click += new System.EventHandler(this.crearTramo_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(196, 397);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(102, 25);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Eliminar Tramo";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // comboOrigen
             // 
             this.comboOrigen.FormattingEnabled = true;
@@ -207,7 +197,6 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboDestino);
             this.Controls.Add(this.comboOrigen);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.crearTramo);
             this.Controls.Add(this.dgvTramo);
             this.Name = "Tramos";
@@ -228,7 +217,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn puertoDestino;
         private System.Windows.Forms.DataGridViewTextBoxColumn Precio;
         private System.Windows.Forms.Button crearTramo;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ComboBox comboOrigen;
         private System.Windows.Forms.ComboBox comboDestino;
         private System.Windows.Forms.Label label1;
