@@ -35,8 +35,8 @@
             this.comboPuerto = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.altaPuerto = new System.Windows.Forms.Button();
-            this.puertoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.cancel = new System.Windows.Forms.Button();
+            this.puertoBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPuertos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.puertoBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +56,7 @@
             this.dgvPuertos.Name = "dgvPuertos";
             this.dgvPuertos.ReadOnly = true;
             this.dgvPuertos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvPuertos.Size = new System.Drawing.Size(145, 86);
+            this.dgvPuertos.Size = new System.Drawing.Size(154, 86);
             this.dgvPuertos.TabIndex = 13;
             this.dgvPuertos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvPuertos_CellContentClick);
             this.dgvPuertos.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvPuertos_CellMouseDoubleClick);
@@ -105,10 +105,6 @@
             this.altaPuerto.UseVisualStyleBackColor = true;
             this.altaPuerto.Click += new System.EventHandler(this.altaPuerto_Click);
             // 
-            // puertoBindingSource
-            // 
-            this.puertoBindingSource.DataSource = typeof(FrbaCrucero.AbmPuerto.Puerto);
-            // 
             // cancel
             // 
             this.cancel.Location = new System.Drawing.Point(161, 197);
@@ -118,6 +114,10 @@
             this.cancel.Text = "Cancelar";
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
+            // 
+            // puertoBindingSource
+            // 
+            this.puertoBindingSource.DataSource = typeof(FrbaCrucero.AbmPuerto.Puerto);
             // 
             // Puertos
             // 

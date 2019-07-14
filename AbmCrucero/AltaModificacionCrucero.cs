@@ -16,12 +16,24 @@ namespace FrbaCrucero.AbmCrucero
         CruceroDao dao;
         bool newCruise = true;
         public DataGridViewRow unCrucero;
+        int idCrucero = -1;
+        int idViaje = -1;
 
         public AltaModificacionCrucero()
         {
             dao = new CruceroDao();
             InitializeComponent();
             setupCombos();
+            this.textCantCab.Text = "1";
+        }
+
+        public AltaModificacionCrucero(int idViaje)
+        {
+            dao = new CruceroDao();
+            InitializeComponent();
+            setupCombos();
+            this.textCantCab.Text = "1";
+            this.idViaje = idViaje;
         }
 
         public AltaModificacionCrucero(DataGridViewRow unCrucero)
@@ -31,7 +43,9 @@ namespace FrbaCrucero.AbmCrucero
             setupCombos();
             this.unCrucero = unCrucero;
             newCruise = false;
-            this.textCantCab.Text = unCrucero.Cells["CantidadCabinas"].Value.ToString();
+            //this.textCantCab.Text = unCrucero.Cells["CantidadCabinas"].Value.ToString();
+            this.textCantCab.Text = "1";
+            this.idCrucero = (int)unCrucero.Cells["idCrucero"].Value;
             this.textIdentificador.Text = unCrucero.Cells["Identificador"].Value.ToString();
             this.comboFabricante.Text = unCrucero.Cells["Fabricante"].Value.ToString();
             this.comboModelo.Text = unCrucero.Cells["Modelo"].Value.ToString();
@@ -89,6 +103,11 @@ namespace FrbaCrucero.AbmCrucero
                     throw new Exception("El Crucero Ingresado ya existe");
                 }
                 this.dao.createCruise(cruise);
+                this.idCrucero = this.dao.getIdCrucero(cruise);
+                if (idViaje != -1)
+                {
+                    dao.updateCruiseViaje(this.idCrucero, idViaje);
+                }
             }
             catch (Exception ex)
             {
@@ -136,6 +155,54 @@ namespace FrbaCrucero.AbmCrucero
             Crucero cruise = getFormData();
             cruise.idCrucero = (int)this.unCrucero.Cells["idCrucero"].Value;
             dao.deleteCruise(cruise);
+        }
+
+        private void addCabin_Click(object sender, EventArgs e)
+        {
+            if (idCrucero != -1)
+            {
+                Cabinas cab = new Cabinas(Convert.ToInt32(this.textCantCab.Text), idCrucero);
+                cab.Show();
+            }
+            else
+            {
+                MessageBox.Show("Debe guardar los datos del crucero primero");
+            }
+        }
+
+        private void baja_Click(object sender, EventArgs e)
+        {
+            if (idCrucero != -1)
+            {
+                Crucero cruise = getFormData();
+                cruise.idCrucero = idCrucero;
+                if (dao.getEstado(idCrucero) == "A")
+                {
+                    Baja ba = new Baja(cruise);
+                    ba.Show();
+                }
+                else
+                {
+                    MessageBox.Show("El crucero ya se encuentra dado de baja");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Debe guardar los datos del crucero primero");
+            }
+        }
+
+        private void historial_Click(object sender, EventArgs e)
+        {
+            if (idCrucero != -1)
+            {
+                HistorialBaja h = new HistorialBaja(this.idCrucero);
+                h.Show();
+            }
+            else
+            {
+                MessageBox.Show("Guarde el crucero primero");
+            }
         }
 
     }

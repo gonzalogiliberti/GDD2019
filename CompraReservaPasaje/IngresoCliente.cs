@@ -19,6 +19,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         TipoCabina cabina;
         int cantPasajeros;
         CompraDao dao;
+        RecorridoDao rDao;
         Cliente cliente = null;
         bool newCliente = false;
 
@@ -31,6 +32,7 @@ namespace FrbaCrucero.CompraReservaPasaje
         {
             InitializeComponent();
             dao = new CompraDao();
+            rDao = new RecorridoDao();
             this.viaje = unViaje;
             this.cabina = unaCabina;
             this.cantPasajeros = cantidadPasajeros;
@@ -120,6 +122,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                 {
                     cliente = getFormData();
                     this.dao.createClient(cliente);
+                    cliente.idCliente = this.dao.getClientId(cliente);
                     MessageBox.Show("Se guardaron correctamente los datos del cliente");
                 }
                 else
@@ -161,6 +164,7 @@ namespace FrbaCrucero.CompraReservaPasaje
                 return ;
             }
             Pago pago = new Pago(viaje, cabina, cliente, cantPasajeros);
+            pago.FormClosed += new System.Windows.Forms.FormClosedEventHandler(PagoCerrado);
             pago.ShowDialog();
         }
 
@@ -172,6 +176,27 @@ namespace FrbaCrucero.CompraReservaPasaje
                 return;
             }
             dao.reserve(cliente, viaje, cabina, cantPasajeros);
+            decimal codigoReserva = dao.getCodigoReserva(cliente, viaje, cantPasajeros);
+            showReserveInformation(codigoReserva);
+        }
+
+        private void PagoCerrado(object sender, FormClosedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void showReserveInformation(decimal codigoReserva)
+        {
+            string puertoOrigen = rDao.getPuertoOrigenRecorrido(viaje.idRecorrido);
+            string puertoDestino = rDao.getPuertoDestinoRecorrido(viaje.idRecorrido);
+
+            string texto = "El codigo de su reserva es: " + codigoReserva;
+            texto += " parte el dia: " + viaje.fechaInicio + " desde " + puertoOrigen;
+            texto += " finaliza el dia: " + viaje.fechaFin + " en el puerto: " + puertoDestino;
+            texto += ". Su reserva vence el: " + DateTime.Now.AddDays(3);
+
+            MessageBox.Show(texto);
+            this.Close();
         }
     }
 }

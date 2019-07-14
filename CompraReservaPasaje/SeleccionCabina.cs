@@ -37,7 +37,7 @@ namespace FrbaCrucero.CompraReservaPasaje
 
         private void setupGrid(int cantiCabinas)
         {
-            this.dgvCabinas.DataSource = dao.getCabinasDisponibles(viaje.idViaje, cantiCabinas);
+            this.dgvCabinas.DataSource = dao.getCabinasDisponibles(viaje.idViaje, cantiCabinas, viaje.idCrucero );
         }
 
         private void search_Click(object sender, EventArgs e)
@@ -57,8 +57,14 @@ namespace FrbaCrucero.CompraReservaPasaje
                 DataGridViewRow unaCabina = this.dgvCabinas.SelectedRows[0];
                 TipoCabina tipo = new TipoCabina(unaCabina);
                 IngresoCliente sc = new IngresoCliente(tipo, viaje, Int32.Parse(this.textCant.Text));
+                sc.FormClosed += new System.Windows.Forms.FormClosedEventHandler(IngresoClienteCerrado);
                 sc.ShowDialog();
             }
+        }
+
+        private void IngresoClienteCerrado(object sender, FormClosedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

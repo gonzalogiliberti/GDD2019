@@ -32,9 +32,10 @@
             this.roles = new System.Windows.Forms.Button();
             this.recorrido = new System.Windows.Forms.Button();
             this.crucero = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.login = new System.Windows.Forms.Button();
             this.compraReserva = new System.Windows.Forms.Button();
             this.genViaje = new System.Windows.Forms.Button();
+            this.payReserve = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // puertos
@@ -77,18 +78,19 @@
             this.crucero.UseVisualStyleBackColor = true;
             this.crucero.Click += new System.EventHandler(this.crucero_Click);
             // 
-            // button5
+            // login
             // 
-            this.button5.Location = new System.Drawing.Point(89, 141);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(104, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Login";
-            this.button5.UseVisualStyleBackColor = true;
+            this.login.Location = new System.Drawing.Point(28, 141);
+            this.login.Name = "login";
+            this.login.Size = new System.Drawing.Size(104, 23);
+            this.login.TabIndex = 4;
+            this.login.Text = "Login";
+            this.login.UseVisualStyleBackColor = true;
+            this.login.Click += new System.EventHandler(this.login_Click);
             // 
             // compraReserva
             // 
-            this.compraReserva.Location = new System.Drawing.Point(216, 141);
+            this.compraReserva.Location = new System.Drawing.Point(148, 140);
             this.compraReserva.Name = "compraReserva";
             this.compraReserva.Size = new System.Drawing.Size(104, 23);
             this.compraReserva.TabIndex = 5;
@@ -106,14 +108,25 @@
             this.genViaje.UseVisualStyleBackColor = true;
             this.genViaje.Click += new System.EventHandler(this.genViaje_Click);
             // 
+            // payReserve
+            // 
+            this.payReserve.Location = new System.Drawing.Point(277, 141);
+            this.payReserve.Name = "payReserve";
+            this.payReserve.Size = new System.Drawing.Size(92, 22);
+            this.payReserve.TabIndex = 7;
+            this.payReserve.Text = "Pagar Reserva";
+            this.payReserve.UseVisualStyleBackColor = true;
+            this.payReserve.Click += new System.EventHandler(this.payReserve_Click);
+            // 
             // PaginaPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 186);
+            this.Controls.Add(this.payReserve);
             this.Controls.Add(this.genViaje);
             this.Controls.Add(this.compraReserva);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.login);
             this.Controls.Add(this.crucero);
             this.Controls.Add(this.recorrido);
             this.Controls.Add(this.roles);
@@ -129,10 +142,11 @@
         private System.Windows.Forms.Button puertos;
         private System.Windows.Forms.Button roles;
         private System.Windows.Forms.Button recorrido;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button login;
         private System.Windows.Forms.Button compraReserva;
         private System.Windows.Forms.Button genViaje;
         private System.Windows.Forms.Button crucero;
+        private System.Windows.Forms.Button payReserve;
     }
 }
 

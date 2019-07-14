@@ -9,39 +9,55 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using FrbaCrucero.Util;
+using FrbaCrucero.Dao;
 
 namespace FrbaCrucero.Login
 {
-    public partial class Login : Form
+    public partial class LoginForm : Form
     {
-        public Login()
+        LoginDao dao;
+        CompraDao cDao;
+        public List<int> funciones;
+
+        public LoginForm()
         {
             InitializeComponent();
+            dao = new LoginDao();
+            cDao = new CompraDao();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void aceotarBtn_Click(object sender, EventArgs e)
         {
-            string user = textBox1.Text;
-            string pass = sha256(textBox2.Text);
-            DatabaseController controller = DatabaseController.getInstance();
-            SqlConnection conn = controller.getConnectionString();
-            SqlCommand query = new SqlCommand("Select login_admin(@user, @pass)", conn);
-            SqlParameter param1 = new SqlParameter("@user", SqlDbType.NVarChar);
-            param1.Value = user;
-            SqlParameter param2 = new SqlParameter("@pass", SqlDbType.NVarChar);
-            param2.Value = pass;
-        }
+            int idRol = dao.loginUser(userBox.Text ,passBox.Text);
 
-        static string sha256(string pasword)
-        {
-            var crypt = new System.Security.Cryptography.SHA256Managed();
-            var hash = new System.Text.StringBuilder();
-            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(pasword));
-            foreach (byte theByte in crypto)
+            if (idRol == 0)
             {
-                hash.Append(theByte.ToString("x2"));
+                //wrong password
+                MessageBox.Show("Wrong Password or User", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                dao.getFunciones(idRol);
             }
-            return hash.ToString();
+            else if (idRol == -1)
+            {
+                MessageBox.Show("Usuario Bloqueado ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (idRol == -2)
+            {
+                MessageBox.Show("Error al ejecutar el login", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else if (idRol > 0)
+            {
+                //gets funciones x rol
+                funciones = dao.getFunciones(idRol);
+            }
+            this.DialogResult = DialogResult.OK;
+            cDao.marcarVencidasReservas(DateTime.Now);
+            this.Close();
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

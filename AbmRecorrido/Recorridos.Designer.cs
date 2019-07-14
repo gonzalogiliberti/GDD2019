@@ -29,12 +29,6 @@
         private void InitializeComponent()
         {
             this.dgvRecorrido = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textCodigo = new System.Windows.Forms.TextBox();
-            this.agregarRecorrido = new System.Windows.Forms.Button();
-            this.cancel = new System.Windows.Forms.Button();
-            this.delete = new System.Windows.Forms.Button();
-            this.search = new System.Windows.Forms.Button();
             this.idRecorrido = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idTramo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,6 +37,11 @@
             this.idPuertoDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.puertoDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textCodigo = new System.Windows.Forms.TextBox();
+            this.agregarRecorrido = new System.Windows.Forms.Button();
+            this.cancel = new System.Windows.Forms.Button();
+            this.search = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecorrido)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,60 +66,6 @@
             this.dgvRecorrido.Size = new System.Drawing.Size(444, 214);
             this.dgvRecorrido.TabIndex = 0;
             this.dgvRecorrido.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRecorrido_CellMouseDoubleClick);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(133, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Codigo";
-            // 
-            // textCodigo
-            // 
-            this.textCodigo.Location = new System.Drawing.Point(224, 28);
-            this.textCodigo.Name = "textCodigo";
-            this.textCodigo.Size = new System.Drawing.Size(161, 20);
-            this.textCodigo.TabIndex = 2;
-            // 
-            // agregarRecorrido
-            // 
-            this.agregarRecorrido.Location = new System.Drawing.Point(80, 345);
-            this.agregarRecorrido.Name = "agregarRecorrido";
-            this.agregarRecorrido.Size = new System.Drawing.Size(111, 23);
-            this.agregarRecorrido.TabIndex = 5;
-            this.agregarRecorrido.Text = "Agregar Recorrido";
-            this.agregarRecorrido.UseVisualStyleBackColor = true;
-            this.agregarRecorrido.Click += new System.EventHandler(this.agregarRecorrido_Click);
-            // 
-            // cancel
-            // 
-            this.cancel.Location = new System.Drawing.Point(272, 345);
-            this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(113, 23);
-            this.cancel.TabIndex = 6;
-            this.cancel.Text = "Cancelar";
-            this.cancel.UseVisualStyleBackColor = true;
-            this.cancel.Click += new System.EventHandler(this.cancel_Click);
-            // 
-            // delete
-            // 
-            this.delete.Location = new System.Drawing.Point(443, 345);
-            this.delete.Name = "delete";
-            this.delete.Size = new System.Drawing.Size(112, 23);
-            this.delete.TabIndex = 7;
-            this.delete.Text = "Eliminar";
-            this.delete.UseVisualStyleBackColor = true;
-            // 
-            // search
-            // 
-            this.search.Location = new System.Drawing.Point(443, 28);
-            this.search.Name = "search";
-            this.search.Size = new System.Drawing.Size(154, 27);
-            this.search.TabIndex = 8;
-            this.search.Text = "Buscar";
-            this.search.UseVisualStyleBackColor = true;
             // 
             // idRecorrido
             // 
@@ -174,13 +119,58 @@
             this.Precio.HeaderText = "Precio";
             this.Precio.Name = "Precio";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(133, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Codigo";
+            // 
+            // textCodigo
+            // 
+            this.textCodigo.Location = new System.Drawing.Point(224, 28);
+            this.textCodigo.Name = "textCodigo";
+            this.textCodigo.Size = new System.Drawing.Size(161, 20);
+            this.textCodigo.TabIndex = 2;
+            // 
+            // agregarRecorrido
+            // 
+            this.agregarRecorrido.Location = new System.Drawing.Point(136, 345);
+            this.agregarRecorrido.Name = "agregarRecorrido";
+            this.agregarRecorrido.Size = new System.Drawing.Size(111, 23);
+            this.agregarRecorrido.TabIndex = 5;
+            this.agregarRecorrido.Text = "Agregar Recorrido";
+            this.agregarRecorrido.UseVisualStyleBackColor = true;
+            this.agregarRecorrido.Click += new System.EventHandler(this.agregarRecorrido_Click);
+            // 
+            // cancel
+            // 
+            this.cancel.Location = new System.Drawing.Point(397, 345);
+            this.cancel.Name = "cancel";
+            this.cancel.Size = new System.Drawing.Size(113, 23);
+            this.cancel.TabIndex = 6;
+            this.cancel.Text = "Cancelar";
+            this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
+            // 
+            // search
+            // 
+            this.search.Location = new System.Drawing.Point(443, 28);
+            this.search.Name = "search";
+            this.search.Size = new System.Drawing.Size(154, 27);
+            this.search.TabIndex = 8;
+            this.search.Text = "Buscar";
+            this.search.UseVisualStyleBackColor = true;
+            this.search.Click += new System.EventHandler(this.search_Click);
+            // 
             // Recorridos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(651, 390);
             this.Controls.Add(this.search);
-            this.Controls.Add(this.delete);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.agregarRecorrido);
             this.Controls.Add(this.textCodigo);
@@ -201,7 +191,6 @@
         private System.Windows.Forms.TextBox textCodigo;
         private System.Windows.Forms.Button agregarRecorrido;
         private System.Windows.Forms.Button cancel;
-        private System.Windows.Forms.Button delete;
         private System.Windows.Forms.Button search;
         private System.Windows.Forms.DataGridViewTextBoxColumn idRecorrido;
         private System.Windows.Forms.DataGridViewTextBoxColumn idTramo;
