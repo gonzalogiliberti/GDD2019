@@ -179,5 +179,10 @@ namespace FrbaCrucero.Dao
 
             return Convert.ToString(r["puertoDestino"]);
         }
+
+        public DataTable getRecorrido(decimal code)
+        {
+            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from (Recorrido r join RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A' and r.codigo = " + code);
+        }
     }
 }
