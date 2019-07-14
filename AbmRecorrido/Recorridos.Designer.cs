@@ -29,7 +29,13 @@
         private void InitializeComponent()
         {
             this.dgvRecorrido = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textCodigo = new System.Windows.Forms.TextBox();
+            this.agregarRecorrido = new System.Windows.Forms.Button();
+            this.cancel = new System.Windows.Forms.Button();
+            this.search = new System.Windows.Forms.Button();
             this.idRecorrido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idTramo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.idPuertoOrigen = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -37,11 +43,6 @@
             this.idPuertoDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.puertoDestino = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Precio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textCodigo = new System.Windows.Forms.TextBox();
-            this.agregarRecorrido = new System.Windows.Forms.Button();
-            this.cancel = new System.Windows.Forms.Button();
-            this.search = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRecorrido)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,6 +54,7 @@
             this.dgvRecorrido.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRecorrido.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idRecorrido,
+            this.Estado,
             this.idTramo,
             this.Codigo,
             this.idPuertoOrigen,
@@ -66,58 +68,6 @@
             this.dgvRecorrido.Size = new System.Drawing.Size(444, 214);
             this.dgvRecorrido.TabIndex = 0;
             this.dgvRecorrido.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvRecorrido_CellMouseDoubleClick);
-            // 
-            // idRecorrido
-            // 
-            this.idRecorrido.DataPropertyName = "idRecorrido";
-            this.idRecorrido.HeaderText = "idRecorrido";
-            this.idRecorrido.Name = "idRecorrido";
-            this.idRecorrido.Visible = false;
-            // 
-            // idTramo
-            // 
-            this.idTramo.DataPropertyName = "idTramo";
-            this.idTramo.HeaderText = "idTramo";
-            this.idTramo.Name = "idTramo";
-            this.idTramo.Visible = false;
-            // 
-            // Codigo
-            // 
-            this.Codigo.DataPropertyName = "Codigo";
-            this.Codigo.HeaderText = "Codigo";
-            this.Codigo.Name = "Codigo";
-            // 
-            // idPuertoOrigen
-            // 
-            this.idPuertoOrigen.DataPropertyName = "idPuertoOrigen";
-            this.idPuertoOrigen.HeaderText = "idPuertoOrigen";
-            this.idPuertoOrigen.Name = "idPuertoOrigen";
-            this.idPuertoOrigen.Visible = false;
-            // 
-            // puertoOrigen
-            // 
-            this.puertoOrigen.DataPropertyName = "puertoOrigen";
-            this.puertoOrigen.HeaderText = "puertoOrigen";
-            this.puertoOrigen.Name = "puertoOrigen";
-            // 
-            // idPuertoDestino
-            // 
-            this.idPuertoDestino.DataPropertyName = "idPuertoDestino";
-            this.idPuertoDestino.HeaderText = "idPuertoDestino";
-            this.idPuertoDestino.Name = "idPuertoDestino";
-            this.idPuertoDestino.Visible = false;
-            // 
-            // puertoDestino
-            // 
-            this.puertoDestino.DataPropertyName = "puertoDestino";
-            this.puertoDestino.HeaderText = "puertoDestino";
-            this.puertoDestino.Name = "puertoDestino";
-            // 
-            // Precio
-            // 
-            this.Precio.DataPropertyName = "Precio";
-            this.Precio.HeaderText = "Precio";
-            this.Precio.Name = "Precio";
             // 
             // label1
             // 
@@ -165,6 +115,65 @@
             this.search.UseVisualStyleBackColor = true;
             this.search.Click += new System.EventHandler(this.search_Click);
             // 
+            // idRecorrido
+            // 
+            this.idRecorrido.DataPropertyName = "idRecorrido";
+            this.idRecorrido.HeaderText = "idRecorrido";
+            this.idRecorrido.Name = "idRecorrido";
+            this.idRecorrido.Visible = false;
+            // 
+            // Estado
+            // 
+            this.Estado.DataPropertyName = "Estado";
+            this.Estado.HeaderText = "Estado";
+            this.Estado.Name = "Estado";
+            this.Estado.Visible = false;
+            // 
+            // idTramo
+            // 
+            this.idTramo.DataPropertyName = "idTramo";
+            this.idTramo.HeaderText = "idTramo";
+            this.idTramo.Name = "idTramo";
+            this.idTramo.Visible = false;
+            // 
+            // Codigo
+            // 
+            this.Codigo.DataPropertyName = "Codigo";
+            this.Codigo.HeaderText = "Codigo";
+            this.Codigo.Name = "Codigo";
+            // 
+            // idPuertoOrigen
+            // 
+            this.idPuertoOrigen.DataPropertyName = "idPuertoOrigen";
+            this.idPuertoOrigen.HeaderText = "idPuertoOrigen";
+            this.idPuertoOrigen.Name = "idPuertoOrigen";
+            this.idPuertoOrigen.Visible = false;
+            // 
+            // puertoOrigen
+            // 
+            this.puertoOrigen.DataPropertyName = "puertoOrigen";
+            this.puertoOrigen.HeaderText = "puertoOrigen";
+            this.puertoOrigen.Name = "puertoOrigen";
+            // 
+            // idPuertoDestino
+            // 
+            this.idPuertoDestino.DataPropertyName = "idPuertoDestino";
+            this.idPuertoDestino.HeaderText = "idPuertoDestino";
+            this.idPuertoDestino.Name = "idPuertoDestino";
+            this.idPuertoDestino.Visible = false;
+            // 
+            // puertoDestino
+            // 
+            this.puertoDestino.DataPropertyName = "puertoDestino";
+            this.puertoDestino.HeaderText = "puertoDestino";
+            this.puertoDestino.Name = "puertoDestino";
+            // 
+            // Precio
+            // 
+            this.Precio.DataPropertyName = "Precio";
+            this.Precio.HeaderText = "Precio";
+            this.Precio.Name = "Precio";
+            // 
             // Recorridos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -193,6 +202,7 @@
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Button search;
         private System.Windows.Forms.DataGridViewTextBoxColumn idRecorrido;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
         private System.Windows.Forms.DataGridViewTextBoxColumn idTramo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Codigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn idPuertoOrigen;
