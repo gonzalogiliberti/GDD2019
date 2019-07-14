@@ -579,6 +579,7 @@ select
 		from #temp_recorridos t1,  #temp_recorridos t2
 		where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE))
 
+Drop table #temp_recorridos
 /*
 select RECORRIDO_CODIGO, PUERTO_DESDE , PUERTO_HASTA
 into #temp_recorridos
