@@ -37,7 +37,11 @@ namespace FrbaCrucero.AbmPuerto
 
         private void comboPuerto_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            Puerto pO = this.comboPuerto.SelectedItem as Puerto;
+            if (pO != null)
+            {
+                this.dgvPuertos.DataSource = dao.getPuerto(pO);
+            }
         }
 
         private void dgvPuertos_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)

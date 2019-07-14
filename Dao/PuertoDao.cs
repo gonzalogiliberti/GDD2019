@@ -74,5 +74,10 @@ namespace FrbaCrucero.Dao
             dic.Add("@Nombre", nombrePuerto);
             db.executeProcedureWithParameters("dbo.sp_borrar_puerto", dic);
         }
+
+        public DataTable getPuerto(Puerto p)
+        {
+            return db.select_query("SELECT PUERTOS.idPuerto, PUERTOS.Nombre AS Puerto FROM dbo.Puerto PUERTOS where PUERTOS.idPuerto = " + p.idPuerto);
+        }
     }
 }

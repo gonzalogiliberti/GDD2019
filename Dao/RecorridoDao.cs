@@ -22,7 +22,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllRecorridos()
         {
-            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from (Recorrido r join RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join Tramo t on t.idTramo = rt.idTramo");
+            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from (Recorrido r join RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A'");
         }
 
         public DataTable getTramosForRecorrido(int idRecorrido)
@@ -122,7 +122,7 @@ namespace FrbaCrucero.Dao
         public List<Recorrido> getRecorridos()
         {
             List<Recorrido> recorridos = new List<Recorrido>();
-            DataTable dt = db.select_query("SELECT R.idRecorrido AS idRecorrido, R.codigo AS codigo FROM dbo.Recorrido R");
+            DataTable dt = db.select_query("SELECT R.idRecorrido AS idRecorrido, R.codigo AS codigo FROM dbo.Recorrido R where Estado = 'A'");
 
             foreach (DataRow row in dt.Rows)
             {
@@ -178,6 +178,11 @@ namespace FrbaCrucero.Dao
             DataRow r = dt.Rows[lastTramo];
 
             return Convert.ToString(r["puertoDestino"]);
+        }
+
+        public DataTable getRecorrido(decimal code)
+        {
+            return db.select_query("select r.idRecorrido AS idRecorrido, t.idTramo AS idTramo, r.codigo AS Codigo , t.puertoOrigen AS idPuertoOrigen, (Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, t.puertoDestino AS idPuertoDestino,(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , t.precioBase AS Precio   from (Recorrido r join RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido) join Tramo t on t.idTramo = rt.idTramo where r.Estado = 'A' and r.codigo = " + code);
         }
     }
 }

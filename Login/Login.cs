@@ -16,12 +16,14 @@ namespace FrbaCrucero.Login
     public partial class LoginForm : Form
     {
         LoginDao dao;
+        CompraDao cDao;
         public List<int> funciones;
 
         public LoginForm()
         {
             InitializeComponent();
             dao = new LoginDao();
+            cDao = new CompraDao();
         }
 
         private void aceotarBtn_Click(object sender, EventArgs e)
@@ -48,6 +50,7 @@ namespace FrbaCrucero.Login
                 funciones = dao.getFunciones(idRol);
             }
             this.DialogResult = DialogResult.OK;
+            cDao.marcarVencidasReservas(DateTime.Now);
             this.Close();
         }
 

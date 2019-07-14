@@ -106,21 +106,7 @@ namespace FrbaCrucero.AbmPuerto
 
         private void delete_Click(object sender, EventArgs e)
         {
-            try
-            {
-                CheckEmptyFields();
-                DialogResult resul = MessageBox.Show("Seguro que quiere eliminar el Auto?", "Eliminar Registro", MessageBoxButtons.YesNo);
-                if (resul == DialogResult.Yes)
-                {
-                    dao.deletePort(unPuerto);
-                    MessageBox.Show("El auto fue eliminado exitosamente");
-                    this.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
+            MessageBox.Show("Funcionalidad no disponible");
         }
 
     }

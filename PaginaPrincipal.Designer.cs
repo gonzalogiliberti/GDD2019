@@ -36,6 +36,7 @@
             this.compraReserva = new System.Windows.Forms.Button();
             this.genViaje = new System.Windows.Forms.Button();
             this.payReserve = new System.Windows.Forms.Button();
+            this.buttonListados = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // puertos
@@ -118,11 +119,22 @@
             this.payReserve.UseVisualStyleBackColor = true;
             this.payReserve.Click += new System.EventHandler(this.payReserve_Click);
             // 
+            // buttonListados
+            // 
+            this.buttonListados.Location = new System.Drawing.Point(256, 101);
+            this.buttonListados.Name = "buttonListados";
+            this.buttonListados.Size = new System.Drawing.Size(134, 23);
+            this.buttonListados.TabIndex = 8;
+            this.buttonListados.Text = "Listados Estadisticos";
+            this.buttonListados.UseVisualStyleBackColor = true;
+            this.buttonListados.Click += new System.EventHandler(this.buttonListados_Click_1);
+            // 
             // PaginaPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 186);
+            this.Controls.Add(this.buttonListados);
             this.Controls.Add(this.payReserve);
             this.Controls.Add(this.genViaje);
             this.Controls.Add(this.compraReserva);
@@ -147,6 +159,7 @@
         private System.Windows.Forms.Button genViaje;
         private System.Windows.Forms.Button crucero;
         private System.Windows.Forms.Button payReserve;
+        private System.Windows.Forms.Button buttonListados;
     }
 }
 
