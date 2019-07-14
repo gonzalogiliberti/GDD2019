@@ -21,13 +21,13 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllPuertos()
         {
-            return db.select_query("Select idPuerto, Nombre AS Puerto from dbo.Puerto");
+            return db.select_query("Select idPuerto, Nombre AS Puerto from JavaPorter.Puerto");
         }
 
         public List<Puerto> getPuertos()
         {
             List<Puerto> puertos = new List<Puerto>();
-            DataTable dt = db.select_query("SELECT PUERTOS.idPuerto AS IdPuerto, PUERTOS.Nombre AS Puerto FROM dbo.Puerto PUERTOS");
+            DataTable dt = db.select_query("SELECT PUERTOS.idPuerto AS IdPuerto, PUERTOS.Nombre AS Puerto FROM JavaPorter.Puerto PUERTOS");
 
             foreach (DataRow row in dt.Rows)
             {
@@ -39,7 +39,7 @@ namespace FrbaCrucero.Dao
 
         public int verifyPortExisted(Puerto port)
         {
-            DataTable dt = db.select_query("Select PUERTOS.idPuerto from dbo.Puerto PUERTOS where PUERTOS.Nombre = '" + port.getPuerto() + "';");
+            DataTable dt = db.select_query("Select PUERTOS.idPuerto from JavaPorter.Puerto PUERTOS where PUERTOS.Nombre = '" + port.getPuerto() + "';");
             if (dt.Rows.Count != 0)
             {
                 return 1;
@@ -52,7 +52,7 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@Nombre", port.getPuerto());
 
-            db.executeProcedureWithParameters("dbo.sp_crear_puerto",dic);
+            db.executeProcedureWithParameters("JavaPorter.sp_crear_puerto",dic);
         }
 
         public void updatePort(Puerto port)
@@ -61,7 +61,7 @@ namespace FrbaCrucero.Dao
             dic.Add("@IdPuerto", port.getId());
             dic.Add("@Nombre", port.getPuerto());
 
-            db.executeProcedureWithParameters("dbo.sp_modificar_puerto", dic);
+            db.executeProcedureWithParameters("JavaPorter.sp_modificar_puerto", dic);
         }
 
         public void deletePort(DataGridViewRow unPuerto)
@@ -72,12 +72,12 @@ namespace FrbaCrucero.Dao
             Dictionary<String, Object> dic = new Dictionary<String, Object>();
             dic.Add("@IdPuerto", idPuerto);
             dic.Add("@Nombre", nombrePuerto);
-            db.executeProcedureWithParameters("dbo.sp_borrar_puerto", dic);
+            db.executeProcedureWithParameters("JavaPorter.sp_borrar_puerto", dic);
         }
 
         public DataTable getPuerto(Puerto p)
         {
-            return db.select_query("SELECT PUERTOS.idPuerto, PUERTOS.Nombre AS Puerto FROM dbo.Puerto PUERTOS where PUERTOS.idPuerto = " + p.idPuerto);
+            return db.select_query("SELECT PUERTOS.idPuerto, PUERTOS.Nombre AS Puerto FROM JavaPorter.Puerto PUERTOS where PUERTOS.idPuerto = " + p.idPuerto);
         }
     }
 }
