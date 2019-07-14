@@ -19,19 +19,19 @@ namespace FrbaCrucero.Dao
 
         public DataTable getRoles()
         {
-            return db.select_query("Select idRol , rol_Nombre from Rol");
+            return db.select_query("Select idRol , rol_Nombre from dbo.Rol");
         }
 
         // Retorna todas la funcionalidades asignadas al rol
         public DataTable getFuncByRol(int rolId)
         {
-            return db.select_query("select f.idFuncion as idFuncionalidad, f.nombre as Funcionalidad from RolxFuncion rf join Funcion f on rf.idFuncion = f.idFuncion where rf.idRol = " + rolId);
+            return db.select_query("select f.idFuncion as idFuncionalidad, f.nombre as Funcionalidad from dbo.RolxFuncion rf join Funcion f on rf.idFuncion = f.idFuncion where rf.idRol = " + rolId);
         }
 
         // Retornas todas las funcionalidad existes que no posee el rol
         public DataTable getFuncAvailable(int rolId)
         {
-            return db.select_query("select idFuncion, nombre from Funcion where idFuncion not in (select f.idFuncion from RolxFuncion rf join Funcion f on rf.idFuncion = f.idFuncion where rf.idRol = " + rolId + " )");
+            return db.select_query("select idFuncion, nombre from dbo.Funcion where idFuncion not in (select f.idFuncion from dbo.RolxFuncion rf join Funcion f on rf.idFuncion = f.idFuncion where rf.idRol = " + rolId + " )");
         }
 
         public void removeFunctionFromRol(int idRol, int idFunc)
