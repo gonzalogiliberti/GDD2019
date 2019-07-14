@@ -2,7 +2,7 @@
 DECLARE @schemaName as nvarchar(10)
 DECLARE @schemaId as int
 
-SET @schemaName = 'dbo'
+SET @schemaName = 'JavaPorter'
 SET @schemaId = (select schema_id from sys.schemas where name = @schemaName)
 
 /*Drop constraints*/
@@ -74,6 +74,49 @@ END
 CLOSE proceduress
 DEALLOCATE proceduress
 
+/*Drop Functions*/
+
+/*
+DECLARE @functionDrop AS nvarchar(MAX)
+DECLARE functions CURSOR FOR select 
+'DROP FUNCTION [' + s.name +
+	'].[' + o.name + ']'
+from sys.objects o
+inner join sys.schemas s on o.schema_id = s.schema_id
+where o.schema_id=@schemaId and type = 'FN'
+
+OPEN functions
+
+FETCH NEXT FROM functions INTO @functionDrop
+WHILE @@fetch_status = 0
+
+BEGIN
+	exec (@functionDrop)
+    FETCH NEXT FROM functions INTO @functionDrop
+END
+CLOSE functions
+DEALLOCATE functions
+*/
+
+
+/*
+declare @procName varchar(500)
+declare cur cursor
+    for select [name] from sys.objects where schema_id=@schemaId and type IN (N'FN', N'IF', N'TF', N'FS', N'FT',N'FX') 
+open cur
+
+fetch next from cur into @procName
+      while @@fetch_status = 0
+      begin
+                  exec('drop function ' + @procName)
+                  fetch next from cur into @procName
+      end
+
+close cur
+deallocate cur
+*/
+DROP FUNCTION JavaPorter.fx_RecorridosYTramos
+
 /* DROP SCHEMA*/
 /* Al pedo borrar el schema */
 /*
@@ -81,3 +124,6 @@ IF EXISTS (SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME
     DROP SCHEMA FSOCIETY
 GO
 */
+IF EXISTS (SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'JavaPorter')
+    DROP SCHEMA JavaPorter
+GO

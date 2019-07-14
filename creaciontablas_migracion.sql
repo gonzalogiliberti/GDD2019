@@ -1,5 +1,5 @@
 CREATE SCHEMA JavaPorter;
-GO;
+GO
 
 CREATE TABLE [JavaPorter].[Baja](
 	[idBaja] [int] IDENTITY(1,1) NOT NULL,
@@ -528,22 +528,22 @@ GO
 insert into GD1C2019.JavaPorter.Fabricante(Nombre) select distinct(CRU_FABRICANTE) from gd_esquema.Maestra
 GO
 --Migracion Datos Crucero
-insert into GD1C2019.JavaPorter.Crucero(Identificador,Modelo, Fabricante) select distinct(CRUCERO_IDENTIFICADOR), CRUCERO_MODELO,(Select idFabricante from Fabricante where Nombre = CRU_FABRICANTE ) from gd_esquema.maestra
+insert into JavaPorter.Crucero(Identificador, Modelo, Fabricante) select distinct(CRUCERO_IDENTIFICADOR), CRUCERO_MODELO,(Select idFabricante from JavaPorter.Fabricante where Nombre = CRU_FABRICANTE ) from gd_esquema.maestra
 GO
 insert into JavaPorter.TipoCabina(Nombre, Recargo) select distinct(CABINA_TIPO), CABINA_TIPO_PORC_RECARGO from gd_esquema.Maestra
 GO
 --Migracion Datos Cabina
-insert into GD1C2019.JavaPorter.Cabina(Numero,Piso, TipoCabina, idCrucero) select CABINA_NRO, CABINA_PISO, (select idTipoCabina from TipoCabina where Nombre = CABINA_TIPO) as tipo,
-	(select intCrucero from Crucero where CRUCERO_IDENTIFICADOR = Identificador) as crucero from gd_esquema.maestra where (select count(*) from Cabina where Numero = CABINA_NRO and Piso = CABINA_PISO and idCrucero = (select intCrucero from Crucero where CRUCERO_IDENTIFICADOR = Identificador)) = 0
+insert into JavaPorter.Cabina(Numero,Piso, TipoCabina, idCrucero) select CABINA_NRO, CABINA_PISO, (select idTipoCabina from JavaPorter.TipoCabina where Nombre = CABINA_TIPO) as tipo,
+	(select intCrucero from JavaPorter.Crucero where CRUCERO_IDENTIFICADOR = Identificador) as crucero from gd_esquema.maestra where (select count(*) from JavaPorter.Cabina where Numero = CABINA_NRO and Piso = CABINA_PISO and idCrucero = (select intCrucero from JavaPorter.Crucero where CRUCERO_IDENTIFICADOR = Identificador)) = 0
 	group by CABINA_NRO, CABINA_PISO, CABINA_TIPO, CRUCERO_IDENTIFICADOR
 	order by CABINA_NRO, CABINA_PISO, crucero
 GO
 --Migracion de Tramos
-insert into Tramo(puertoDestino, puertoOrigen, precioBase) 
-	select (select idPuerto from Puerto where PUERTO_HASTA = Nombre), (select idPuerto from Puerto where PUERTO_Desde = Nombre), RECORRIDO_PRECIO_BASE from gd_esquema.maestra group by PUERTO_HASTA, PUERTO_DESDE, RECORRIDO_PRECIO_BASE
+insert into JavaPorter.Tramo(puertoDestino, puertoOrigen, precioBase) 
+	select (select idPuerto from JavaPorter.Puerto where PUERTO_HASTA = Nombre), (select idPuerto from JavaPorter.Puerto where PUERTO_Desde = Nombre), RECORRIDO_PRECIO_BASE from gd_esquema.maestra group by PUERTO_HASTA, PUERTO_DESDE, RECORRIDO_PRECIO_BASE
 GO
 --Migracion de Recorridos
-insert into Recorrido(Codigo) select distinct(RECORRIDO_CODIGO) from gd_esquema.maestra
+insert into JavaPorter.Recorrido(Codigo) select distinct(RECORRIDO_CODIGO) from gd_esquema.maestra
 GO
 
 --Migracion de Tramos x Recorrido
@@ -552,26 +552,26 @@ into #temp_recorridos
 from gd_esquema.maestra group by RECORRIDO_CODIGO,PUERTO_DESDE, PUERTO_HASTA
 order by RECORRIDO_CODIGO
 
-insert into RecorridoXTramo(idRecorrido, idTramo, orden) 
+insert into JavaPorter.RecorridoXTramo(idRecorrido, idTramo, orden) 
 select 
-	(select idRecorrido from Recorrido where codigo = t1.RECORRIDO_CODIGO),
-	(select idTramo from Tramo where t1.PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and t1.PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto)),
+	(select idRecorrido from JavaPorter.Recorrido where codigo = t1.RECORRIDO_CODIGO),
+	(select idTramo from JavaPorter.Tramo where t1.PUERTO_DESDE = (select Nombre from JavaPorter.Puerto where puertoOrigen = idPuerto) and t1.PUERTO_HASTA = (select Nombre from JavaPorter.Puerto where puertoDestino = idPuerto)),
 	1 --orden
 	from #temp_recorridos t1,  #temp_recorridos t2
 	where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE)
 
-insert into RecorridoXTramo(idRecorrido, idTramo, orden) 
+insert into JavaPorter.RecorridoXTramo(idRecorrido, idTramo, orden) 
 select 
-	(select idRecorrido from Recorrido where codigo = t2.RECORRIDO_CODIGO),
-	(select idTramo from Tramo where t2.PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and t2.PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto)),
+	(select idRecorrido from JavaPorter.Recorrido where codigo = t2.RECORRIDO_CODIGO),
+	(select idTramo from JavaPorter.Tramo where t2.PUERTO_DESDE = (select Nombre from JavaPorter.Puerto where puertoOrigen = idPuerto) and t2.PUERTO_HASTA = (select Nombre from JavaPorter.Puerto where puertoDestino = idPuerto)),
 	2 --orden
 	from #temp_recorridos t1,  #temp_recorridos t2
 	where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE)
 
-insert into RecorridoXTramo(idRecorrido, idTramo) 
+insert into JavaPorter.RecorridoXTramo(idRecorrido, idTramo) 
 select 
-	(select idRecorrido from Recorrido where codigo = RECORRIDO_CODIGO),
-	(select idTramo from Tramo where PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto))
+	(select idRecorrido from JavaPorter.Recorrido where codigo = RECORRIDO_CODIGO),
+	(select idTramo from JavaPorter.Tramo where PUERTO_DESDE = (select Nombre from JavaPorter.Puerto where puertoOrigen = idPuerto) and PUERTO_HASTA = (select Nombre from JavaPorter.Puerto where puertoDestino = idPuerto))
 	from #temp_recorridos
 	where RECORRIDO_CODIGO not in (select t1.RECORRIDO_CODIGO
 		from #temp_recorridos t1,  #temp_recorridos t2
@@ -580,25 +580,14 @@ select
 		RECORRIDO_CODIGO not in (select t2.RECORRIDO_CODIGO
 		from #temp_recorridos t1,  #temp_recorridos t2
 		where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE))
-
-Drop table #temp_recorridos
-/*
-select RECORRIDO_CODIGO, PUERTO_DESDE , PUERTO_HASTA
-into #temp_recorridos
-from gd_esquema.maestra group by RECORRIDO_CODIGO,PUERTO_DESDE, PUERTO_HASTA
-order by RECORRIDO_CODIGO
-
-select t1.RECORRIDO_CODIGO
-from #temp_recorridos t1,  #temp_recorridos t2
-where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE)
-*/
-
 GO
-insert into ClienteXRecorrido(idCliente, idRecorrido) select (select idCliente from Cliente where dni = CLI_DNI and CLI_NOMBRE = Nombre),
-(select idRecorrido from Recorrido where codigo = RECORRIDO_CODIGO) from gd_esquema.maestra group by CLI_DNI, RECORRIDO_CODIGO, CLI_NOMBRE
+Drop table #temp_recorridos
+GO
+insert into JavaPorter.ClienteXRecorrido(idCliente, idRecorrido) select (select idCliente from JavaPorter.Cliente where dni = CLI_DNI and CLI_NOMBRE = Nombre),
+(select idRecorrido from JavaPorter.Recorrido where codigo = RECORRIDO_CODIGO) from gd_esquema.maestra group by CLI_DNI, RECORRIDO_CODIGO, CLI_NOMBRE
 GO
 insert into JavaPorter.Viaje(FechaInicio, FechaFin, FechaFinEstimada, idCrucero, idRecorrido) select FECHA_SALIDA, FECHA_LLEGADA, FECHA_LLEGADA_ESTIMADA,
- (select intCrucero from Crucero where Identificador = CRUCERO_IDENTIFICADOR and Modelo = CRUCERO_MODELO), (select idRecorrido from Recorrido where RECORRIDO_CODIGO = codigo)
+ (select intCrucero from JavaPorter.Crucero where Identificador = CRUCERO_IDENTIFICADOR and Modelo = CRUCERO_MODELO), (select idRecorrido from JavaPorter.Recorrido where RECORRIDO_CODIGO = codigo)
   from gd_esquema.maestra group by RECORRIDO_CODIGO, CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, FECHA_LLEGADA, FECHA_LLEGADA_ESTIMADA, FECHA_SALIDA
 GO
 insert into JavaPorter.TipoBaja(Nombre) values ('Vida Util')
@@ -609,14 +598,14 @@ GO
 
 select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO,CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, RECORRIDO_CODIGO, FECHA_SALIDA, FECHA_LLEGADA, CLI_DNI, CLI_APELLIDO, CLI_NOMBRE, CLI_FECHA_NAC, CABINA_NRO, CABINA_PISO, V.idViaje, Identificador, Modelo, Cru.intCrucero
 into #temp_Compra
-from gd_esquema.Maestra M, Viaje V, Crucero Cru
+from gd_esquema.Maestra M, JavaPorter.Viaje V, JavaPorter.Crucero Cru
 where PASAJE_CODIGO Is not null and
 		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
 		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
 
 insert into JavaPorter.Compra(fecha, precioTotal, codigoPasaje, idViaje, idCliente, idCabina) 
   ( select PASAJE_FECHA_COMPRA, PASAJE_PRECIO, PASAJE_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina
-	from #temp_Compra M, Cliente Cli, Cabina Cab
+	from #temp_Compra M, JavaPorter.Cliente Cli, JavaPorter.Cabina Cab
 	where PASAJE_CODIGO Is not null and
 		  M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
 		  Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
@@ -626,14 +615,14 @@ GO
 
 select RESERVA_FECHA, PASAJE_PRECIO, RESERVA_CODIGO, CRUCERO_IDENTIFICADOR, CRUCERO_MODELO, RECORRIDO_CODIGO, FECHA_SALIDA, FECHA_LLEGADA, CLI_DNI, CLI_APELLIDO, CLI_NOMBRE, CLI_FECHA_NAC, CABINA_NRO, CABINA_PISO, V.idViaje, Identificador, Modelo, Cru.intCrucero
 into #temp_Reserva
-from gd_esquema.Maestra M, Viaje V, Crucero Cru
+from gd_esquema.Maestra M, JavaPorter.Viaje V, JavaPorter.Crucero Cru
 where RESERVA_CODIGO Is not null and
 		V.FechaInicio = M.FECHA_SALIDA and V.FechaFin = M.FECHA_LLEGADA and V.idCrucero = Cru.intCrucero and
 		M.CRUCERO_IDENTIFICADOR = Cru.Identificador and Cru.Modelo = M.CRUCERO_MODELO
 
 insert into JavaPorter.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina, pagada) 
 (	select RESERVA_FECHA, RESERVA_CODIGO, M.idViaje, Cli.idCliente, Cab.idCabina, 1
-	from #temp_Reserva M, Cliente Cli, Cabina Cab
+	from #temp_Reserva M, JavaPorter.Cliente Cli, JavaPorter.Cabina Cab
 	where RESERVA_CODIGO Is not null and
 		M.CLI_DNI = Cli.dni and M.CLI_APELLIDO = Cli.Apellido and M.CLI_NOMBRE = Cli.Nombre and M.CLI_FECHA_NAC = Cli.fechaNac and
 		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
@@ -659,7 +648,6 @@ insert into JavaPorter.Funcion (nombre) values ('Alta Viaje')
 -- Estadisticas
 insert into JavaPorter.Funcion (nombre) values ('Estadistica')
 
-select * from Funcion
 -- Rol de Admin
 insert into JavaPorter.Rol (rol_Nombre) values ('Administrador')
 GO
@@ -686,14 +674,10 @@ GO
 	[tStamp] Datetime,
 */
 --Carga de usuarios Admin
-insert into JavaPorter.Usuario(username, pass, idRol) select 'admin1','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-insert into JavaPorter.Usuario(username, pass, idRol) select 'admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-insert into JavaPorter.Usuario(username, pass, idRol) select 'admin3','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-insert into JavaPorter.Usuario(username, pass, idRol) select 'admin4','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from Rol where rol_Nombre = 'Administrador';
-
-update Usuario set fallos = 0 where idRol = 1
-
-select * from usuario
+insert into JavaPorter.Usuario(username, pass, idRol) select 'admin1','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
+insert into JavaPorter.Usuario(username, pass, idRol) select 'admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
+insert into JavaPorter.Usuario(username, pass, idRol) select 'admin3','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
+insert into JavaPorter.Usuario(username, pass, idRol) select 'admin4','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
 
 --Stores Funcion y Rol
 IF (OBJECT_ID ('JavaPorter.sp_crear_funcion') IS NOT NULL)
@@ -965,10 +949,10 @@ AS BEGIN
 	declare @idCabina int
 
 	select top 1 @idCabina = c.idCabina from JavaPorter.Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
-	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
+	and (c.idCabina not in (select co.idCabina from JavaPorter.Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from JavaPorter.Reserva re where re.idViaje = @idViaje))
 
 	declare @codigo decimal(18,0)
-	select @codigo = MAX(codigoPasaje) from Compra
+	select @codigo = MAX(codigoPasaje) from JavaPorter.Compra
 	if (@codigo is not null)
 	begin
 		set @codigo = @codigo + 1
@@ -998,11 +982,11 @@ AS BEGIN
 	
 	declare @idCabina int
 
-	select top 1 @idCabina = c.idCabina from Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
-	and (c.idCabina not in (select co.idCabina from Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from Reserva re where re.idViaje = @idViaje))
+	select top 1 @idCabina = c.idCabina from JavaPorter.Cabina c where c.TipoCabina = @tipoCabina and c.idCrucero = @idCrucero
+	and (c.idCabina not in (select co.idCabina from JavaPorter.Compra co where co.idViaje = @idViaje) and c.idCabina not in (select re.idCabina from JavaPorter.Reserva re where re.idViaje = @idViaje))
 
 	declare @codigo decimal(18,0)
-	select @codigo = MAX(codigoReserva) from Reserva
+	select @codigo = MAX(codigoReserva) from JavaPorter.Reserva
 	if (@codigo is not null)
 	begin
 		set @codigo = @codigo + 1
@@ -1083,7 +1067,7 @@ BEGIN
 
 	
 	set @now = GETDATE();
-	select @idRol=idRol, @fallos=fallos, @passSaved = [pass], @timeStamp = [tStamp] from Usuario where username = @usr
+	select @idRol=idRol, @fallos=fallos, @passSaved = [pass], @timeStamp = [tStamp] from JavaPorter.Usuario where username = @usr
 
 
 	if @fallos > 2 and DATEDIFF(hour, @timeStamp ,getDate()) < 1
@@ -1288,7 +1272,7 @@ AS Begin
 end
 GO
 
-ALTER Function JavaPorter.fx_RecorridosYTramos ()
+CREATE Function JavaPorter.fx_RecorridosYTramos ()
 RETURNS @res TABLE (
 	idRecorrido int, codigo int, idPuertoOrigen int, puertoOrigen nvarchar(255), idPuertoDestino int, puertoDestino nvarchar(255), Precio decimal(18,2))
 AS
@@ -1316,9 +1300,9 @@ BEGIN
 	declare miCursor CURSOR FOR 
 		select r.idRecorrido AS idRecorrido, r.codigo AS Codigo, rt.orden
 			,t.puertoOrigen AS idPuertoOrigen,
-			(Select p1.Nombre from Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, 
+			(Select p1.Nombre from JavaPorter.Puerto p1 where p1.idPuerto = t.puertoOrigen) AS puertoOrigen, 
 			t.puertoDestino AS idPuertoDestino,
-			(Select p2.Nombre from Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , 
+			(Select p2.Nombre from JavaPorter.Puerto p2 where p2.idPuerto = t.puertoDestino) AS puertoDestino , 
 			t.precioBase AS Precio
 
 		from JavaPorter.Recorrido r join JavaPorter.RecorridoXTramo rt on r.idRecorrido = rt.idRecorrido join JavaPorter.Tramo t on t.idTramo = rt.idTramo 
