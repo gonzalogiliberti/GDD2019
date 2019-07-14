@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaCrucero.Dao;
 using FrbaCrucero.AbmCrucero;
+using FrbaCrucero.Util;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
@@ -193,7 +194,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             string texto = "El codigo de su reserva es: " + codigoReserva;
             texto += " parte el dia: " + viaje.fechaInicio + " desde " + puertoOrigen;
             texto += " finaliza el dia: " + viaje.fechaFin + " en el puerto: " + puertoDestino;
-            texto += ". Su reserva vence el: " + DateTime.Now.AddDays(3);
+            texto += ". Su reserva vence el: " + DateUtils.getDateFromConfig().AddDays(3);
 
             MessageBox.Show(texto);
             this.Close();

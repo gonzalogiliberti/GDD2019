@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace FrbaCrucero.Util
 {
@@ -17,8 +18,7 @@ namespace FrbaCrucero.Util
 
         public static DateTime getDateFromConfig()
         {
-            //return DateTime.Parse(ConfigurationManager.AppSettings["current_date"].ToString());
-            return DateTime.Parse("2019-06-27");
+            return DateTime.Parse(ConfigurationManager.AppSettings["current_date"].ToString());
         }
     }
 }

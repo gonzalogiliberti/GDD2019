@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FrbaCrucero.Dao;
 using FrbaCrucero.AbmCrucero;
+using FrbaCrucero.Util;
 
 namespace FrbaCrucero.CompraReservaPasaje
 {
@@ -27,7 +28,7 @@ namespace FrbaCrucero.CompraReservaPasaje
             InitializeComponent();
             dao = new CompraDao();
             cDao = new CruceroDao();
-            dao.marcarVencidasReservas(DateTime.Now);
+            dao.marcarVencidasReservas(DateUtils.getDateFromConfig());
         }
 
         private void cancel_Click(object sender, EventArgs e)

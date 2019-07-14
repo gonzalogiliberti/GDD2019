@@ -11,6 +11,7 @@ using FrbaCrucero.Dao;
 using FrbaCrucero.Util;
 using FrbaCrucero.AbmRecorrido;
 using FrbaCrucero.AbmCrucero;
+using FrbaCrucero.Util;
 
 namespace FrbaCrucero.GeneracionViaje
 {
@@ -56,7 +57,7 @@ namespace FrbaCrucero.GeneracionViaje
 
         private void setupDates()
         {
-            DateTime now = DateTime.Now;
+            DateTime now = DateUtils.getDateFromConfig();
             this.dtInicio.Value = now;
             this.dtFin.Value = now.AddMinutes(10);
         }

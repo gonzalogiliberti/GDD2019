@@ -249,6 +249,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\DateUtils.cs" />
     <Compile Include="Util\DuplicateKeyException.cs" />
     <Compile Include="Util\InvalidOptionException.cs" />
     <Compile Include="Dao\PuertoDao.cs" />

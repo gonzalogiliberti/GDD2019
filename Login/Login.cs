@@ -50,7 +50,7 @@ namespace FrbaCrucero.Login
                 funciones = dao.getFunciones(idRol);
             }
             this.DialogResult = DialogResult.OK;
-            cDao.marcarVencidasReservas(DateTime.Now);
+            cDao.marcarVencidasReservas(DateUtils.getDateFromConfig());
             this.Close();
         }
 

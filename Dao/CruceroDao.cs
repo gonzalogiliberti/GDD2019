@@ -266,7 +266,7 @@ namespace FrbaCrucero.Dao
 
         public DataTable getViajesForCruise(int crucero)
         {
-            return db.select_query("select idViaje, FechaInicio, FechaFin, (select Codigo from Recorrido r where r.idRecorrido = v.idRecorrido ) as Recorrido from Viaje v where idCrucero = " + crucero + " and FechaInicio > '" + DateTime.Now + "'");
+            return db.select_query("select idViaje, FechaInicio, FechaFin, (select Codigo from Recorrido r where r.idRecorrido = v.idRecorrido ) as Recorrido from Viaje v where idCrucero = " + crucero + " and FechaInicio > '" + DateUtils.getDateFromConfig() + "'");
         }
 
         public void updateCruiseViaje(int crucero, int viaje)
