@@ -724,6 +724,21 @@ AS BEGIN
 END
 GO
 
+IF (OBJECT_ID ('dbo.sp_eliminar_rol') IS NOT NULL)
+	DROP PROCEDURE dbo.sp_eliminar_rol
+GO
+CREATE PROCEDURE dbo.sp_eliminar_rol (@rolName  varchar(50)) 
+AS BEGIN
+    BEGIN TRANSACTION T1
+	delete from dbo.Rol where rol_Nombre = @rolName
+	
+	if (@@ERROR !=0)
+        ROLLBACK TRANSACTION T1;
+	COMMIT TRANSACTION T1;
+	
+END
+GO
+
 IF (OBJECT_ID ('dbo.sp_set_funcxrol') IS NOT NULL)
 	DROP PROCEDURE dbo.sp_set_funcxrol
 GO
