@@ -22,10 +22,10 @@ namespace FrbaCrucero.Dao
 
         public DataTable getAllTrips(int pOri, int pDest, DateTime inicio)
         {
-            
-            string query = "select V.idViaje, t.puertoOrigen AS idPuertoOri, p1.Nombre AS PuertoOri, t.puertoDestino AS idPuertoDest, p2.Nombre as PuertoDest, V.FechaInicio, V.FechaFin, c.intCrucero as idCrucero, c.Identificador, v.idRecorrido from Viaje V, RecorridoXTramo rxt, Recorrido r, Tramo t, Puerto p1, Puerto p2, Crucero c ";
-            query += "where V.FechaInicio = '" + inicio + "' and t.puertoOrigen = "+ pOri + " and t.puertoDestino = " + pDest +" and rxt.idTramo = t.idTramo and ";
-            query += "rxt.idRecorrido = r.idRecorrido and rxt.orden = 0 and p1.idPuerto = " + pOri +" and p2.idPuerto = " + pDest + " and c.intCrucero = v.idCrucero";
+
+            string query = "select V.idViaje, t.puertoOrigen AS idPuertoOri, p1.Nombre AS PuertoOri, t.puertoDestino AS idPuertoDest, p2.Nombre as PuertoDest, V.FechaInicio, V.FechaFin, c.intCrucero as idCrucero, c.Identificador, v.idRecorrido from Viaje V, RecorridoXTramo rxt, Recorrido r, Tramo t, Puerto p1, Puerto p2, Crucero c, RecorridoXTramo rxt1, Tramo t2 ";
+            query += "where V.FechaInicio = '" + inicio + "' and t.puertoOrigen = "+ pOri + " and t2.puertoDestino = " + pDest +" and rxt.idTramo = t.idTramo and ";
+            query += "rxt.idRecorrido = r.idRecorrido and rxt.orden = 1 and p1.idPuerto = " + pOri + " and p2.idPuerto = " + pDest + " and c.intCrucero = v.idCrucero  and rxt1.idRecorrido = r.idRecorrido and rxt1.orden = (select max(rt.orden) from RecorridoXTramo rt where rt.idRecorrido = r.idRecorrido) ";
             return db.select_query(query);
         }
 

@@ -891,7 +891,18 @@ Create PROCEDURE dbo.sp_set_recorridoxtramo (@idTramo int, @idRecorrido int)
 AS BEGIN
 
     BEGIN TRANSACTION T1
-	insert into dbo.RecorridoXTramo(idRecorrido, idTramo) values (@idRecorrido, @idTramo)
+	declare @orden int
+	select @orden = max(orden) from RecorridoXTramo where idRecorrido = @idRecorrido
+	if @orden is null
+	begin 
+		set @orden = 0
+	end
+	else
+	begin
+		set @orden = @orden + 1
+	end
+
+	insert into dbo.RecorridoXTramo(idRecorrido, idTramo, orden) values (@idRecorrido, @idTramo, @orden)
 	
 	if (@@ERROR !=0)
         ROLLBACK TRANSACTION T1;
