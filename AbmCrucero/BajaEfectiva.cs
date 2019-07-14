@@ -100,6 +100,7 @@ namespace FrbaCrucero.AbmCrucero
             DateTime inicio = Convert.ToDateTime(this.dtBaja.Value);
             DateTime fin = Convert.ToDateTime(this.dtAlta.Value);
             double corrimiento = (fin - inicio).TotalDays;
+            var corrimientoFormateado = (fin - inicio).ToString(@"dd\d\ hh\h\ mm\m\ ");
             int count = viajes.Count();
             for (int i = 0; i < count; i++ )
             {
@@ -108,7 +109,7 @@ namespace FrbaCrucero.AbmCrucero
                 viaje.fechaFin = viaje.fechaFin.AddDays(corrimiento);
                 this.dao.reprogramarViajes(viaje.idViaje, viaje.fechaInicio, viaje.fechaFin);
             }
-            MessageBox.Show("Se han reprogramado todos los viajes con un corrimiento de " + corrimiento + " dias");
+            MessageBox.Show("Se han reprogramado todos los viajes con un corrimiento de " + corrimientoFormateado);
         }
     }
 }

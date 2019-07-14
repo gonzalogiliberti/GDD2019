@@ -102,7 +102,6 @@ CREATE TABLE [dbo].[Crucero](
 	[Identificador] [nvarchar](50),
 	[Fabricante] [int],
 	[TipoServicio] [int],
-	[CantidadCabinas] [int],
 	[Activo] [char] default 'A',
  CONSTRAINT [PK_Crucero] PRIMARY KEY CLUSTERED 
 (
@@ -1260,6 +1259,16 @@ AS BEGIN
 	COMMIT TRANSACTION T1;
 	
 END
+
+GO
+IF (OBJECT_ID ('dbo.delete_old_reserve') IS NOT NULL)
+	DROP PROCEDURE dbo.delete_old_reserve
+GO
+
+create procedure dbo.delete_old_reserve (@date datetime2(3))
+AS Begin
+	update dbo.Reserva  set vencida = 1 where DATEDIFF(day,fecha, @date) > 3 and pagada = 0
+end
 GO
 
 create Function dbo.fx_RecorridosYTramos ()

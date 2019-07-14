@@ -49,10 +49,13 @@ namespace FrbaCrucero.AbmRol
 
         private void dgvRol_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            DataGridViewRow unRol = this.dgvRol.SelectedRows[0];
-            AltaModificacionRol a = new AltaModificacionRol(unRol);
-            a.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionRolCerrada);
-            a.ShowDialog();
+            if (this.dgvRol.SelectedRows.Count == 1)
+            {
+                DataGridViewRow unRol = this.dgvRol.SelectedRows[0];
+                AltaModificacionRol a = new AltaModificacionRol(unRol);
+                a.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionRolCerrada);
+                a.ShowDialog();
+            }
         }
     }
 }
