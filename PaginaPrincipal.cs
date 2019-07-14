@@ -13,6 +13,7 @@ using FrbaCrucero.AbmRecorrido;
 using FrbaCrucero.GeneracionViaje;
 using FrbaCrucero.AbmRol;
 using FrbaCrucero.CompraReservaPasaje;
+using FrbaCrucero.ListadoEstadistico;
 
 namespace FrbaCrucero
 {
@@ -63,6 +64,12 @@ namespace FrbaCrucero
         {
             PagarReserva p = new PagarReserva();
             p.ShowDialog();
+        }
+
+        private void buttonListados_Click_1(object sender, EventArgs e)
+        {
+            PantallaListados le = new PantallaListados();
+            le.ShowDialog();
         }
     }
 }

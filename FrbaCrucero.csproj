@@ -199,11 +199,11 @@
     <Compile Include="GeneracionViaje\GeneracionViajes.Designer.cs">
       <DependentUpon>GeneracionViajes.cs</DependentUpon>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.cs">
+    <Compile Include="ListadoEstadistico\PantallaListados.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ListadoEstadistico\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ListadoEstadistico\PantallaListados.Designer.cs">
+      <DependentUpon>PantallaListados.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\Login.cs">
       <SubType>Form</SubType>
@@ -286,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CompraReservaPasaje\SelectCliente.resx">
       <DependentUpon>SelectCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListadoEstadistico\PantallaListados.resx">
+      <DependentUpon>PantallaListados.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PaginaPrincipal.resx">
       <DependentUpon>PaginaPrincipal.cs</DependentUpon>

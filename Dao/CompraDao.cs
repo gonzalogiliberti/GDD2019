@@ -194,5 +194,13 @@ namespace FrbaCrucero.Dao
             return Convert.ToDecimal(r["codigoReserva"]);
         }
 
+        public DataTable getTopRecorridosVendidos(String fecha1, String fecha2)
+        {
+            String query = "select TOP 5  idRecorrido AS Recorrido, count(idRecorrido) AS Ventas from (select idCompra, idViaje, fecha from dbo.Compra where fecha > " + fecha1
+                + " and fecha < " + fecha2 + ") t1 INNER JOIN (select idViaje AS viaje2, idRecorrido from dbo.Viaje ) t2 ON t1.idViaje = t2.viaje2 group by idRecorrido ORDER BY 2 DESC;";
+            DataTable table = db.select_query(query);
+            return table;
+        }
+
     }
 }
