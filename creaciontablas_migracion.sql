@@ -1,6 +1,7 @@
 CREATE SCHEMA JavaPorter;
 GO
-
+-- CREACION DEL MODELO:
+-- Creacion de las tablas de segun nuestro DER:
 CREATE TABLE [JavaPorter].[Baja](
 	[idBaja] [int] IDENTITY(1,1) NOT NULL,
 	[idTipoBaja] [int] NOT NULL,
@@ -390,6 +391,8 @@ CREATE NONCLUSTERED INDEX [IX_Rol] ON [JavaPorter].[Rol]
 	[idRol] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
+-- FOREIGN KEY CONSTRAINT
+-- Se agregan las contrains de foreingKeys a cada una de las tablas
 ALTER TABLE [JavaPorter].[Baja]  WITH CHECK ADD  CONSTRAINT [FK_Baja_Crucero] FOREIGN KEY([idCrucero])
 REFERENCES [JavaPorter].[Crucero] ([intCrucero])
 GO
@@ -515,6 +518,7 @@ REFERENCES [JavaPorter].[Crucero] ([intCrucero])
 GO
 ALTER TABLE [JavaPorter].[Viaje] CHECK CONSTRAINT [FK_Viaje_Crucero]
 GO
+--MIGRACION DE DATOS DESDE LA TABLA MAESTRA AL MODELO
 --Migracion Datos Cliente
 insert into GD1C2019.JavaPorter.Cliente(dni, Nombre, Apellido, telefono, mail, fechaNac, direccion) 
 select CLI_DNI, CLI_NOMBRE, CLI_APELLIDO, CLI_TELEFONO, CLI_MAIL, CLI_FECHA_NAC, CLI_DIRECCION
@@ -547,6 +551,7 @@ insert into JavaPorter.Recorrido(Codigo) select distinct(RECORRIDO_CODIGO) from 
 GO
 
 --Migracion de Tramos x Recorrido
+--Utilizamos una tabla temporal para acelerar la velocidad de la consulta
 select RECORRIDO_CODIGO, PUERTO_DESDE , PUERTO_HASTA
 into #temp_recorridos
 from gd_esquema.maestra group by RECORRIDO_CODIGO,PUERTO_DESDE, PUERTO_HASTA
@@ -581,6 +586,7 @@ select
 		from #temp_recorridos t1,  #temp_recorridos t2
 		where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE))
 GO
+-- Se elimina la tabla temporal
 Drop table #temp_recorridos
 GO
 insert into JavaPorter.ClienteXRecorrido(idCliente, idRecorrido) select (select idCliente from JavaPorter.Cliente where dni = CLI_DNI and CLI_NOMBRE = Nombre),
@@ -664,16 +670,8 @@ insert into JavaPorter.MedioPAgo(Nombre) Values ('Tarjeta de Credito')
 insert into JavaPorter.MedioPAgo(Nombre) Values ('Transferencia Bancaria')
 insert into JavaPorter.MedioPAgo(Nombre) Values ('Efectivo')
 GO
-/*
-[Usuario](
-	[idUsuario] [int],[JavaPorter].[Compra]
-	[username] [varchar](25) UNIQUE,
-	[pass] [nchar](64),
-	[fallos] [int],
-	[idRol] [int],
-	[tStamp] Datetime,
-*/
---Carga de usuarios Admin
+
+--Carga de usuarios Admin con sus passwords encriptadas
 insert into JavaPorter.Usuario(username, pass, idRol) select 'admin1','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
 insert into JavaPorter.Usuario(username, pass, idRol) select 'admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
 insert into JavaPorter.Usuario(username, pass, idRol) select 'admin3','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', idRol from JavaPorter.Rol where rol_Nombre = 'Administrador';
@@ -695,7 +693,7 @@ AS BEGIN
 END
 GO
 
-
+-- SP para Agregar Rol
 IF (OBJECT_ID ('JavaPorter.sp_crear_rol') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_rol
 GO
@@ -710,6 +708,7 @@ AS BEGIN
 	
 END
 GO
+-- SP para Eliminar Rol
 IF (OBJECT_ID ('JavaPorter.sp_eliminar_rol') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_eliminar_rol
 GO
@@ -724,7 +723,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para creacion de la tabla intermedia de FuncionXRol
 IF (OBJECT_ID ('JavaPorter.sp_set_funcxrol') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_set_funcxrol
 GO
@@ -740,7 +739,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para el delete de la tabla intermedia de FuncionXRol
 IF (OBJECT_ID ('JavaPorter.sp_eliminar_funcxrol') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_eliminar_funcxrol
 GO
@@ -756,7 +755,7 @@ AS BEGIN
 	
 END
 GO
-
+SP para el update de la tabla intermedia de FuncionXRol
 IF (OBJECT_ID ('JavaPorter.sp_update_rol') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_update_rol
 GO
@@ -822,6 +821,7 @@ AS BEGIN
 END
 GO
 
+-- Stores para la tabla Tramo:
 IF (OBJECT_ID ('JavaPorter.sp_modificar_tramo') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_modificar_tramo
 GO
@@ -869,7 +869,7 @@ AS BEGIN
 	
 END
 GO
-
+-- Stores para la tabla RecorridoXTramo:
 IF (OBJECT_ID ('JavaPorter.sp_set_recorridoxtramo') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_set_recorridoxtramo
 GO
@@ -912,7 +912,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para crear Viajes:
 IF (OBJECT_ID ('JavaPorter.sp_crear_viaje') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_viaje
 GO
@@ -928,7 +928,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para crear clientes:
 IF (OBJECT_ID ('JavaPorter.sp_crear_cliente') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_cliente
 GO
@@ -944,7 +944,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para crear compra:
 IF (OBJECT_ID ('JavaPorter.sp_crear_compra') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_compra
 GO
@@ -982,7 +982,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para crear reserva:
 IF (OBJECT_ID ('JavaPorter.sp_crear_reserva') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_reserva
 GO
@@ -1017,6 +1017,7 @@ AS BEGIN
 END
 GO
 
+-- SP para crear puerto:
 IF (OBJECT_ID ('JavaPorter.sp_crear_puerto') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_puerto
 GO
@@ -1047,7 +1048,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP para pagar una reserva:
 IF (OBJECT_ID ('JavaPorter.sp_pagar_reserva') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_pagar_reserva
 GO
@@ -1064,7 +1065,8 @@ AS BEGIN
 END
 GO
 
-
+-- SP para logearse:
+--En caso de 3 intentos fallidos el usuario queda inabilitado por 1 hora.
 Create PROCEDURE JavaPorter.sp_login (@usr char(25), @pass char(64), @res int OUTPUT)
 as
 BEGIN
@@ -1108,6 +1110,8 @@ BEGIN
 END;
 
 GO
+
+-- SP Para la creacion de Crucero
 IF (OBJECT_ID ('JavaPorter.sp_crear_crucero') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_crucero
 GO
@@ -1123,7 +1127,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP Para la creacion de cabinas
 IF (OBJECT_ID ('JavaPorter.sp_crear_cabinas') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_crear_cabinas
 GO
@@ -1157,7 +1161,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP Para la modificar de Cruceros
 IF (OBJECT_ID ('JavaPorter.sp_modificar_crucero') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_modificar_crucero
 GO
@@ -1173,7 +1177,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP Para la modificar de Crucero_Viaje
 IF (OBJECT_ID ('JavaPorter.sp_modifcar_cucero_viaje') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_modifcar_cucero_viaje
 GO
@@ -1190,6 +1194,7 @@ AS BEGIN
 END
 GO
 
+-- SP Para la baja de un Crucero por vida util
 IF (OBJECT_ID ('JavaPorter.sp_baja_crucero_util') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_baja_crucero_util
 GO
@@ -1207,7 +1212,7 @@ AS BEGIN
 	
 END
 GO
-
+-- SP Para la baja de un Crucero por fuera de servicio
 IF (OBJECT_ID ('JavaPorter.sp_baja_crucero_servicio') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_baja_crucero_servicio
 GO
@@ -1226,6 +1231,7 @@ AS BEGIN
 END
 GO
 
+-- SP Para que se encarga de la devolucion del pago de viajes para cruceros que se dan de baja.
 IF (OBJECT_ID ('JavaPorter.sp_devolver_pasajes') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_devolver_pasajes
 GO
@@ -1256,6 +1262,7 @@ AS BEGIN
 END
 GO
 
+-- SP Para la reprogramar viajes en los que los cruceros se han dado de baja
 IF (OBJECT_ID ('JavaPorter.sp_reprogramar_viaje') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.sp_reprogramar_viaje
 GO
@@ -1277,12 +1284,14 @@ IF (OBJECT_ID ('JavaPorter.delete_old_reserve') IS NOT NULL)
 	DROP PROCEDURE JavaPorter.delete_old_reserve
 GO
 
+-- SP que borra reservas expiradas
 create procedure JavaPorter.delete_old_reserve (@date datetime2(3))
 AS Begin
 	update JavaPorter.Reserva  set vencida = 1 where DATEDIFF(day,fecha, @date) > 3 and pagada = 0
 end
 GO
 
+-- Funcion que devuelve un recorrido con el puerto de origen del primer tramo y el puerto destino del ultimo tramo.
 CREATE Function JavaPorter.fx_RecorridosYTramos ()
 RETURNS @res TABLE (
 	idRecorrido int, codigo int, idPuertoOrigen int, puertoOrigen nvarchar(255), idPuertoDestino int, puertoDestino nvarchar(255), Precio decimal(18,2))
