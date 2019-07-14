@@ -534,13 +534,60 @@ insert into GD1C2019.dbo.Cabina(Numero,Piso, TipoCabina, idCrucero) select CABIN
 	group by CABINA_NRO, CABINA_PISO, CABINA_TIPO, CRUCERO_IDENTIFICADOR
 	order by CABINA_NRO, CABINA_PISO, crucero
 GO
-insert into Tramo(puertoDestino, puertoOrigen, precioBase) select (select idPuerto from Puerto where PUERTO_HASTA = Nombre), (select idPuerto from Puerto where PUERTO_Desde = Nombre), RECORRIDO_PRECIO_BASE from gd_esquema.maestra group by PUERTO_HASTA, PUERTO_DESDE, RECORRIDO_PRECIO_BASE
+--Migracion de Tramos
+insert into Tramo(puertoDestino, puertoOrigen, precioBase) 
+	select (select idPuerto from Puerto where PUERTO_HASTA = Nombre), (select idPuerto from Puerto where PUERTO_Desde = Nombre), RECORRIDO_PRECIO_BASE from gd_esquema.maestra group by PUERTO_HASTA, PUERTO_DESDE, RECORRIDO_PRECIO_BASE
 GO
+--Migracion de Recorridos
 insert into Recorrido(Codigo) select distinct(RECORRIDO_CODIGO) from gd_esquema.maestra
 GO
-insert into RecorridoXTramo(idRecorrido, idTramo) select (select idRecorrido from Recorrido where codigo = RECORRIDO_CODIGO),
- (select idTramo from Tramo where PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto)) from gd_esquema.maestra
- group by RECORRIDO_CODIGO, PUERTO_DESDE, PUERTO_HASTA
+
+--Migracion de Tramos x Recorrido
+select RECORRIDO_CODIGO, PUERTO_DESDE , PUERTO_HASTA
+into #temp_recorridos
+from gd_esquema.maestra group by RECORRIDO_CODIGO,PUERTO_DESDE, PUERTO_HASTA
+order by RECORRIDO_CODIGO
+
+insert into RecorridoXTramo(idRecorrido, idTramo, orden) 
+select 
+	(select idRecorrido from Recorrido where codigo = t1.RECORRIDO_CODIGO),
+	(select idTramo from Tramo where t1.PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and t1.PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto)),
+	1 --orden
+	from #temp_recorridos t1,  #temp_recorridos t2
+	where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE)
+
+insert into RecorridoXTramo(idRecorrido, idTramo, orden) 
+select 
+	(select idRecorrido from Recorrido where codigo = t2.RECORRIDO_CODIGO),
+	(select idTramo from Tramo where t2.PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and t2.PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto)),
+	2 --orden
+	from #temp_recorridos t1,  #temp_recorridos t2
+	where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE)
+
+insert into RecorridoXTramo(idRecorrido, idTramo) 
+select 
+	(select idRecorrido from Recorrido where codigo = RECORRIDO_CODIGO),
+	(select idTramo from Tramo where PUERTO_DESDE = (select Nombre from Puerto where puertoOrigen = idPuerto) and PUERTO_HASTA = (select Nombre from Puerto where puertoDestino = idPuerto))
+	from #temp_recorridos
+	where RECORRIDO_CODIGO not in (select t1.RECORRIDO_CODIGO
+		from #temp_recorridos t1,  #temp_recorridos t2
+		where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE))
+		and
+		RECORRIDO_CODIGO not in (select t2.RECORRIDO_CODIGO
+		from #temp_recorridos t1,  #temp_recorridos t2
+		where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE))
+
+/*
+select RECORRIDO_CODIGO, PUERTO_DESDE , PUERTO_HASTA
+into #temp_recorridos
+from gd_esquema.maestra group by RECORRIDO_CODIGO,PUERTO_DESDE, PUERTO_HASTA
+order by RECORRIDO_CODIGO
+
+select t1.RECORRIDO_CODIGO
+from #temp_recorridos t1,  #temp_recorridos t2
+where t1.RECORRIDO_CODIGO = t2.RECORRIDO_CODIGO and (t1.PUERTO_HASTA = t2.PUERTO_DESDE)
+*/
+
 GO
 insert into ClienteXRecorrido(idCliente, idRecorrido) select (select idCliente from Cliente where dni = CLI_DNI and CLI_NOMBRE = Nombre),
 (select idRecorrido from Recorrido where codigo = RECORRIDO_CODIGO) from gd_esquema.maestra group by CLI_DNI, RECORRIDO_CODIGO, CLI_NOMBRE
@@ -587,6 +634,7 @@ insert into dbo.Reserva(fecha, codigoReserva, idViaje, idCliente, idCabina, paga
 		Cab.Numero = M.CABINA_NRO and Cab.Piso = M.CABINA_PISO and cab.idCrucero = M.intCrucero)
 Drop Table #temp_Reserva
 GO
+
 --Se agregan las funciones y los roles para el administrador
 -- ROL
 insert into dbo.Funcion (nombre) values ('ABM Rol')
