@@ -15,6 +15,10 @@ namespace FrbaCrucero.Util
 
         private SqlConnection connectionString;
 
+        string user = ConfigurationManager.AppSettings["user"].ToString();
+        string password = ConfigurationManager.AppSettings["password"].ToString();
+        string server = ConfigurationManager.AppSettings["server"].ToString();
+
         public DatabaseController()
         {
             createConnection();
@@ -22,7 +26,7 @@ namespace FrbaCrucero.Util
 
         public void createConnection()
         {
-            string connection = "Server=localhost\\SQLSERVER2012;DATABASE=GD1C2019;UID=sa;Password=gestiondedatos";
+            string connection = "Server="+server+"\\SQLSERVER2012;DATABASE=GD1C2019;UID="+user+";Password="+password;
             connectionString = new SqlConnection(connection);
         }
 
