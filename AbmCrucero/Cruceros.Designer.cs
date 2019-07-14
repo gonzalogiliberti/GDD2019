@@ -29,13 +29,6 @@
         private void InitializeComponent()
         {
             this.dgvCruise = new System.Windows.Forms.DataGridView();
-            this.idCrucero = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Modelo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Identificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IdFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Fabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CantidadCabinas = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FechaAlta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.comboModelo = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textIdentificador = new System.Windows.Forms.TextBox();
@@ -45,6 +38,14 @@
             this.search = new System.Windows.Forms.Button();
             this.newCruise = new System.Windows.Forms.Button();
             this.cancel = new System.Windows.Forms.Button();
+            this.idCrucero = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Activo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Modelo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Identificador = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IdFabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Fabricante = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CantidadCabinas = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaAlta = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCruise)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,6 +58,7 @@
             this.dgvCruise.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCruise.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.idCrucero,
+            this.Activo,
             this.Modelo,
             this.Identificador,
             this.IdFabricante,
@@ -71,57 +73,6 @@
             this.dgvCruise.Size = new System.Drawing.Size(543, 203);
             this.dgvCruise.TabIndex = 0;
             this.dgvCruise.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvCruise_CellMouseDoubleClick);
-            // 
-            // idCrucero
-            // 
-            this.idCrucero.DataPropertyName = "idCrucero";
-            this.idCrucero.HeaderText = "idCrucero";
-            this.idCrucero.Name = "idCrucero";
-            this.idCrucero.ReadOnly = true;
-            this.idCrucero.Visible = false;
-            // 
-            // Modelo
-            // 
-            this.Modelo.DataPropertyName = "Modelo";
-            this.Modelo.HeaderText = "Modelo";
-            this.Modelo.Name = "Modelo";
-            this.Modelo.ReadOnly = true;
-            // 
-            // Identificador
-            // 
-            this.Identificador.DataPropertyName = "Identificador";
-            this.Identificador.HeaderText = "Identificador";
-            this.Identificador.Name = "Identificador";
-            this.Identificador.ReadOnly = true;
-            // 
-            // IdFabricante
-            // 
-            this.IdFabricante.DataPropertyName = "IdFabricante";
-            this.IdFabricante.HeaderText = "IdFabricante";
-            this.IdFabricante.Name = "IdFabricante";
-            this.IdFabricante.ReadOnly = true;
-            this.IdFabricante.Visible = false;
-            // 
-            // Fabricante
-            // 
-            this.Fabricante.DataPropertyName = "Fabricante";
-            this.Fabricante.HeaderText = "Fabricante";
-            this.Fabricante.Name = "Fabricante";
-            this.Fabricante.ReadOnly = true;
-            // 
-            // CantidadCabinas
-            // 
-            this.CantidadCabinas.DataPropertyName = "CantidadCabinas";
-            this.CantidadCabinas.HeaderText = "CantidadCabinas";
-            this.CantidadCabinas.Name = "CantidadCabinas";
-            this.CantidadCabinas.ReadOnly = true;
-            // 
-            // FechaAlta
-            // 
-            this.FechaAlta.DataPropertyName = "FechaAlta";
-            this.FechaAlta.HeaderText = "FechaAlta";
-            this.FechaAlta.Name = "FechaAlta";
-            this.FechaAlta.ReadOnly = true;
             // 
             // comboModelo
             // 
@@ -205,6 +156,65 @@
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
             // 
+            // idCrucero
+            // 
+            this.idCrucero.DataPropertyName = "idCrucero";
+            this.idCrucero.HeaderText = "idCrucero";
+            this.idCrucero.Name = "idCrucero";
+            this.idCrucero.ReadOnly = true;
+            this.idCrucero.Visible = false;
+            // 
+            // Activo
+            // 
+            this.Activo.DataPropertyName = "Activo";
+            this.Activo.HeaderText = "Activo";
+            this.Activo.Name = "Activo";
+            this.Activo.ReadOnly = true;
+            this.Activo.Visible = false;
+            // 
+            // Modelo
+            // 
+            this.Modelo.DataPropertyName = "Modelo";
+            this.Modelo.HeaderText = "Modelo";
+            this.Modelo.Name = "Modelo";
+            this.Modelo.ReadOnly = true;
+            // 
+            // Identificador
+            // 
+            this.Identificador.DataPropertyName = "Identificador";
+            this.Identificador.HeaderText = "Identificador";
+            this.Identificador.Name = "Identificador";
+            this.Identificador.ReadOnly = true;
+            // 
+            // IdFabricante
+            // 
+            this.IdFabricante.DataPropertyName = "IdFabricante";
+            this.IdFabricante.HeaderText = "IdFabricante";
+            this.IdFabricante.Name = "IdFabricante";
+            this.IdFabricante.ReadOnly = true;
+            this.IdFabricante.Visible = false;
+            // 
+            // Fabricante
+            // 
+            this.Fabricante.DataPropertyName = "Fabricante";
+            this.Fabricante.HeaderText = "Fabricante";
+            this.Fabricante.Name = "Fabricante";
+            this.Fabricante.ReadOnly = true;
+            // 
+            // CantidadCabinas
+            // 
+            this.CantidadCabinas.DataPropertyName = "CantidadCabinas";
+            this.CantidadCabinas.HeaderText = "CantidadCabinas";
+            this.CantidadCabinas.Name = "CantidadCabinas";
+            this.CantidadCabinas.ReadOnly = true;
+            // 
+            // FechaAlta
+            // 
+            this.FechaAlta.DataPropertyName = "FechaAlta";
+            this.FechaAlta.HeaderText = "FechaAlta";
+            this.FechaAlta.Name = "FechaAlta";
+            this.FechaAlta.ReadOnly = true;
+            // 
             // Cruceros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -241,6 +251,7 @@
         private System.Windows.Forms.Button newCruise;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.DataGridViewTextBoxColumn idCrucero;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Activo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Modelo;
         private System.Windows.Forms.DataGridViewTextBoxColumn Identificador;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdFabricante;

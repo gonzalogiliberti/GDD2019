@@ -179,12 +179,13 @@
             // 
             // dtNac
             // 
-            this.dtNac.CustomFormat = "dd-mm-yyyy";
+            this.dtNac.CustomFormat = "dd-MM-yyyy";
             this.dtNac.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtNac.Location = new System.Drawing.Point(140, 189);
             this.dtNac.Name = "dtNac";
             this.dtNac.Size = new System.Drawing.Size(114, 20);
             this.dtNac.TabIndex = 14;
+            this.dtNac.Value = new System.DateTime(2019, 7, 25, 0, 0, 0, 0);
             this.dtNac.Visible = false;
             // 
             // saveClient

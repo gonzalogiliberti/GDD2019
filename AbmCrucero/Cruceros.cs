@@ -47,10 +47,13 @@ namespace FrbaCrucero.AbmCrucero
 
         private void dgvCruise_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            DataGridViewRow unCrucero = this.dgvCruise.SelectedRows[0];
-            AltaModificacionCrucero modificacion = new AltaModificacionCrucero(unCrucero);
-            modificacion.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionCruceroCerrada);
-            modificacion.Show();
+            if (this.dgvCruise.SelectedRows.Count == 1)
+            {
+                DataGridViewRow unCrucero = this.dgvCruise.SelectedRows[0];
+                AltaModificacionCrucero modificacion = new AltaModificacionCrucero(unCrucero);
+                modificacion.FormClosed += new System.Windows.Forms.FormClosedEventHandler(AltaModificacionCruceroCerrada);
+                modificacion.Show();
+            }
         }
 
         private void newCruise_Click(object sender, EventArgs e)

@@ -32,7 +32,7 @@
             this.roles = new System.Windows.Forms.Button();
             this.recorrido = new System.Windows.Forms.Button();
             this.crucero = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.login = new System.Windows.Forms.Button();
             this.compraReserva = new System.Windows.Forms.Button();
             this.genViaje = new System.Windows.Forms.Button();
             this.payReserve = new System.Windows.Forms.Button();
@@ -79,14 +79,15 @@
             this.crucero.UseVisualStyleBackColor = true;
             this.crucero.Click += new System.EventHandler(this.crucero_Click);
             // 
-            // button5
+            // login
             // 
-            this.button5.Location = new System.Drawing.Point(28, 141);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(104, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Login";
-            this.button5.UseVisualStyleBackColor = true;
+            this.login.Location = new System.Drawing.Point(28, 141);
+            this.login.Name = "login";
+            this.login.Size = new System.Drawing.Size(104, 23);
+            this.login.TabIndex = 4;
+            this.login.Text = "Login";
+            this.login.UseVisualStyleBackColor = true;
+            this.login.Click += new System.EventHandler(this.login_Click);
             // 
             // compraReserva
             // 
@@ -137,7 +138,7 @@
             this.Controls.Add(this.payReserve);
             this.Controls.Add(this.genViaje);
             this.Controls.Add(this.compraReserva);
-            this.Controls.Add(this.button5);
+            this.Controls.Add(this.login);
             this.Controls.Add(this.crucero);
             this.Controls.Add(this.recorrido);
             this.Controls.Add(this.roles);
@@ -153,7 +154,7 @@
         private System.Windows.Forms.Button puertos;
         private System.Windows.Forms.Button roles;
         private System.Windows.Forms.Button recorrido;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button login;
         private System.Windows.Forms.Button compraReserva;
         private System.Windows.Forms.Button genViaje;
         private System.Windows.Forms.Button crucero;
