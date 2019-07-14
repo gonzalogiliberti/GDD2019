@@ -101,7 +101,7 @@
             // 
             // genViaje
             // 
-            this.genViaje.Location = new System.Drawing.Point(163, 75);
+            this.genViaje.Location = new System.Drawing.Point(84, 83);
             this.genViaje.Name = "genViaje";
             this.genViaje.Size = new System.Drawing.Size(75, 23);
             this.genViaje.TabIndex = 6;
@@ -121,7 +121,7 @@
             // 
             // buttonListados
             // 
-            this.buttonListados.Location = new System.Drawing.Point(256, 101);
+            this.buttonListados.Location = new System.Drawing.Point(210, 83);
             this.buttonListados.Name = "buttonListados";
             this.buttonListados.Size = new System.Drawing.Size(134, 23);
             this.buttonListados.TabIndex = 8;
